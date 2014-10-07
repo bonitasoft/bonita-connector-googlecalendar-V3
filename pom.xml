@@ -1,0 +1,89 @@
+<!-- <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"> 
+    <modelVersion>4.0.0</modelVersion> <groupId>org.bonitasoft.connectors</groupId> 
+    <artifactId>bonita-connector-google-calendar-v3</artifactId> <version>6.3.2</version> 
+    <packaging>pom</packaging> </project> -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>bonita-connectors</artifactId>
+        <groupId>org.bonitasoft.connectors</groupId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>bonita-connector-google-calendar-v3</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <bonita.engine.version>6.3.2</bonita.engine.version>
+        <project.http.version>1.18.0-rc</project.http.version>
+        <project.oauth.version>1.18.0-rc</project.oauth.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <modules>
+        <module>bonita-connector-google-calendar-v3-common</module>
+        <module>bonita-connector-google-calendar-v3-test</module>
+        <module>bonita-connector-google-calendar-v3-create-event-def</module>
+        <module>bonita-connector-google-calendar-v3-create-event-impl</module>
+        <module>bonita-connector-google-calendar-v3-get-event-def</module>
+        <module>bonita-connector-google-calendar-v3-get-event-impl</module>
+        <module>bonita-connector-google-calendar-v3-delete-event-def</module>
+        <module>bonita-connector-google-calendar-v3-delete-event-impl</module>
+        <module>bonita-connector-google-calendar-v3-update-event-def</module>
+        <module>bonita-connector-google-calendar-v3-update-event-impl</module>
+        <module>bonita-connector-google-calendar-v3-move-event-def</module>
+        <module>bonita-connector-google-calendar-v3-move-event-impl</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <!-- Latest Version of Bonita released, against which the initial 
+                development has been done. -->
+            <!-- The connector will be tested against more recent version -->
+            <artifactId>bonita-common</artifactId>
+            <groupId>org.bonitasoft.engine</groupId>
+            <version>${bonita.engine.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-calendar</artifactId>
+            <version>v3-rev87-1.18.0-rc</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.http-client</groupId>
+            <artifactId>google-http-client-jackson2</artifactId>
+            <version>${project.http.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.oauth-client</groupId>
+            <artifactId>google-oauth-client-jetty</artifactId>
+            <version>${project.oauth.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <scm>
+        <developerConnection>scm:git:git@github.com:bonitasoft/bonita-connector-google-calendar-V3.git</developerConnection>
+        <connection>scm:git:git@github.com:bonitasoft/bonita-connector-google-calendar-V3.git</connection>
+        <url>https://github.com/bonitasoft/bonita-connector-google-calendar-v3</url>
+        <tag>HEAD</tag>
+    </scm>
+</project>

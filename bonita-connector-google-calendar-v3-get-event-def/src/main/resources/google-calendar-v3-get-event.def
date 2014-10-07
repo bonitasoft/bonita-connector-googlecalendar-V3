@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definition:ConnectorDefinition xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <id>google-calendar-v3-get-event</id>
+    <version>$definition.version$</version>
+    <icon>google.png</icon>
+  	
+    <category id = "calendar" icon = "calendar.png" />
+    <category id = "google-calendar-v3" icon = "google.png" parentCategoryId="calendar"/>
+  	
+    <input name = "applicationName" type="java.lang.String" defaultValue="MyCompany-ProductName/1.0" />
+    <input name = "serviceAccountId" type="java.lang.String" mandatory="true" defaultValue="xxxxx0@developer.gserviceaccount.com" />
+    <input name = "serviceAccountP12File" type="java.lang.String" mandatory="true" defaultValue="/path_to_your_P12_folder/project_name-xxx.p12" />
+    <input name = "serviceAccountUser" type="java.lang.String" defaultValue="firstname.lastname@mycompany.com" />
+    <input name = "calendarId" type="java.lang.String" mandatory="true" defaultValue="firstname.lastname@mycompany.com" />
+    <input name = "maxAttendees" type="java.lang.String" />
+    <input name = "prettyPrint" type="java.lang.Boolean" />
+    <input name = "id" type="java.lang.String" mandatory="true" />
+    <input name = "timeZone" type="java.lang.String" />
+    
+    <output name = "event" type="com.google.api.services.calendar.model.Event" />
+    <output name = "etag" type="java.lang.String" />
+    <output name = "hangoutLink" type="java.lang.String" />
+    <output name = "htmlLink" type="java.lang.String" />
+    <output name = "iCalUID" type="java.lang.String" />
+    <output name = "id" type="java.lang.String" />
+    <output name = "status" type="java.lang.String" />
+    <output name = "summary" type="java.lang.String" />
+    <output name = "description" type="java.lang.String" />
+    <output name = "location" type="java.lang.String" />
+    <output name = "transparency" type="java.lang.String" />
+    <output name = "visibility" type="java.lang.String" />
+    <output name = "sequence" type="java.lang.Integer" />
+    <output name = "anyoneCanAddSelf" type="java.lang.Boolean" />
+    <output name = "guestsCanInviteOthers" type="java.lang.Boolean" />
+    <output name = "guestsCanModify" type="java.lang.Boolean" />
+    <output name = "guestsCanSeeOtherGuests" type="java.lang.Boolean" />
+
+    <page id = "connection">
+      <widget id="applicationName" inputName="applicationName" xsi:type="definition:Text" />
+      <widget id="calendarId" inputName="calendarId" xsi:type="definition:Text" />
+      <widget id="serviceAccountId" inputName="serviceAccountId" xsi:type="definition:Text" />
+      <widget id="serviceAccountP12File" inputName="serviceAccountP12File" xsi:type="definition:Text" />
+      <widget id="serviceAccountUser" inputName="serviceAccountUser" xsi:type="definition:Text" />
+      <widget id="optionalRequestParameters" optional="true" xsi:type="definition:Group">
+        <widget id="prettyPrint" inputName="prettyPrint" xsi:type="definition:Checkbox" />
+        <widget id="maxAttendees" inputName="maxAttendees" xsi:type="definition:Text" />
+      </widget>
+    </page>
+    
+    <page id = "main">
+      <widget id="id" inputName="id" xsi:type="definition:Text" />
+      <widget id="timeZone" inputName="timeZone" xsi:type="definition:Text" />
+    </page>
+    
+</definition:ConnectorDefinition>    
