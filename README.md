@@ -20,7 +20,6 @@ Go to “APIS & AUTH” section and then into “Credentials” sub section
    - select “Service Account” Application type
    - click "Create Client ID"
    - click “Generate new P12 key” and locate the downloaded file in a folder of your choice (in case you had a name in your project name, this file name will contain spaces, remove them.)
-
    - copy the full path to this file as it is an input parameter of the connector (`p12key`).
    - copy the EMAIL  ADDRESS as it is an input parameter of the connector (`service account ID`)
    - copy the CLIENT ID as it will be used in your Google Apps Admin Security configuration
