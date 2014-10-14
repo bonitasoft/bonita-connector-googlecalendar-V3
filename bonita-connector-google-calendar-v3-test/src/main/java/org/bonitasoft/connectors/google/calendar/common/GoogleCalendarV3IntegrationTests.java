@@ -65,14 +65,14 @@ public class GoogleCalendarV3IntegrationTests {
 
     protected Map<String, Object> getInputParameters() {
         final Map<String, Object> inputParameters = new HashMap<String, Object>();
-        inputParameters.put("applicationName", APPLICATION_NAME);
-        inputParameters.put("serviceAccountId", getServiceAccountId());
-        inputParameters.put("serviceAccountP12File", getServiceAccountP12File());
+        inputParameters.put(CalendarConnector.APPLICATION_NAME, APPLICATION_NAME);
+        inputParameters.put(CalendarConnector.SERVICE_ACCOUNT_ID, getServiceAccountId());
+        inputParameters.put(CalendarConnector.SERVICE_ACCOUNT_P12_FILE, getServiceAccountP12File());
 
         if (getServiceAccountUser() != null) {
-            inputParameters.put("serviceAccountUser", getServiceAccountUser());
+            inputParameters.put(CalendarConnector.SERVICE_ACCOUNT_USER, getServiceAccountUser());
         }
-        inputParameters.put("calendarId", getCalendarId());
+        inputParameters.put(CalendarConnector.CALENDAR_ID, getCalendarId());
 
         return inputParameters;
     }
