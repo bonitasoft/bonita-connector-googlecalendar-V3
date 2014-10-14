@@ -11,6 +11,26 @@ import com.google.api.services.calendar.model.Event;
 
 public class MoveEventConnector extends CalendarConnector {
 
+    public static final String INPUT_SEND_NOTIFICATIONS = "sendNotifications";
+
+    public static final String INPUT_PRETTY_PRINT = "prettyPrint";
+
+    public static final String INPUT_DEST_CALENDAR_ID = "destCalendarId";
+
+    public static final String INPUT_ID = "id";
+
+    public static final String OUTPUT_ID = "id";
+
+    public static final String OUTPUT_ICAL_UID = "iCalUID";
+
+    public static final String OUTPUT_HTML_LINK = "htmlLink";
+
+    public static final String OUTPUT_HANGOUT_LINK = "hangoutLink";
+
+    public static final String OUTPUT_ETAG = "etag";
+
+    public static final String OUTPUT_EVENT = "event";
+
     @Override
     protected List<String> checkParameters() {
         final List<String> errors = new ArrayList<String>();
@@ -35,27 +55,27 @@ public class MoveEventConnector extends CalendarConnector {
         }
 
         final Event movedEvent = move.execute();
-        setOutputParameter("event", movedEvent);
-        setOutputParameter("etag", movedEvent.getEtag());
-        setOutputParameter("hangoutLink", movedEvent.getHangoutLink());
-        setOutputParameter("htmlLink", movedEvent.getHtmlLink());
-        setOutputParameter("iCalUID", movedEvent.getICalUID());
-        setOutputParameter("id", movedEvent.getId());
+        setOutputParameter(OUTPUT_EVENT, movedEvent);
+        setOutputParameter(OUTPUT_ETAG, movedEvent.getEtag());
+        setOutputParameter(OUTPUT_HANGOUT_LINK, movedEvent.getHangoutLink());
+        setOutputParameter(OUTPUT_HTML_LINK, movedEvent.getHtmlLink());
+        setOutputParameter(OUTPUT_ICAL_UID, movedEvent.getICalUID());
+        setOutputParameter(OUTPUT_ID, movedEvent.getId());
     }
 
     private String getDestCalendarId() {
-        return (String) getInputParameter("destCalendarId");
+        return (String) getInputParameter(INPUT_DEST_CALENDAR_ID);
     }
 
     private String getId() {
-        return (String) getInputParameter("id");
+        return (String) getInputParameter(INPUT_ID);
     }
 
     protected Boolean getPrettyPrint() {
-        return (Boolean) getInputParameter("prettyPrint");
+        return (Boolean) getInputParameter(INPUT_PRETTY_PRINT);
     }
 
     protected Boolean getSendNotifications() {
-        return (Boolean) getInputParameter("sendNotifications");
+        return (Boolean) getInputParameter(INPUT_SEND_NOTIFICATIONS);
     }
 }
