@@ -36,6 +36,7 @@ public class GetEventConnectorTest {
 
         // Then
         Mockito.verify(mockedEvents).get(calendarId, id);
+        Mockito.verify(get).execute();
     }
 
     @Test
