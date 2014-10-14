@@ -127,8 +127,8 @@ public class GoogleCalendarV3IntegrationTests {
         final Map<String, Object> outputParameters = executeConnector(connector, inputParameters, true);
 
         Assert.assertNotNull(outputParameters.get("event"));
-        
-        return 
+
+        return (String) outputParameters.get(CreateEventConnector.ID);
     }
 
     protected void deleteEvent(final String calendarId, final String eventId) throws ConnectorValidationException, ConnectorException {

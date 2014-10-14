@@ -1,5 +1,7 @@
 package org.bonitasoft.connectors.google.calendar;
 
+import static org.bonitasoft.connectors.google.calendar.common.BuildEventConnector.ID;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,22 @@ import com.google.api.services.calendar.Calendar.Events.Insert;
 import com.google.api.services.calendar.model.Event;
 
 public class CreateEventConnector extends BuildEventConnector {
+
+    public static final String SEND_NOTIFICATIONS = "sendNotifications";
+
+    public static final String PRETTY_PRINT = "prettyPrint";
+
+    public static final String MAX_ATTENDEES = "maxAttendees";
+
+    public static final String I_CAL_UID = "iCalUID";
+
+    public static final String HTML_LINK = "htmlLink";
+
+    public static final String HANGOUT_LINK = "hangoutLink";
+
+    public static final String ETAG = "etag";
+
+    public static final String EVENT = "event";
 
     @Override
     public List<String> checkParameters() {
@@ -51,24 +69,24 @@ public class CreateEventConnector extends BuildEventConnector {
 
         final Event insertedEvent = insert.execute();
 
-        setOutputParameter("event", insertedEvent);
-        setOutputParameter("etag", insertedEvent.getEtag());
-        setOutputParameter("hangoutLink", insertedEvent.getHangoutLink());
-        setOutputParameter("htmlLink", insertedEvent.getHtmlLink());
-        setOutputParameter("iCalUID", insertedEvent.getICalUID());
-        setOutputParameter("id", insertedEvent.getId());
+        setOutputParameter(EVENT, insertedEvent);
+        setOutputParameter(ETAG, insertedEvent.getEtag());
+        setOutputParameter(HANGOUT_LINK, insertedEvent.getHangoutLink());
+        setOutputParameter(HTML_LINK, insertedEvent.getHtmlLink());
+        setOutputParameter(I_CAL_UID, insertedEvent.getICalUID());
+        setOutputParameter(ID, insertedEvent.getId());
     }
 
     protected Integer getMaxAttendees() {
-        return (Integer) getInputParameter("maxAttendees");
+        return (Integer) getInputParameter(MAX_ATTENDEES);
     }
 
     protected Boolean getPrettyPrint() {
-        return (Boolean) getInputParameter("prettyPrint");
+        return (Boolean) getInputParameter(PRETTY_PRINT);
     }
 
     protected Boolean getSendNotifications() {
-        return (Boolean) getInputParameter("sendNotifications");
+        return (Boolean) getInputParameter(SEND_NOTIFICATIONS);
     }
 
 }

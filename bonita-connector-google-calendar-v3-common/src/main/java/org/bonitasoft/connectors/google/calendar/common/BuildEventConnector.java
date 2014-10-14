@@ -22,77 +22,77 @@ import com.google.api.services.calendar.model.EventReminder;
 
 public abstract class BuildEventConnector extends CalendarConnector {
 
-    private static final String START_TIME = "startTime";
+    public static final String START_TIME = "startTime";
 
-    private static final String SOURCE_URL = "sourceUrl";
+    public static final String SOURCE_URL = "sourceUrl";
 
-    private static final String SOURCE_TITLE = "sourceTitle";
+    public static final String SOURCE_TITLE = "sourceTitle";
 
-    private static final String REMINDER_USE_DEFAULT = "reminderUseDefault";
+    public static final String REMINDER_USE_DEFAULT = "reminderUseDefault";
 
-    private static final String REMINDER_OVERRIDES = "reminderOverrides";
+    public static final String REMINDER_OVERRIDES = "reminderOverrides";
 
-    private static final String RECURRENCE = "recurrence";
+    public static final String RECURRENCE = "recurrence";
 
-    private static final String ORIGINAL_START_TIME_ZONE = "originalStartTimeZone";
+    public static final String ORIGINAL_START_TIME_ZONE = "originalStartTimeZone";
 
-    private static final String ORIGINAL_START_TIME = "originalStartTime";
+    public static final String ORIGINAL_START_TIME = "originalStartTime";
 
-    private static final String LOCATION = "location";
+    public static final String LOCATION = "location";
 
-    private static final String ID = "id";
+    public static final String ID = "id";
 
-    private static final String GUESTS_CAN_SEE_OTHER_GUESTS = "guestsCanSeeOtherGuests";
+    public static final String GUESTS_CAN_SEE_OTHER_GUESTS = "guestsCanSeeOtherGuests";
 
-    private static final String GUESTS_CAN_INVITE_OTHERS = "guestsCanInviteOthers";
+    public static final String GUESTS_CAN_INVITE_OTHERS = "guestsCanInviteOthers";
 
-    private static final String GADGET_WIDTH = "gadgetWidth";
+    public static final String GADGET_WIDTH = "gadgetWidth";
 
-    private static final String GADGET_TYPE = "gadgetType";
+    public static final String GADGET_TYPE = "gadgetType";
 
-    private static final String GADGET_TITLE = "gadgetTitle";
+    public static final String GADGET_TITLE = "gadgetTitle";
 
-    private static final String GADGET_ICON_LINK = "gadgetIconLink";
+    public static final String GADGET_ICON_LINK = "gadgetIconLink";
 
-    private static final String SEQUENCE = "sequence";
+    public static final String SEQUENCE = "sequence";
 
-    private static final String ORIGINAL_START_DATE = "originalStartDate";
+    public static final String ORIGINAL_START_DATE = "originalStartDate";
 
-    private static final String GADGET_LINK = "gadgetLink";
+    public static final String GADGET_LINK = "gadgetLink";
 
-    private static final String GADGET_HEIGHT = "gadgetHeight";
+    public static final String GADGET_HEIGHT = "gadgetHeight";
 
-    private static final String START_TIME_ZONE = "startTimeZone";
+    public static final String START_TIME_ZONE = "startTimeZone";
 
-    private static final String STATUS = "status";
+    public static final String STATUS = "status";
 
-    private static final String SUMMARY = "summary";
+    public static final String SUMMARY = "summary";
 
-    private static final String TRANSPARENCY = "transparency";
+    public static final String TRANSPARENCY = "transparency";
 
-    private static final String GADGET_DISPLAY = "gadgetDisplay";
+    public static final String GADGET_DISPLAY = "gadgetDisplay";
 
-    private static final String GADGET_PREFERENCES = "gadgetPreferences";
+    public static final String GADGET_PREFERENCES = "gadgetPreferences";
 
-    private static final String VISIBILITY = "visibility";
+    public static final String VISIBILITY = "visibility";
 
-    private static final String END_TIME_ZONE = "endTimeZone";
+    public static final String END_TIME_ZONE = "endTimeZone";
 
-    private static final String END_TIME = "endTime";
+    public static final String END_TIME = "endTime";
 
-    private static final String DESCRIPTION = "description";
+    public static final String DESCRIPTION = "description";
 
-    private static final String COLOR_ID = "colorId";
+    public static final String COLOR_ID = "colorId";
 
-    private static final String ATTENDEES_EMAILS = "attendeesEmails";
+    public static final String ATTENDEES_EMAILS = "attendeesEmails";
 
-    private static final String ANYONE_CAN_ADD_SELF = "anyoneCanAddSelf";
+    public static final String ANYONE_CAN_ADD_SELF = "anyoneCanAddSelf";
 
-    private static final String END_DATE = "endDate";
+    public static final String END_DATE = "endDate";
 
-    private static final String START_DATE = "startDate";
+    public static final String START_DATE = "startDate";
 
-    private static final String ALL_DAY = "allDay";
+    public static final String ALL_DAY = "allDay";
 
     private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd";
 
