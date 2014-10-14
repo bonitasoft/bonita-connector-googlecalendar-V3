@@ -7,6 +7,7 @@ import org.bonitasoft.connectors.google.calendar.common.CalendarConnector;
 
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.Calendar.Events.Delete;
+import com.google.api.services.calendar.Calendar.Events.Get;
 import com.google.api.services.calendar.model.Event;
 
 public class DeleteEventConnector extends CalendarConnector {
@@ -14,6 +15,8 @@ public class DeleteEventConnector extends CalendarConnector {
     public static final String INPUT_SEND_NOTIFICATIONS = "sendNotifications";
 
     public static final String INPUT_PRETTY_PRINT = "prettyPrint";
+
+    public static final String INPUT_MAX_ATTENDEES = "maxAttendees";
 
     public static final String INPUT_ID = "id";
 
@@ -62,7 +65,14 @@ public class DeleteEventConnector extends CalendarConnector {
 
     @Override
     protected void doJobWithCalendar(final Calendar calendarService) throws Exception {
-        final Event event = calendarService.events().get(getCalendarId(), getId()).execute();
+        final Get get = calendarService.events().get(getCalendarId(), getId());
+        if (getPrettyPrint() != null) {
+            get.setPrettyPrint(getPrettyPrint());
+        }
+        if (getMaxAttendees() != null) {
+            get.setMaxAttendees(getMaxAttendees());
+        }
+        final Event event = get.execute();
 
         final Delete delete = calendarService.events().delete(getCalendarId(), getId());
         if (getPrettyPrint() != null) {
@@ -106,5 +116,9 @@ public class DeleteEventConnector extends CalendarConnector {
 
     protected Boolean getSendNotifications() {
         return (Boolean) getInputParameter(INPUT_SEND_NOTIFICATIONS);
+    }
+
+    protected Integer getMaxAttendees() {
+        return (Integer) getInputParameter(INPUT_MAX_ATTENDEES);
     }
 }

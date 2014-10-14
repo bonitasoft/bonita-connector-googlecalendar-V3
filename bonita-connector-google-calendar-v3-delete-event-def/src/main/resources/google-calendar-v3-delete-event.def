@@ -14,6 +14,7 @@
     <input name = "serviceAccountUser" type="java.lang.String" defaultValue="firstname.lastname@mycompany.com" />
     <input name = "calendarId" type="java.lang.String" mandatory="true" defaultValue="firstname.lastname@mycompany.com" />
     <input name = "sendNotifications" type="java.lang.Boolean" />
+    <input name = "maxAttendees" type="java.lang.String" />
     <input name = "prettyPrint" type="java.lang.Boolean" />
     <input name = "id" type="java.lang.String" mandatory="true" />
     
