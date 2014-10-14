@@ -11,6 +11,24 @@ import com.google.api.services.calendar.model.Event;
 
 public class UpdateEventConnector extends BuildEventConnector {
 
+    public static final String INPUT_SEND_NOTIFICATIONS = "sendNotifications";
+
+    public static final String INPUT_PRETTY_PRINT = "prettyPrint";
+
+    public static final String INPUT_MAX_ATTENDEES = "maxAttendees";
+
+    public static final String OUTPUT_ID = "id";
+
+    public static final String OUTPUT_ICAL_UID = "iCalUID";
+
+    public static final String OUTPUT_HTML_LINK = "htmlLink";
+
+    public static final String OUTPUT_HANGOUT_LINK = "hangoutLink";
+
+    public static final String OUTPUT_ETAG = "etag";
+
+    public static final String OUTPUT_EVENT = "event";
+
     @Override
     protected List<String> checkParameters() {
         final List<String> errors = new ArrayList<String>();
@@ -39,23 +57,23 @@ public class UpdateEventConnector extends BuildEventConnector {
         }
 
         final Event updatedEvent = update.execute();
-        setOutputParameter("event", updatedEvent);
-        setOutputParameter("etag", updatedEvent.getEtag());
-        setOutputParameter("hangoutLink", updatedEvent.getHangoutLink());
-        setOutputParameter("htmlLink", updatedEvent.getHtmlLink());
-        setOutputParameter("iCalUID", updatedEvent.getICalUID());
-        setOutputParameter("id", updatedEvent.getId());
+        setOutputParameter(OUTPUT_EVENT, updatedEvent);
+        setOutputParameter(OUTPUT_ETAG, updatedEvent.getEtag());
+        setOutputParameter(OUTPUT_HANGOUT_LINK, updatedEvent.getHangoutLink());
+        setOutputParameter(OUTPUT_HTML_LINK, updatedEvent.getHtmlLink());
+        setOutputParameter(OUTPUT_ICAL_UID, updatedEvent.getICalUID());
+        setOutputParameter(OUTPUT_ID, updatedEvent.getId());
     }
 
     protected Integer getMaxAttendees() {
-        return (Integer) getInputParameter("maxAttendees");
+        return (Integer) getInputParameter(INPUT_MAX_ATTENDEES);
     }
 
     protected Boolean getPrettyPrint() {
-        return (Boolean) getInputParameter("prettyPrint");
+        return (Boolean) getInputParameter(INPUT_PRETTY_PRINT);
     }
 
     protected Boolean getSendNotifications() {
-        return (Boolean) getInputParameter("sendNotifications");
+        return (Boolean) getInputParameter(INPUT_SEND_NOTIFICATIONS);
     }
 }
