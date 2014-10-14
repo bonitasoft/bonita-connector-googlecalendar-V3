@@ -122,20 +122,12 @@ public class GoogleCalendarV3IntegrationTests {
 
         final String currentDay = getCurrentDay();
         final String summary = "Test-" + currentDay + "-" + getCurrentTime();
-        final String originalStartTime = "14:00";
-        final String startTimeZone = "Europe/Paris";
-        final String originalEndTime = "10:00";
-        final String endTimeZone = "America/Los_Angeles";
 
         // create
         final Map<String, Object> createInputParameters = new HashMap<String, Object>(basicInputParameters);
         createInputParameters.put(CreateEventConnector.INTPUT_START_DATE, currentDay);
-        createInputParameters.put(CreateEventConnector.INTPUT_START_TIME, originalStartTime);
-        createInputParameters.put(CreateEventConnector.INTPUT_START_TIME_ZONE, startTimeZone);
         createInputParameters.put(CreateEventConnector.INTPUT_END_DATE, currentDay);
-        createInputParameters.put(CreateEventConnector.INTPUT_END_TIME, originalEndTime);
-        createInputParameters.put(CreateEventConnector.INTPUT_END_TIME_ZONE, endTimeZone);
-        createInputParameters.put(CreateEventConnector.INTPUT_ALL_DAY, false);
+        createInputParameters.put(CreateEventConnector.INTPUT_ALL_DAY, true);
         createInputParameters.put(CreateEventConnector.INTPUT_SUMMARY, summary);
         final CreateEventConnector createEventConnector = new CreateEventConnector();
         final Map<String, Object> createOutputParameters = executeConnector(createEventConnector, createInputParameters, PRINT_OUTPUT);
