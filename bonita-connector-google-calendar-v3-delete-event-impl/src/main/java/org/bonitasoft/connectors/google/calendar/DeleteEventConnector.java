@@ -10,6 +10,12 @@ import com.google.api.services.calendar.Calendar.Events.Delete;
 
 public class DeleteEventConnector extends CalendarConnector {
 
+    public static final String INPUT_SEND_NOTIFICATIONS = "sendNotifications";
+
+    public static final String INPUT_PRETTY_PRINT = "prettyPrint";
+
+    public static final String INPUT_ID = "id";
+
     @Override
     protected List<String> checkParameters() {
         final List<String> errors = new ArrayList<String>();
@@ -32,14 +38,14 @@ public class DeleteEventConnector extends CalendarConnector {
     }
 
     private String getId() {
-        return (String) getInputParameter("id");
+        return (String) getInputParameter(INPUT_ID);
     }
 
     protected Boolean getPrettyPrint() {
-        return (Boolean) getInputParameter("prettyPrint");
+        return (Boolean) getInputParameter(INPUT_PRETTY_PRINT);
     }
 
     protected Boolean getSendNotifications() {
-        return (Boolean) getInputParameter("sendNotifications");
+        return (Boolean) getInputParameter(INPUT_SEND_NOTIFICATIONS);
     }
 }
