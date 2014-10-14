@@ -47,8 +47,10 @@ public class GetEventConnectorTest {
         Map<String, Object> inputParameters = new HashMap<String, Object>();
         String tz = "timezone";
         int maxAttendees = 42;
+        boolean prettyPrint = true;
         inputParameters.put(GetEventConnector.INPUT_TIME_ZONE, tz);
         inputParameters.put(GetEventConnector.INPUT_MAX_ATTENDEES, maxAttendees);
+        inputParameters.put(GetEventConnector.INPUT_PRETTY_PRINT, prettyPrint);
         spyGetEventConnector.setInputParameters(inputParameters);
 
         Calendar mockCalendarService = Mockito.mock(Calendar.class);
@@ -64,6 +66,7 @@ public class GetEventConnectorTest {
         // Then
         Mockito.verify(mockGet).setMaxAttendees(maxAttendees);
         Mockito.verify(mockGet).setTimeZone(tz);
+        Mockito.verify(mockGet).setPrettyPrint(prettyPrint);
 
     }
 
