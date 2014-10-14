@@ -11,18 +11,6 @@ import com.google.api.services.calendar.model.Event;
 
 public class CreateEventConnector extends BuildEventConnector {
 
-    public static final String OUTPUT_ICAL_UID = "iCalUID";
-
-    public static final String OUTPUT_HTML_LINK = "htmlLink";
-
-    public static final String OUTPUT_HANGOUT_LINK = "hangoutLink";
-
-    public static final String OUTPUT_ETAG = "etag";
-
-    public static final String OUTPUT_ID = "id";
-
-    public static final String OUTPUT_EVENT = "event";
-
     @Override
     public List<String> checkParameters() {
         final List<String> errors = new ArrayList<String>();
@@ -61,11 +49,6 @@ public class CreateEventConnector extends BuildEventConnector {
 
         final Event insertedEvent = insert.execute();
 
-        setOutputParameter(OUTPUT_EVENT, insertedEvent);
-        setOutputParameter(OUTPUT_ETAG, insertedEvent.getEtag());
-        setOutputParameter(OUTPUT_HANGOUT_LINK, insertedEvent.getHangoutLink());
-        setOutputParameter(OUTPUT_HTML_LINK, insertedEvent.getHtmlLink());
-        setOutputParameter(OUTPUT_ICAL_UID, insertedEvent.getICalUID());
-        setOutputParameter(OUTPUT_ID, insertedEvent.getId());
+        setOutputParameters(insertedEvent);
     }
 }
