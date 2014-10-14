@@ -1,14 +1,13 @@
 package org.bonitasoft.connectors.google.calendar;
 
-import com.google.api.services.calendar.Calendar;
-import org.bonitasoft.connectors.google.calendar.common.CalendarConnector;
-import com.google.api.services.calendar.model.Event;
-import org.junit.Test;
-import org.mockito.Mockito;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bonitasoft.connectors.google.calendar.common.CalendarConnector;
+import org.junit.Test;
+import org.mockito.Mockito;
+
+import com.google.api.services.calendar.Calendar;
 
 public class GetEventConnectorTest {
 
@@ -38,7 +37,5 @@ public class GetEventConnectorTest {
         // Then
         Mockito.verify(mockedEvents).get(calendarId, id);
     }
-
-
 
 }

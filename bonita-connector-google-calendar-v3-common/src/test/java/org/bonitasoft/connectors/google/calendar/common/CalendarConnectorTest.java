@@ -1,35 +1,38 @@
 package org.bonitasoft.connectors.google.calendar.common;
 
-import com.google.api.services.calendar.Calendar;
-import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.EventAttendee;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
 import org.assertj.core.api.Assertions;
 import org.assertj.core.data.MapEntry;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.model.Event;
+import com.google.api.services.calendar.model.EventAttendee;
 
 /**
  * Created by Nicolas Chabanoles on 14/10/14.
  */
 public class CalendarConnectorTest {
 
-
     private class DoNothingCalendarConnector extends CalendarConnector {
-        @Override
-        protected void doJobWithCalendar(Calendar calendarService) throws Exception {}
 
         @Override
-        protected List<String> checkParameters() {return null;}
+        protected void doJobWithCalendar(Calendar calendarService) throws Exception {
+        }
+
+        @Override
+        protected List<String> checkParameters() {
+            return null;
+        }
 
         // Make outputs visible from outside world for testing purpose
         public Map<String, Object> getOutputs() {
             return super.getOutputParameters();
         }
     }
-
 
     @Test
     public void should_set_output_parameters() {
@@ -56,9 +59,7 @@ public class CalendarConnectorTest {
         eventResult.setTransparency("Crystal clear");
         eventResult.setVisibility("Visible");
 
-
-
-        MapEntry[] expectedOutputs = new MapEntry[]{
+        MapEntry[] expectedOutputs = new MapEntry[] {
                 MapEntry.entry(CalendarConnector.OUTPUT_ANYONE_CAN_ADD_SELF, eventResult.getAnyoneCanAddSelf()),
                 MapEntry.entry(CalendarConnector.OUTPUT_EVENT, eventResult),
                 MapEntry.entry(CalendarConnector.OUTPUT_DESCRIPTION, eventResult.getDescription()),
@@ -79,7 +80,6 @@ public class CalendarConnectorTest {
         };
 
         DoNothingCalendarConnector connector = new DoNothingCalendarConnector();
-
 
         // When
         connector.setOutputParameters(eventResult);
