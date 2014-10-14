@@ -53,13 +53,24 @@
     <input name = "transparency" type="java.lang.String" />
     <input name = "visibility" type="java.lang.String" />
 
-  	<output name = "event" type="com.google.api.services.calendar.model.Event" />
+    <output name = "event" type="com.google.api.services.calendar.model.Event" />
     <output name = "etag" type="java.lang.String" />
     <output name = "hangoutLink" type="java.lang.String" />
     <output name = "htmlLink" type="java.lang.String" />
     <output name = "iCalUID" type="java.lang.String" />
     <output name = "id" type="java.lang.String" />
-  	
+    <output name = "status" type="java.lang.String" />
+    <output name = "summary" type="java.lang.String" />
+    <output name = "description" type="java.lang.String" />
+    <output name = "location" type="java.lang.String" />
+    <output name = "transparency" type="java.lang.String" />
+    <output name = "visibility" type="java.lang.String" />
+    <output name = "sequence" type="java.lang.Integer" />
+    <output name = "anyoneCanAddSelf" type="java.lang.Boolean" />
+    <output name = "guestsCanInviteOthers" type="java.lang.Boolean" />
+    <output name = "guestsCanModify" type="java.lang.Boolean" />
+    <output name = "guestsCanSeeOtherGuests" type="java.lang.Boolean" />
+
     <page id = "connection">
       <widget id="applicationName" inputName="applicationName" xsi:type="definition:Text" />
       <widget id="calendarId" inputName="calendarId" xsi:type="definition:Text" />
