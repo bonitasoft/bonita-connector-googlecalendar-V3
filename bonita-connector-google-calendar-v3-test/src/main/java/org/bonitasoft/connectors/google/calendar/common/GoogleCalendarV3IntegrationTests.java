@@ -31,7 +31,7 @@ public class GoogleCalendarV3IntegrationTests {
         System.setProperty("gg.calendar.v3.serviceAccountP12File", "/Volumes/Data/charles/Downloads/rd-test-project-34c7f11c6d40.p12");
         System.setProperty("gg.calendar.v3.serviceAccountUser", "charles.souillard@bonitasoft.com");
         System.setProperty("gg.calendar.v3.calendarId", "charles.souillard@bonitasoft.com");
-        System.setProperty("gg.calendar.v3.destCalendarId", "charles.souillard@bonitasoft.com");
+        System.setProperty("gg.calendar.v3.destCalendarId", "bonitasoft.com_c8taspg7u8qmijv809jce8usng@group.calendar.google.com");
     }
 
     @After
@@ -63,7 +63,7 @@ public class GoogleCalendarV3IntegrationTests {
         return getValueFromSysProp("gg.calendar.v3.calendarId");
     }
 
-    protected String getDesCalendarId() {
+    protected String getDestCalendarId() {
         return getValueFromSysProp("gg.calendar.v3.destCalendarId");
     }
 
@@ -142,62 +142,77 @@ public class GoogleCalendarV3IntegrationTests {
         final Event createdEvent = (Event) createOutputParameters.get(CreateEventConnector.OUTPUT_EVENT);
         Assert.assertNotNull(createdEvent);
         Assert.assertEquals(summary, createdEvent.getSummary());
+        Assert.assertEquals("confirmed", createdEvent.getStatus());
 
         // get
-        getEvent(basicInputParameters, getCalendarId(), createdEvent.getId(), summary);
+        getEventAndCheckStatus(basicInputParameters, getCalendarId(), createdEvent.getId(), summary, "confirmed");
 
         // update
         final String updatedSummary = summary + "-updated-" + getCurrentTime();
         final Map<String, Object> updateInputParameters = new HashMap<String, Object>(basicInputParameters);
         updateInputParameters.put(CalendarConnector.INPUT_ID, createdEvent.getId());
         updateInputParameters.put(BuildEventConnector.INTPUT_SUMMARY, updatedSummary);
-        final UpdateEventConnector connector = new UpdateEventConnector();
-        final Map<String, Object> updateOutputParameters = executeConnector(connector, updateInputParameters, PRINT_OUTPUT);
+        final UpdateEventConnector updateConnector = new UpdateEventConnector();
+        final Map<String, Object> updateOutputParameters = executeConnector(updateConnector, updateInputParameters, PRINT_OUTPUT);
         final Event updatedEvent = (Event) updateOutputParameters.get(UpdateEventConnector.OUTPUT_EVENT);
         Assert.assertNotNull(updatedEvent);
         Assert.assertEquals(updatedSummary, updatedEvent.getSummary());
+        Assert.assertEquals("confirmed", updatedEvent.getStatus());
 
         // get
-        getEvent(basicInputParameters, getCalendarId(), createdEvent.getId(), updatedSummary);
+        getEventAndCheckStatus(basicInputParameters, getCalendarId(), createdEvent.getId(), updatedSummary, "confirmed");
 
         // move
+        final Map<String, Object> moveInputParameters = new HashMap<String, Object>(basicInputParameters);
+        moveInputParameters.put(CalendarConnector.INPUT_ID, updatedEvent.getId());
+        moveInputParameters.put(MoveEventConnector.INPUT_DEST_CALENDAR_ID, getDestCalendarId());
+        final MoveEventConnector moveConnector = new MoveEventConnector();
+        final Map<String, Object> moveOutputParameters = executeConnector(moveConnector, moveInputParameters, PRINT_OUTPUT);
+        final Event movedEvent = (Event) moveOutputParameters.get(MoveEventConnector.OUTPUT_EVENT);
+        Assert.assertNotNull(movedEvent);
+        Assert.assertEquals(updatedSummary, movedEvent.getSummary());
+        // returns the event that was moved (original one, not the new event in the cal => google cancel the "old" one to keep trace of it)
+        Assert.assertEquals("cancelled", movedEvent.getStatus());
+
+        // verify get returns the "old" event (Google set it as cancelled to keep trace of it)
+        final Event newEvent = getEventAndCheckStatus(basicInputParameters, getCalendarId(), updatedEvent.getId(), updatedSummary, "cancelled");
 
         // get
+        getEventAndCheckStatus(basicInputParameters, getDestCalendarId(), newEvent.getId(), updatedSummary, "confirmed");
 
         // delete
+        final Map<String, Object> deleteInputParameters = new HashMap<String, Object>(basicInputParameters);
+        deleteInputParameters.put(CalendarConnector.CALENDAR_ID, getDestCalendarId());
+        deleteInputParameters.put(CalendarConnector.INPUT_ID, newEvent.getId());
+        final DeleteEventConnector deleteConnector = new DeleteEventConnector();
+        final Map<String, Object> deleteOutputParameters = executeConnector(deleteConnector, deleteInputParameters, PRINT_OUTPUT);
+        final Event deletedEvent = (Event) deleteOutputParameters.get(DeleteEventConnector.OUTPUT_EVENT);
+        Assert.assertNotNull(deletedEvent);
+        Assert.assertEquals(updatedSummary, deletedEvent.getSummary());
+        // returns the event that has been deleted (google cancel the "old" one to keep trace of it)
+        Assert.assertEquals("confirmed", deletedEvent.getStatus());
+
+        // verify get returns the cancelled version of the deleted event
+        getEventAndCheckStatus(basicInputParameters, getDestCalendarId(), deletedEvent.getId(), updatedSummary, "cancelled");
     }
 
-    protected void getEvent(final Map<String, Object> basicInputParameters, final String calendarId, final String eventId, final String expectedSummary)
+    protected Event getEventAndCheckStatus(final Map<String, Object> basicInputParameters, final String calendarId, final String eventId,
+            final String expectedSummary,
+            final String expectedStatus)
             throws ConnectorValidationException, ConnectorException {
         final Map<String, Object> getInputParameters = new HashMap<String, Object>(basicInputParameters);
-        getInputParameters.put(CalendarConnector.CALENDAR_ID, getCalendarId());
+        getInputParameters.put(CalendarConnector.CALENDAR_ID, calendarId);
         getInputParameters.put(GetEventConnector.INPUT_ID, eventId);
         final GetEventConnector getEventConnector = new GetEventConnector();
         final Map<String, Object> getOutputParameters = executeConnector(getEventConnector, getInputParameters, PRINT_OUTPUT);
-        final Event retrievedEvent = (Event) getOutputParameters.get(GetEventConnector.OUTPUT_EVENT);
-        Assert.assertNotNull(retrievedEvent);
-        Assert.assertEquals(expectedSummary, retrievedEvent.getSummary());
-    }
+        final Event event = (Event) getOutputParameters.get(GetEventConnector.OUTPUT_EVENT);
 
-    protected void deleteEvent(final String calendarId, final String eventId) throws ConnectorValidationException, ConnectorException {
-        final Map<String, Object> inputParameters = getInputParameters();
+        Assert.assertNotNull(event);
+        Assert.assertEquals(eventId, event.getId());
+        Assert.assertEquals(expectedSummary, event.getSummary());
+        Assert.assertEquals(expectedStatus, event.getStatus());
 
-        inputParameters.put("calendarId", calendarId);
-        inputParameters.put("id", eventId);
-
-        final DeleteEventConnector connector = new DeleteEventConnector();
-        executeConnector(connector, inputParameters, PRINT_OUTPUT);
-    }
-
-    protected void moveEvent(final String calendarId, final String eventId, final String destCalendarId) throws ConnectorValidationException,
-            ConnectorException {
-        final Map<String, Object> moveInputParameters = getInputParameters();
-
-        moveInputParameters.put("id", eventId);
-        moveInputParameters.put("destCalendarId", destCalendarId);
-
-        final MoveEventConnector connector = new MoveEventConnector();
-        executeConnector(connector, moveInputParameters, PRINT_OUTPUT);
+        return event;
     }
 
 }

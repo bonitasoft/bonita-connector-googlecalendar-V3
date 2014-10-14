@@ -32,6 +32,8 @@ public class DeleteEventConnector extends CalendarConnector {
 
         final Delete delete = calendarService.events().delete(getCalendarId(), getId());
 
+        delete.execute();
+
         setOutputParameters(event);
     }
 
