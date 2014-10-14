@@ -32,9 +32,6 @@ public class GetEventConnectorTest {
         Calendar.Events.Get get = Mockito.mock(Calendar.Events.Get.class);
         Mockito.when(mockedEvents.get(calendarId, id)).thenReturn(get);
 
-        Mockito.doNothing().when(spyGetEventConnector).setOutputParameters(Mockito.any(Event.class));
-
-
         // When
         spyGetEventConnector.doJobWithCalendar(mockCalendarService);
 

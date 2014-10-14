@@ -158,22 +158,24 @@ public abstract class CalendarConnector extends AbstractConnector {
     }
 
     protected void setOutputParameters(Event event) {
-        setOutputParameter(OUTPUT_EVENT, event);
-        setOutputParameter(OUTPUT_ETAG, event.getEtag());
-        setOutputParameter(OUTPUT_HANGOUT_LINK, event.getHangoutLink());
-        setOutputParameter(OUTPUT_HTML_LINK, event.getHtmlLink());
-        setOutputParameter(OUTPUT_I_CAL_UID, event.getICalUID());
-        setOutputParameter(OUTPUT_ID, event.getId());
-        setOutputParameter(OUTPUT_STATUS, event.getStatus());
-        setOutputParameter(OUTPUT_SUMMARY, event.getSummary());
-        setOutputParameter(OUTPUT_DESCRIPTION, event.getDescription());
-        setOutputParameter(OUTPUT_LOCATION, event.getLocation());
-        setOutputParameter(OUTPUT_TRANSPARENCY, event.getTransparency());
-        setOutputParameter(OUTPUT_VISIBILITY, event.getVisibility());
-        setOutputParameter(OUTPUT_SEQUENCE, event.getSequence());
-        setOutputParameter(OUTPUT_ANYONE_CAN_ADD_SELF, event.getAnyoneCanAddSelf());
-        setOutputParameter(OUTPUT_GUESTS_CAN_INVITE_OTHERS, event.getGuestsCanInviteOthers());
-        setOutputParameter(OUTPUT_GUESTS_CAN_MODIFY, event.getGuestsCanModify());
-        setOutputParameter(OUTPUT_GUESTS_CAN_SEE_OTHER_GUESTS, event.getGuestsCanSeeOtherGuests());
+        if(event != null) {
+            setOutputParameter(OUTPUT_EVENT, event);
+            setOutputParameter(OUTPUT_ETAG, event.getEtag());
+            setOutputParameter(OUTPUT_HANGOUT_LINK, event.getHangoutLink());
+            setOutputParameter(OUTPUT_HTML_LINK, event.getHtmlLink());
+            setOutputParameter(OUTPUT_I_CAL_UID, event.getICalUID());
+            setOutputParameter(OUTPUT_ID, event.getId());
+            setOutputParameter(OUTPUT_STATUS, event.getStatus());
+            setOutputParameter(OUTPUT_SUMMARY, event.getSummary());
+            setOutputParameter(OUTPUT_DESCRIPTION, event.getDescription());
+            setOutputParameter(OUTPUT_LOCATION, event.getLocation());
+            setOutputParameter(OUTPUT_TRANSPARENCY, event.getTransparency());
+            setOutputParameter(OUTPUT_VISIBILITY, event.getVisibility());
+            setOutputParameter(OUTPUT_SEQUENCE, event.getSequence());
+            setOutputParameter(OUTPUT_ANYONE_CAN_ADD_SELF, event.getAnyoneCanAddSelf());
+            setOutputParameter(OUTPUT_GUESTS_CAN_INVITE_OTHERS, event.getGuestsCanInviteOthers());
+            setOutputParameter(OUTPUT_GUESTS_CAN_MODIFY, event.getGuestsCanModify());
+            setOutputParameter(OUTPUT_GUESTS_CAN_SEE_OTHER_GUESTS, event.getGuestsCanSeeOtherGuests());
+        }
     }
 }
