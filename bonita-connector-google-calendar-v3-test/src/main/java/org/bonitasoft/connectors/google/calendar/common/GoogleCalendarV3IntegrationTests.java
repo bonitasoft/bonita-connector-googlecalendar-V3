@@ -147,9 +147,9 @@ public class GoogleCalendarV3IntegrationTests {
         getEvent(basicInputParameters, getCalendarId(), createdEvent.getId(), summary);
 
         // update
-        final String updatedSummary = summary + "-" + getCurrentTime();
+        final String updatedSummary = summary + "-updated-" + getCurrentTime();
         final Map<String, Object> updateInputParameters = new HashMap<String, Object>(basicInputParameters);
-        updateInputParameters.put(BuildEventConnector.INTPUT_ID, createdEvent.getId());
+        updateInputParameters.put(CalendarConnector.INPUT_ID, createdEvent.getId());
         updateInputParameters.put(BuildEventConnector.INTPUT_SUMMARY, updatedSummary);
         final UpdateEventConnector connector = new UpdateEventConnector();
         final Map<String, Object> updateOutputParameters = executeConnector(connector, updateInputParameters, PRINT_OUTPUT);
