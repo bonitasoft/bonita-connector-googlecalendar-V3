@@ -6,8 +6,6 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.Assert;
-
 import org.bonitasoft.connectors.google.calendar.CreateEventConnector;
 import org.bonitasoft.connectors.google.calendar.DeleteEventConnector;
 import org.bonitasoft.connectors.google.calendar.GetEventConnector;
@@ -17,6 +15,7 @@ import org.bonitasoft.engine.connector.Connector;
 import org.bonitasoft.engine.connector.ConnectorException;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class GoogleCalendarV3IntegrationTests {
@@ -128,7 +127,7 @@ public class GoogleCalendarV3IntegrationTests {
 
         Assert.assertNotNull(outputParameters.get("event"));
 
-        return (String) outputParameters.get(CreateEventConnector.ID);
+        return (String) outputParameters.get(CreateEventConnector.INTPUT_ID);
     }
 
     protected void deleteEvent(final String calendarId, final String eventId) throws ConnectorValidationException, ConnectorException {

@@ -22,77 +22,77 @@ import com.google.api.services.calendar.model.EventReminder;
 
 public abstract class BuildEventConnector extends CalendarConnector {
 
-    public static final String START_TIME = "startTime";
+    public static final String INTPUT_START_TIME = "startTime";
 
-    public static final String SOURCE_URL = "sourceUrl";
+    public static final String INTPUT_SOURCE_URL = "sourceUrl";
 
-    public static final String SOURCE_TITLE = "sourceTitle";
+    public static final String INTPUT_SOURCE_TITLE = "sourceTitle";
 
-    public static final String REMINDER_USE_DEFAULT = "reminderUseDefault";
+    public static final String INTPUT_REMINDER_USE_DEFAULT = "reminderUseDefault";
 
-    public static final String REMINDER_OVERRIDES = "reminderOverrides";
+    public static final String INTPUT_REMINDER_OVERRIDES = "reminderOverrides";
 
-    public static final String RECURRENCE = "recurrence";
+    public static final String INTPUT_RECURRENCE = "recurrence";
 
-    public static final String ORIGINAL_START_TIME_ZONE = "originalStartTimeZone";
+    public static final String INTPUT_ORIGINAL_START_TIME_ZONE = "originalStartTimeZone";
 
-    public static final String ORIGINAL_START_TIME = "originalStartTime";
+    public static final String INTPUT_ORIGINAL_START_TIME = "originalStartTime";
 
-    public static final String LOCATION = "location";
+    public static final String INTPUT_LOCATION = "location";
 
-    public static final String ID = "id";
+    public static final String INTPUT_ID = "id";
 
-    public static final String GUESTS_CAN_SEE_OTHER_GUESTS = "guestsCanSeeOtherGuests";
+    public static final String INTPUT_GUESTS_CAN_SEE_OTHER_GUESTS = "guestsCanSeeOtherGuests";
 
-    public static final String GUESTS_CAN_INVITE_OTHERS = "guestsCanInviteOthers";
+    public static final String INTPUT_GUESTS_CAN_INVITE_OTHERS = "guestsCanInviteOthers";
 
-    public static final String GADGET_WIDTH = "gadgetWidth";
+    public static final String INTPUT_GADGET_WIDTH = "gadgetWidth";
 
-    public static final String GADGET_TYPE = "gadgetType";
+    public static final String INTPUT_GADGET_TYPE = "gadgetType";
 
-    public static final String GADGET_TITLE = "gadgetTitle";
+    public static final String INTPUT_GADGET_TITLE = "gadgetTitle";
 
-    public static final String GADGET_ICON_LINK = "gadgetIconLink";
+    public static final String INTPUT_GADGET_ICON_LINK = "gadgetIconLink";
 
-    public static final String SEQUENCE = "sequence";
+    public static final String INTPUT_SEQUENCE = "sequence";
 
-    public static final String ORIGINAL_START_DATE = "originalStartDate";
+    public static final String INTPUT_ORIGINAL_START_DATE = "originalStartDate";
 
-    public static final String GADGET_LINK = "gadgetLink";
+    public static final String INTPUT_GADGET_LINK = "gadgetLink";
 
-    public static final String GADGET_HEIGHT = "gadgetHeight";
+    public static final String INTPUT_GADGET_HEIGHT = "gadgetHeight";
 
-    public static final String START_TIME_ZONE = "startTimeZone";
+    public static final String INTPUT_START_TIME_ZONE = "startTimeZone";
 
-    public static final String STATUS = "status";
+    public static final String INTPUT_STATUS = "status";
 
-    public static final String SUMMARY = "summary";
+    public static final String INTPUT_SUMMARY = "summary";
 
-    public static final String TRANSPARENCY = "transparency";
+    public static final String INTPUT_TRANSPARENCY = "transparency";
 
-    public static final String GADGET_DISPLAY = "gadgetDisplay";
+    public static final String INTPUT_GADGET_DISPLAY = "gadgetDisplay";
 
-    public static final String GADGET_PREFERENCES = "gadgetPreferences";
+    public static final String INTPUT_GADGET_PREFERENCES = "gadgetPreferences";
 
-    public static final String VISIBILITY = "visibility";
+    public static final String INTPUT_VISIBILITY = "visibility";
 
-    public static final String END_TIME_ZONE = "endTimeZone";
+    public static final String INTPUT_END_TIME_ZONE = "endTimeZone";
 
-    public static final String END_TIME = "endTime";
+    public static final String INTPUT_END_TIME = "endTime";
 
-    public static final String DESCRIPTION = "description";
+    public static final String INTPUT_DESCRIPTION = "description";
 
-    public static final String COLOR_ID = "colorId";
+    public static final String INTPUT_COLOR_ID = "colorId";
 
-    public static final String ATTENDEES_EMAILS = "attendeesEmails";
+    public static final String INTPUT_ATTENDEES_EMAILS = "attendeesEmails";
 
-    public static final String ANYONE_CAN_ADD_SELF = "anyoneCanAddSelf";
+    public static final String INTPUT_ANYONE_CAN_ADD_SELF = "anyoneCanAddSelf";
 
-    public static final String END_DATE = "endDate";
+    public static final String INTPUT_END_DATE = "endDate";
 
-    public static final String START_DATE = "startDate";
+    public static final String INTPUT_START_DATE = "startDate";
 
-    public static final String ALL_DAY = "allDay";
+    public static final String INTPUT_ALL_DAY = "allDay";
 
     private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd";
 
@@ -305,56 +305,56 @@ public abstract class BuildEventConnector extends CalendarConnector {
     }
 
     protected Boolean getAllDay() {
-        return (Boolean) getInputParameter(ALL_DAY);
+        return (Boolean) getInputParameter(INTPUT_ALL_DAY);
     }
 
     protected String getStartDate() {
-        return (String) getInputParameter(START_DATE);
+        return (String) getInputParameter(INTPUT_START_DATE);
     }
 
     protected String getEndDate() {
-        return (String) getInputParameter(END_DATE);
+        return (String) getInputParameter(INTPUT_END_DATE);
     }
 
     protected Boolean getAnyoneCanAddSelf() {
-        return (Boolean) getInputParameter(ANYONE_CAN_ADD_SELF);
+        return (Boolean) getInputParameter(INTPUT_ANYONE_CAN_ADD_SELF);
     }
 
     @SuppressWarnings("unchecked")
     protected List<String> getAttendeesEmails() {
-        return (List<String>) getInputParameter(ATTENDEES_EMAILS);
+        return (List<String>) getInputParameter(INTPUT_ATTENDEES_EMAILS);
     }
 
     protected String getColorId() {
-        return (String) getInputParameter(COLOR_ID);
+        return (String) getInputParameter(INTPUT_COLOR_ID);
     }
 
     protected String getDescription() {
-        return (String) getInputParameter(DESCRIPTION);
+        return (String) getInputParameter(INTPUT_DESCRIPTION);
     }
 
     protected String getEndTime() {
-        return (String) getInputParameter(END_TIME);
+        return (String) getInputParameter(INTPUT_END_TIME);
     }
 
     protected String getEndTimeZone() {
-        return (String) getInputParameter(END_TIME_ZONE);
+        return (String) getInputParameter(INTPUT_END_TIME_ZONE);
     }
 
     protected String getGadgetDisplay() {
-        return (String) getInputParameter(GADGET_DISPLAY);
+        return (String) getInputParameter(INTPUT_GADGET_DISPLAY);
     }
 
     protected Integer getGadgetHeight() {
-        return (Integer) getInputParameter(GADGET_HEIGHT);
+        return (Integer) getInputParameter(INTPUT_GADGET_HEIGHT);
     }
 
     protected String getGadgetIconLink() {
-        return (String) getInputParameter(GADGET_ICON_LINK);
+        return (String) getInputParameter(INTPUT_GADGET_ICON_LINK);
     }
 
     protected String getGadgetLink() {
-        return (String) getInputParameter(GADGET_LINK);
+        return (String) getInputParameter(INTPUT_GADGET_LINK);
     }
 
     protected Map<String, String> getGadgetPreferences() {
@@ -362,98 +362,98 @@ public abstract class BuildEventConnector extends CalendarConnector {
     }
 
     protected String getGadgetTitle() {
-        return (String) getInputParameter(GADGET_TITLE);
+        return (String) getInputParameter(INTPUT_GADGET_TITLE);
     }
 
     protected String getGadgetType() {
-        return (String) getInputParameter(GADGET_TYPE);
+        return (String) getInputParameter(INTPUT_GADGET_TYPE);
     }
 
     protected Integer getGadgetWidth() {
-        return (Integer) getInputParameter(GADGET_WIDTH);
+        return (Integer) getInputParameter(INTPUT_GADGET_WIDTH);
     }
 
     protected Boolean getGuestsCanInviteOthers() {
-        return (Boolean) getInputParameter(GUESTS_CAN_INVITE_OTHERS);
+        return (Boolean) getInputParameter(INTPUT_GUESTS_CAN_INVITE_OTHERS);
     }
 
     protected Boolean getGuestsCanSeeOtherGuests() {
-        return (Boolean) getInputParameter(GUESTS_CAN_SEE_OTHER_GUESTS);
+        return (Boolean) getInputParameter(INTPUT_GUESTS_CAN_SEE_OTHER_GUESTS);
     }
 
     protected String getId() {
-        return (String) getInputParameter(ID);
+        return (String) getInputParameter(INTPUT_ID);
     }
 
     protected String getLocation() {
-        return (String) getInputParameter(LOCATION);
+        return (String) getInputParameter(INTPUT_LOCATION);
     }
 
     protected String getOriginalStartDate() {
-        return (String) getInputParameter(ORIGINAL_START_DATE);
+        return (String) getInputParameter(INTPUT_ORIGINAL_START_DATE);
     }
 
     protected String getOriginalStartTime() {
-        return (String) getInputParameter(ORIGINAL_START_TIME);
+        return (String) getInputParameter(INTPUT_ORIGINAL_START_TIME);
     }
 
     protected String getOriginalStartTimeZone() {
-        return (String) getInputParameter(ORIGINAL_START_TIME_ZONE);
+        return (String) getInputParameter(INTPUT_ORIGINAL_START_TIME_ZONE);
     }
 
     @SuppressWarnings("unchecked")
     protected List<String> getRecurrence() {
-        return (List<String>) getInputParameter(RECURRENCE);
+        return (List<String>) getInputParameter(INTPUT_RECURRENCE);
     }
 
     @SuppressWarnings("unchecked")
     protected List<String> getReminderOverrides() {
-        return (List<String>) getInputParameter(REMINDER_OVERRIDES);
+        return (List<String>) getInputParameter(INTPUT_REMINDER_OVERRIDES);
     }
 
     protected Boolean getReminderUseDefault() {
-        return (Boolean) getInputParameter(REMINDER_USE_DEFAULT);
+        return (Boolean) getInputParameter(INTPUT_REMINDER_USE_DEFAULT);
     }
 
     protected Integer getSequence() {
-        return (Integer) getInputParameter(SEQUENCE);
+        return (Integer) getInputParameter(INTPUT_SEQUENCE);
     }
 
     protected String getSourceTitle() {
-        return (String) getInputParameter(SOURCE_TITLE);
+        return (String) getInputParameter(INTPUT_SOURCE_TITLE);
     }
 
     protected String getSourceUrl() {
-        return (String) getInputParameter(SOURCE_URL);
+        return (String) getInputParameter(INTPUT_SOURCE_URL);
     }
 
     protected String getStartTime() {
-        return (String) getInputParameter(START_TIME);
+        return (String) getInputParameter(INTPUT_START_TIME);
     }
 
     protected String getStartTimeZone() {
-        return (String) getInputParameter(START_TIME_ZONE);
+        return (String) getInputParameter(INTPUT_START_TIME_ZONE);
     }
 
     protected String getStatus() {
-        return (String) getInputParameter(STATUS);
+        return (String) getInputParameter(INTPUT_STATUS);
     }
 
     protected String getSummary() {
-        return (String) getInputParameter(SUMMARY);
+        return (String) getInputParameter(INTPUT_SUMMARY);
     }
 
     protected String getTransparency() {
-        return (String) getInputParameter(TRANSPARENCY);
+        return (String) getInputParameter(INTPUT_TRANSPARENCY);
     }
 
     protected String getVisibility() {
-        return (String) getInputParameter(VISIBILITY);
+        return (String) getInputParameter(INTPUT_VISIBILITY);
     }
 
     @SuppressWarnings("unchecked")
     private Map<String, String> getGadgetPreferencesAsMap() {
-        final List<List<Object>> inputPreferences = (List<List<Object>>) getInputParameter(GADGET_PREFERENCES);
+        final List<List<Object>> inputPreferences = (List<List<Object>>) getInputParameter(INTPUT_GADGET_PREFERENCES);
         final Map<String, String> result = new HashMap<String, String>();
         if (inputPreferences != null) {
             for (List<Object> rows : inputPreferences) {
