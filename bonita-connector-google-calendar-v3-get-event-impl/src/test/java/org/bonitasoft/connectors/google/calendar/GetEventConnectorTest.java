@@ -38,4 +38,33 @@ public class GetEventConnectorTest {
         Mockito.verify(mockedEvents).get(calendarId, id);
     }
 
+    @Test
+    public void should_DoJobWithCalendar_set_optional_parameters() throws Exception {
+
+        // Given
+        GetEventConnector spyGetEventConnector = Mockito.spy(new GetEventConnector());
+
+        Map<String, Object> inputParameters = new HashMap<String, Object>();
+        String tz = "timezone";
+        int maxAttendees = 42;
+        inputParameters.put(GetEventConnector.INPUT_TIME_ZONE, tz);
+        inputParameters.put(GetEventConnector.INPUT_MAX_ATTENDEES, maxAttendees);
+        spyGetEventConnector.setInputParameters(inputParameters);
+
+        Calendar mockCalendarService = Mockito.mock(Calendar.class);
+        Calendar.Events mockedEvents = Mockito.mock(Calendar.Events.class);
+        Mockito.when(mockCalendarService.events()).thenReturn(mockedEvents);
+
+        Calendar.Events.Get mockGet = Mockito.mock(Calendar.Events.Get.class);
+        Mockito.when(mockedEvents.get(null, null)).thenReturn(mockGet);
+
+        // When
+        spyGetEventConnector.doJobWithCalendar(mockCalendarService);
+
+        // Then
+        Mockito.verify(mockGet).setMaxAttendees(maxAttendees);
+        Mockito.verify(mockGet).setTimeZone(tz);
+
+    }
+
 }
