@@ -27,12 +27,6 @@
           </artifactId>
             <version>${definition.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.bonitasoft.connectors</groupId>
-            <artifactId>bonita-connector-google-calendar-v3-test</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
