@@ -22,7 +22,7 @@ public class GetEventConnectorTest {
 
         Map<String, Object> inputParameters = new HashMap<String, Object>();
         inputParameters.put(CalendarConnector.CALENDAR_ID, calendarId);
-        inputParameters.put(GetEventConnector.INPUT_ID, id);
+        inputParameters.put(CalendarConnector.INPUT_ID, id);
         spyGetEventConnector.setInputParameters(inputParameters);
 
         Calendar mockCalendarService = Mockito.mock(Calendar.class);

@@ -11,12 +11,6 @@ import com.google.api.services.calendar.model.Event;
 
 public class UpdateEventConnector extends BuildEventConnector {
 
-    public static final String INPUT_SEND_NOTIFICATIONS = "sendNotifications";
-
-    public static final String INPUT_PRETTY_PRINT = "prettyPrint";
-
-    public static final String INPUT_MAX_ATTENDEES = "maxAttendees";
-
     public static final String OUTPUT_ID = "id";
 
     public static final String OUTPUT_ICAL_UID = "iCalUID";
@@ -32,9 +26,7 @@ public class UpdateEventConnector extends BuildEventConnector {
     @Override
     protected List<String> checkParameters() {
         final List<String> errors = new ArrayList<String>();
-        if (getId() == null) {
-            errors.add("Event Id must be set.");
-        }
+        ensureIdInputIsSpecified(errors);
         return errors;
     }
 
@@ -46,9 +38,7 @@ public class UpdateEventConnector extends BuildEventConnector {
 
         final Update update = calendarService.events().update(getCalendarId(), event.getId(), event);
 
-        if (getPrettyPrint() != null) {
-            update.setPrettyPrint(getPrettyPrint());
-        }
+        setCommonInputs(update);
         if (getSendNotifications() != null) {
             update.setSendNotifications(getSendNotifications());
         }
@@ -65,15 +55,4 @@ public class UpdateEventConnector extends BuildEventConnector {
         setOutputParameter(OUTPUT_ID, updatedEvent.getId());
     }
 
-    protected Integer getMaxAttendees() {
-        return (Integer) getInputParameter(INPUT_MAX_ATTENDEES);
-    }
-
-    protected Boolean getPrettyPrint() {
-        return (Boolean) getInputParameter(INPUT_PRETTY_PRINT);
-    }
-
-    protected Boolean getSendNotifications() {
-        return (Boolean) getInputParameter(INPUT_SEND_NOTIFICATIONS);
-    }
 }

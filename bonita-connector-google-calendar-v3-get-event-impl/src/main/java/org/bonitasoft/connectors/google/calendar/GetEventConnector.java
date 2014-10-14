@@ -15,9 +15,6 @@ public class GetEventConnector extends CalendarConnector {
 
     private static final List<String> AVAILABLE_TZ_IDS = Arrays.asList(TimeZone.getAvailableIDs());
 
-    public static final String INPUT_ID = "id";
-    public static final String INPUT_PRETTY_PRINT = "prettyPrint";
-    public static final String INPUT_MAX_ATTENDEES = "maxAttendees";
     public static final String INPUT_TIME_ZONE = "timeZone";
 
     public static final String OUTPUT_EVENT = "event";
@@ -41,9 +38,9 @@ public class GetEventConnector extends CalendarConnector {
     @Override
     protected List<String> checkParameters() {
         final List<String> errors = new ArrayList<String>();
-        if (getId() == null) {
-            errors.add("Event Id must be set.");
-        }
+
+        ensureIdInputIsSpecified(errors);
+
         if (getTimeZone() != null && !AVAILABLE_TZ_IDS.contains(getTimeZone())) {
             errors.add("Specified Timezone is not supported. It is now: " + getTimeZone() + " and should be one of: "
                     + AVAILABLE_TZ_IDS.toString());
@@ -55,20 +52,22 @@ public class GetEventConnector extends CalendarConnector {
     protected void doJobWithCalendar(final Calendar calendarService) throws Exception {
         final Get get = calendarService.events().get(getCalendarId(), getId());
 
-        if (getPrettyPrint() != null) {
-            get.setPrettyPrint(getPrettyPrint());
-        }
+        setCommonInputs(get);
+        setSpecificOptionalInputs(get);
+
+        final Event event = get.execute();
+
+        setOutputParameters(event);
+
+    }
+
+    private void setSpecificOptionalInputs(Get get) {
         if (getMaxAttendees() != null) {
             get.setMaxAttendees(getMaxAttendees());
         }
         if (getTimeZone() != null) {
             get.setTimeZone(getTimeZone());
         }
-
-        final Event event = get.execute();
-
-        setOutputParameters(event);
-
     }
 
     protected void setOutputParameters(Event event) {
@@ -93,18 +92,6 @@ public class GetEventConnector extends CalendarConnector {
 
     private String getTimeZone() {
         return (String) getInputParameter(INPUT_TIME_ZONE);
-    }
-
-    protected Integer getMaxAttendees() {
-        return (Integer) getInputParameter(INPUT_MAX_ATTENDEES);
-    }
-
-    private String getId() {
-        return (String) getInputParameter(INPUT_ID);
-    }
-
-    protected Boolean getPrettyPrint() {
-        return (Boolean) getInputParameter(INPUT_PRETTY_PRINT);
     }
 
 }

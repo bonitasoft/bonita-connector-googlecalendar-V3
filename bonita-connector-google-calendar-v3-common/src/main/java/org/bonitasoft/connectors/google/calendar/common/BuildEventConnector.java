@@ -40,8 +40,6 @@ public abstract class BuildEventConnector extends CalendarConnector {
 
     public static final String INTPUT_LOCATION = "location";
 
-    public static final String INTPUT_ID = "id";
-
     public static final String INTPUT_GUESTS_CAN_SEE_OTHER_GUESTS = "guestsCanSeeOtherGuests";
 
     public static final String INTPUT_GUESTS_CAN_INVITE_OTHERS = "guestsCanInviteOthers";
@@ -379,10 +377,6 @@ public abstract class BuildEventConnector extends CalendarConnector {
 
     protected Boolean getGuestsCanSeeOtherGuests() {
         return (Boolean) getInputParameter(INTPUT_GUESTS_CAN_SEE_OTHER_GUESTS);
-    }
-
-    protected String getId() {
-        return (String) getInputParameter(INTPUT_ID);
     }
 
     protected String getLocation() {

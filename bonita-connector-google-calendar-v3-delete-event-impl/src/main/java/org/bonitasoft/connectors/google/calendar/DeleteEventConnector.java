@@ -12,14 +12,6 @@ import com.google.api.services.calendar.model.Event;
 
 public class DeleteEventConnector extends CalendarConnector {
 
-    public static final String INPUT_SEND_NOTIFICATIONS = "sendNotifications";
-
-    public static final String INPUT_PRETTY_PRINT = "prettyPrint";
-
-    public static final String INPUT_MAX_ATTENDEES = "maxAttendees";
-
-    public static final String INPUT_ID = "id";
-
     public static final String OUTPUT_EVENT = "event";
 
     public static final String OUTPUT_ETAG = "etag";
@@ -57,31 +49,22 @@ public class DeleteEventConnector extends CalendarConnector {
     @Override
     protected List<String> checkParameters() {
         final List<String> errors = new ArrayList<String>();
-        if (getId() == null) {
-            errors.add("Event Id must be set.");
-        }
+        ensureIdInputIsSpecified(errors);
         return errors;
     }
 
     @Override
     protected void doJobWithCalendar(final Calendar calendarService) throws Exception {
         final Get get = calendarService.events().get(getCalendarId(), getId());
-        if (getPrettyPrint() != null) {
-            get.setPrettyPrint(getPrettyPrint());
-        }
+
+        setCommonInputs(get);
         if (getMaxAttendees() != null) {
             get.setMaxAttendees(getMaxAttendees());
         }
+
         final Event event = get.execute();
 
         final Delete delete = calendarService.events().delete(getCalendarId(), getId());
-        if (getPrettyPrint() != null) {
-            delete.setPrettyPrint(getPrettyPrint());
-        }
-        if (getSendNotifications() != null) {
-            delete.setSendNotifications(getSendNotifications());
-        }
-        delete.execute();
 
         setOutputParameters(event);
     }
@@ -106,19 +89,4 @@ public class DeleteEventConnector extends CalendarConnector {
         setOutputParameter(OUTPUT_GUESTS_CAN_SEE_OTHER_GUESTS, event.getGuestsCanSeeOtherGuests());
     }
 
-    private String getId() {
-        return (String) getInputParameter(INPUT_ID);
-    }
-
-    protected Boolean getPrettyPrint() {
-        return (Boolean) getInputParameter(INPUT_PRETTY_PRINT);
-    }
-
-    protected Boolean getSendNotifications() {
-        return (Boolean) getInputParameter(INPUT_SEND_NOTIFICATIONS);
-    }
-
-    protected Integer getMaxAttendees() {
-        return (Integer) getInputParameter(INPUT_MAX_ATTENDEES);
-    }
 }

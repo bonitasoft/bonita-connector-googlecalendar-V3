@@ -11,13 +11,7 @@ import com.google.api.services.calendar.model.Event;
 
 public class MoveEventConnector extends CalendarConnector {
 
-    public static final String INPUT_SEND_NOTIFICATIONS = "sendNotifications";
-
-    public static final String INPUT_PRETTY_PRINT = "prettyPrint";
-
     public static final String INPUT_DEST_CALENDAR_ID = "destCalendarId";
-
-    public static final String INPUT_ID = "id";
 
     public static final String OUTPUT_ID = "id";
 
@@ -34,9 +28,7 @@ public class MoveEventConnector extends CalendarConnector {
     @Override
     protected List<String> checkParameters() {
         final List<String> errors = new ArrayList<String>();
-        if (getId() == null) {
-            errors.add("Event Id must be set.");
-        }
+        ensureIdInputIsSpecified(errors);
         if (getDestCalendarId() == null) {
             errors.add("Destination Calendar Id must be set.");
         }
@@ -47,9 +39,7 @@ public class MoveEventConnector extends CalendarConnector {
     protected void doJobWithCalendar(final Calendar calendarService) throws Exception {
         final Move move = calendarService.events().move(getCalendarId(), getId(), getDestCalendarId());
 
-        if (getPrettyPrint() != null) {
-            move.setPrettyPrint(getPrettyPrint());
-        }
+        setCommonInputs(move);
         if (getSendNotifications() != null) {
             move.setSendNotifications(getSendNotifications());
         }
@@ -67,15 +57,4 @@ public class MoveEventConnector extends CalendarConnector {
         return (String) getInputParameter(INPUT_DEST_CALENDAR_ID);
     }
 
-    private String getId() {
-        return (String) getInputParameter(INPUT_ID);
-    }
-
-    protected Boolean getPrettyPrint() {
-        return (Boolean) getInputParameter(INPUT_PRETTY_PRINT);
-    }
-
-    protected Boolean getSendNotifications() {
-        return (Boolean) getInputParameter(INPUT_SEND_NOTIFICATIONS);
-    }
 }

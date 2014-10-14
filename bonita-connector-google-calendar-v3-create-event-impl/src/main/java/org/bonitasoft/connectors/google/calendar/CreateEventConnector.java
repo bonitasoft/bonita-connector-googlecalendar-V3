@@ -11,12 +11,6 @@ import com.google.api.services.calendar.model.Event;
 
 public class CreateEventConnector extends BuildEventConnector {
 
-    public static final String INPUT_SEND_NOTIFICATIONS = "sendNotifications";
-
-    public static final String INPUT_PRETTY_PRINT = "prettyPrint";
-
-    public static final String INPUT_MAX_ATTENDEES = "maxAttendees";
-
     public static final String OUTPUT_ICAL_UID = "iCalUID";
 
     public static final String OUTPUT_HTML_LINK = "htmlLink";
@@ -60,9 +54,7 @@ public class CreateEventConnector extends BuildEventConnector {
         if (getMaxAttendees() != null) {
             insert.setMaxAttendees(getMaxAttendees());
         }
-        if (getPrettyPrint() != null) {
-            insert.setPrettyPrint(getPrettyPrint());
-        }
+        setCommonInputs(insert);
         if (getSendNotifications() != null) {
             insert.setSendNotifications(getSendNotifications());
         }
@@ -76,17 +68,4 @@ public class CreateEventConnector extends BuildEventConnector {
         setOutputParameter(OUTPUT_ICAL_UID, insertedEvent.getICalUID());
         setOutputParameter(OUTPUT_ID, insertedEvent.getId());
     }
-
-    protected Integer getMaxAttendees() {
-        return (Integer) getInputParameter(INPUT_MAX_ATTENDEES);
-    }
-
-    protected Boolean getPrettyPrint() {
-        return (Boolean) getInputParameter(INPUT_PRETTY_PRINT);
-    }
-
-    protected Boolean getSendNotifications() {
-        return (Boolean) getInputParameter(INPUT_SEND_NOTIFICATIONS);
-    }
-
 }

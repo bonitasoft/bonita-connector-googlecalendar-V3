@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.api.services.calendar.CalendarRequest;
+import com.google.api.services.calendar.model.Event;
 import org.bonitasoft.engine.connector.AbstractConnector;
 import org.bonitasoft.engine.connector.ConnectorException;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
@@ -25,6 +27,11 @@ public abstract class CalendarConnector extends AbstractConnector {
     public static final String SERVICE_ACCOUNT_ID = "serviceAccountId";
     public static final String SERVICE_ACCOUNT_P12_FILE = "serviceAccountP12File";
     public static final String SERVICE_ACCOUNT_USER = "serviceAccountUser";
+
+    public static final String INPUT_ID = "id";
+    public static final String INPUT_PRETTY_PRINT = "prettyPrint";
+    public static final String INPUT_MAX_ATTENDEES = "maxAttendees";
+    public static final String INPUT_SEND_NOTIFICATIONS = "sendNotifications";
 
     @Override
     public void validateInputParameters() throws ConnectorValidationException {
@@ -86,6 +93,12 @@ public abstract class CalendarConnector extends AbstractConnector {
         }
     }
 
+    protected void ensureIdInputIsSpecified(List<String> errors) {
+        if (getId() == null) {
+            errors.add("Event Id must be set.");
+        }
+    }
+
     protected abstract void doJobWithCalendar(final Calendar calendarService) throws Exception;
 
     protected abstract List<String> checkParameters();
@@ -108,5 +121,21 @@ public abstract class CalendarConnector extends AbstractConnector {
 
     public String getServiceAccountUser() {
         return (String) getInputParameter(SERVICE_ACCOUNT_USER);
+    }
+
+    protected Boolean getPrettyPrint() {
+        return (Boolean) getInputParameter(INPUT_PRETTY_PRINT);
+    }
+
+    protected Integer getMaxAttendees() { return (Integer) getInputParameter(INPUT_MAX_ATTENDEES); }
+
+    protected String getId() { return (String) getInputParameter(INPUT_ID); }
+
+    protected Boolean getSendNotifications() { return (Boolean) getInputParameter(INPUT_SEND_NOTIFICATIONS); }
+
+    protected void setCommonInputs(CalendarRequest<Event> request) {
+        if (getPrettyPrint() != null) {
+            request.setPrettyPrint(getPrettyPrint());
+        }
     }
 }
