@@ -20,6 +20,12 @@ import com.google.api.services.calendar.CalendarScopes;
 
 public abstract class CalendarConnector extends AbstractConnector {
 
+    public static final String APPLICATION_NAME = "applicationName";
+    public static final String CALENDAR_ID = "calendarId";
+    public static final String SERVICE_ACCOUNT_ID = "serviceAccountId";
+    public static final String SERVICE_ACCOUNT_P12_FILE = "serviceAccountP12File";
+    public static final String SERVICE_ACCOUNT_USER = "serviceAccountUser";
+
     @Override
     public void validateInputParameters() throws ConnectorValidationException {
         final List<String> errors = new ArrayList<String>();
@@ -85,22 +91,22 @@ public abstract class CalendarConnector extends AbstractConnector {
     protected abstract List<String> checkParameters();
 
     public String getCalendarId() {
-        return (String) getInputParameter("calendarId");
+        return (String) getInputParameter(CALENDAR_ID);
     }
 
     public String getApplicationName() {
-        return (String) getInputParameter("applicationName");
+        return (String) getInputParameter(APPLICATION_NAME);
     }
 
     public String getServiceAccountId() {
-        return (String) getInputParameter("serviceAccountId");
+        return (String) getInputParameter(SERVICE_ACCOUNT_ID);
     }
 
     public String getServiceAccountP12File() {
-        return (String) getInputParameter("serviceAccountP12File");
+        return (String) getInputParameter(SERVICE_ACCOUNT_P12_FILE);
     }
 
     public String getServiceAccountUser() {
-        return (String) getInputParameter("serviceAccountUser");
+        return (String) getInputParameter(SERVICE_ACCOUNT_USER);
     }
 }
