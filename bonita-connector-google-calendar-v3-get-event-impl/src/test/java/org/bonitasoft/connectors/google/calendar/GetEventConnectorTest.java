@@ -15,7 +15,7 @@ public class GetEventConnectorTest {
     public void should_DoJobWithCalendar_Get_right_event_based_on_id() throws Exception {
 
         // Given
-        GetEventConnector spyGetEventConnector = Mockito.spy(new GetEventConnector());
+        GetEventConnector spyGetEventConnector = new GetEventConnector();
         String calendarId = "Calendar Identifier";
         String id = "Event Identifier";
 
@@ -43,7 +43,7 @@ public class GetEventConnectorTest {
     public void should_DoJobWithCalendar_set_optional_parameters() throws Exception {
 
         // Given
-        GetEventConnector spyGetEventConnector = Mockito.spy(new GetEventConnector());
+        GetEventConnector spyGetEventConnector = new GetEventConnector();
 
         Map<String, Object> inputParameters = new HashMap<String, Object>();
         String tz = "timezone";
