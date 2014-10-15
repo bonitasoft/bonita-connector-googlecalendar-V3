@@ -2,8 +2,6 @@ package org.bonitasoft.connectors.google.calendar.common;
 
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.EventAttendee;
-import com.google.api.services.calendar.model.EventDateTime;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
@@ -17,7 +15,7 @@ public class BuildEventConnectorTest {
 
     private class DoNothingBuildEventCalendarConnector extends BuildEventConnector {
         @Override
-        protected void doJobWithCalendar(Calendar calendarService) throws Exception {
+        protected void doJobWithCalendarEvents(Calendar.Events events) throws Exception {
 
         }
 

@@ -20,7 +20,7 @@ public class CalendarConnectorTest {
     private class DoNothingCalendarConnector extends CalendarConnector {
 
         @Override
-        protected void doJobWithCalendar(Calendar calendarService) throws Exception {
+        protected void doJobWithCalendarEvents(Calendar.Events events) throws Exception {
         }
 
         @Override

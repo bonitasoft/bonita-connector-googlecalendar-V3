@@ -102,7 +102,7 @@ public abstract class CalendarConnector extends AbstractConnector {
 
                 final Calendar calendar = new Calendar.Builder(httpTransport, jsonFactory, credential).setApplicationName(getApplicationName()).build();
 
-                doJobWithCalendar(calendar);
+                doJobWithCalendarEvents(calendar.events());
             } finally {
                 httpTransport.shutdown();
             }
@@ -117,7 +117,7 @@ public abstract class CalendarConnector extends AbstractConnector {
         }
     }
 
-    protected abstract void doJobWithCalendar(final Calendar calendarService) throws Exception;
+    protected abstract void doJobWithCalendarEvents(final Calendar.Events events) throws Exception;
 
     protected abstract List<String> checkParameters();
 

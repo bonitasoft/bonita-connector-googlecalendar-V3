@@ -20,8 +20,8 @@ public class DeleteEventConnector extends CalendarConnector {
     }
 
     @Override
-    protected void doJobWithCalendar(final Calendar calendarService) throws Exception {
-        final Get get = calendarService.events().get(getCalendarId(), getId());
+    protected void doJobWithCalendarEvents(final Calendar.Events events) throws Exception {
+        final Get get = events.get(getCalendarId(), getId());
 
         setCommonInputs(get);
         if (getMaxAttendees() != null) {
@@ -30,7 +30,7 @@ public class DeleteEventConnector extends CalendarConnector {
 
         final Event event = get.execute();
 
-        final Delete delete = calendarService.events().delete(getCalendarId(), getId());
+        final Delete delete = events.delete(getCalendarId(), getId());
 
         delete.execute();
 

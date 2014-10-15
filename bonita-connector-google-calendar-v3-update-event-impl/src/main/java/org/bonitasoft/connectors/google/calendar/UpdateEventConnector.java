@@ -19,12 +19,12 @@ public class UpdateEventConnector extends BuildEventConnector {
     }
 
     @Override
-    protected void doJobWithCalendar(final Calendar calendarService) throws Exception {
-        final Event event = calendarService.events().get(getCalendarId(), getId()).execute();
+    protected void doJobWithCalendarEvents(final Calendar.Events events) throws Exception {
+        final Event event = events.get(getCalendarId(), getId()).execute();
 
         buildEvent(event);
 
-        final Update update = calendarService.events().update(getCalendarId(), event.getId(), event);
+        final Update update = events.update(getCalendarId(), event.getId(), event);
 
         setCommonInputs(update);
         if (getSendNotifications() != null) {

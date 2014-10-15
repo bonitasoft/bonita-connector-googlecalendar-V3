@@ -9,41 +9,42 @@ import org.mockito.Mockito;
 
 import com.google.api.services.calendar.Calendar;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 public class GetEventConnectorTest {
 
     @Test
     public void should_DoJobWithCalendar_Get_right_event_based_on_id() throws Exception {
 
         // Given
-        GetEventConnector spyGetEventConnector = new GetEventConnector();
+        GetEventConnector connector = new GetEventConnector();
         String calendarId = "Calendar Identifier";
         String id = "Event Identifier";
 
         Map<String, Object> inputParameters = new HashMap<String, Object>();
         inputParameters.put(CalendarConnector.CALENDAR_ID, calendarId);
         inputParameters.put(CalendarConnector.INPUT_ID, id);
-        spyGetEventConnector.setInputParameters(inputParameters);
+        connector.setInputParameters(inputParameters);
 
-        Calendar mockCalendarService = Mockito.mock(Calendar.class);
-        Calendar.Events mockedEvents = Mockito.mock(Calendar.Events.class);
-        Mockito.when(mockCalendarService.events()).thenReturn(mockedEvents);
+        Calendar.Events mockedEvents = mock(Calendar.Events.class);
 
-        Calendar.Events.Get get = Mockito.mock(Calendar.Events.Get.class);
-        Mockito.when(mockedEvents.get(calendarId, id)).thenReturn(get);
+        Calendar.Events.Get get = mock(Calendar.Events.Get.class);
+        when(mockedEvents.get(calendarId, id)).thenReturn(get);
 
         // When
-        spyGetEventConnector.doJobWithCalendar(mockCalendarService);
+        connector.doJobWithCalendarEvents(mockedEvents);
 
         // Then
-        Mockito.verify(mockedEvents).get(calendarId, id);
-        Mockito.verify(get).execute();
+        verify(get).execute();
     }
 
     @Test
     public void should_DoJobWithCalendar_set_optional_parameters() throws Exception {
 
         // Given
-        GetEventConnector spyGetEventConnector = new GetEventConnector();
+        GetEventConnector connector = new GetEventConnector();
 
         Map<String, Object> inputParameters = new HashMap<String, Object>();
         String tz = "timezone";
@@ -52,22 +53,20 @@ public class GetEventConnectorTest {
         inputParameters.put(GetEventConnector.INPUT_TIME_ZONE, tz);
         inputParameters.put(GetEventConnector.INPUT_MAX_ATTENDEES, maxAttendees);
         inputParameters.put(GetEventConnector.INPUT_PRETTY_PRINT, prettyPrint);
-        spyGetEventConnector.setInputParameters(inputParameters);
+        connector.setInputParameters(inputParameters);
 
-        Calendar mockCalendarService = Mockito.mock(Calendar.class);
-        Calendar.Events mockedEvents = Mockito.mock(Calendar.Events.class);
-        Mockito.when(mockCalendarService.events()).thenReturn(mockedEvents);
+        Calendar.Events mockedEvents = mock(Calendar.Events.class);
 
-        Calendar.Events.Get mockGet = Mockito.mock(Calendar.Events.Get.class);
-        Mockito.when(mockedEvents.get(null, null)).thenReturn(mockGet);
+        Calendar.Events.Get mockGet = mock(Calendar.Events.Get.class);
+        when(mockedEvents.get(null, null)).thenReturn(mockGet);
 
         // When
-        spyGetEventConnector.doJobWithCalendar(mockCalendarService);
+        connector.doJobWithCalendarEvents(mockedEvents);
 
         // Then
-        Mockito.verify(mockGet).setMaxAttendees(maxAttendees);
-        Mockito.verify(mockGet).setTimeZone(tz);
-        Mockito.verify(mockGet).setPrettyPrint(prettyPrint);
+        verify(mockGet).setMaxAttendees(maxAttendees);
+        verify(mockGet).setTimeZone(tz);
+        verify(mockGet).setPrettyPrint(prettyPrint);
 
     }
 

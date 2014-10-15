@@ -4,12 +4,16 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import org.bonitasoft.connectors.google.calendar.common.CalendarConnector;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class CreateEventConnectorTest {
 
@@ -23,18 +27,16 @@ public class CreateEventConnectorTest {
 
         connector.setInputParameters(inputParameters);
 
-        Calendar mockCalendarService = Mockito.mock(Calendar.class);
-        Calendar.Events mockedEvents = Mockito.mock(Calendar.Events.class);
-        Mockito.when(mockCalendarService.events()).thenReturn(mockedEvents);
+        Calendar.Events mockedEvents = mock(Calendar.Events.class);
 
-        Calendar.Events.Insert insert = Mockito.mock(Calendar.Events.Insert.class);
-        Mockito.when(mockedEvents.insert(Mockito.eq(calendarId), Mockito.any(Event.class))).thenReturn(insert);
+        Calendar.Events.Insert insert = mock(Calendar.Events.Insert.class);
+        when(mockedEvents.insert(eq(calendarId), any(Event.class))).thenReturn(insert);
 
         // When
-        connector.doJobWithCalendar(mockCalendarService);
+        connector.doJobWithCalendarEvents(mockedEvents);
 
         // Then
-        Mockito.verify(insert).execute();
+        verify(insert).execute();
     }
 
 }

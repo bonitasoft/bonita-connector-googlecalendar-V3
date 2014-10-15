@@ -31,8 +31,8 @@ public class GetEventConnector extends CalendarConnector {
     }
 
     @Override
-    protected void doJobWithCalendar(final Calendar calendarService) throws Exception {
-        final Get get = calendarService.events().get(getCalendarId(), getId());
+    protected void doJobWithCalendarEvents(final Calendar.Events events) throws Exception {
+        final Get get = events.get(getCalendarId(), getId());
 
         setCommonInputs(get);
         setSpecificOptionalInputs(get);

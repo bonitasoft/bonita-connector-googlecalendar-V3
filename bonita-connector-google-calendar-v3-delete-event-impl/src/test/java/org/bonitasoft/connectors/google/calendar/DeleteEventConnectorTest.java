@@ -8,38 +8,39 @@ import org.mockito.Mockito;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 public class DeleteEventConnectorTest {
 
     @Test
     public void should_DoJobWithCalendar_Delete_right_event_based_on_id() throws Exception {
 
         // Given
-        DeleteEventConnector spyDeleteEventConnector = new DeleteEventConnector();
+        DeleteEventConnector connector = new DeleteEventConnector();
         String calendarId = "Calendar Identifier";
         String id = "Event Identifier";
 
         Map<String, Object> inputParameters = new HashMap<String, Object>();
         inputParameters.put(CalendarConnector.CALENDAR_ID, calendarId);
         inputParameters.put(CalendarConnector.INPUT_ID, id);
-        spyDeleteEventConnector.setInputParameters(inputParameters);
+        connector.setInputParameters(inputParameters);
 
-        Calendar mockCalendarService = Mockito.mock(Calendar.class);
-        Calendar.Events mockedEvents = Mockito.mock(Calendar.Events.class);
-        Mockito.when(mockCalendarService.events()).thenReturn(mockedEvents);
+        Calendar.Events mockedEvents = mock(Calendar.Events.class);
 
-        Calendar.Events.Delete mockDeleteRequest = Mockito.mock(Calendar.Events.Delete.class);
-        Mockito.when(mockedEvents.delete(calendarId, id)).thenReturn(mockDeleteRequest);
+        Calendar.Events.Delete mockDeleteRequest = mock(Calendar.Events.Delete.class);
+        when(mockedEvents.delete(calendarId, id)).thenReturn(mockDeleteRequest);
 
-        Calendar.Events.Get mockGetRequest = Mockito.mock(Calendar.Events.Get.class);
-        Mockito.when(mockedEvents.get(calendarId, id)).thenReturn(mockGetRequest);
+        Calendar.Events.Get mockGetRequest = mock(Calendar.Events.Get.class);
+        when(mockedEvents.get(calendarId, id)).thenReturn(mockGetRequest);
 
         // When
-        spyDeleteEventConnector.doJobWithCalendar(mockCalendarService);
+        connector.doJobWithCalendarEvents(mockedEvents);
 
         // Then
-        Mockito.verify(mockedEvents).get(calendarId, id);
-        Mockito.verify(mockDeleteRequest).execute();
-        Mockito.verify(mockGetRequest).execute();
+        verify(mockDeleteRequest).execute();
+        verify(mockGetRequest).execute();
     }
 
 }

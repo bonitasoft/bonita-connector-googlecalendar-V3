@@ -35,10 +35,10 @@ public class CreateEventConnector extends BuildEventConnector {
     }
 
     @Override
-    protected void doJobWithCalendar(final Calendar calendarService) throws Exception {
+    protected void doJobWithCalendarEvents(final Calendar.Events events) throws Exception {
         final Event eventToInsert = new Event();
         buildEvent(eventToInsert);
-        final Insert insert = calendarService.events().insert(getCalendarId(), eventToInsert);
+        final Insert insert = events.insert(getCalendarId(), eventToInsert);
 
         setCommonInputs(insert);
         setSpecificInputs(insert);
