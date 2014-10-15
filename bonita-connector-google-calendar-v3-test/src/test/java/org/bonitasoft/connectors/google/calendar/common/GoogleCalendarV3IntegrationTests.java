@@ -188,7 +188,7 @@ public class GoogleCalendarV3IntegrationTests {
             ConnectorException {
         final Map<String, Object> updateInputParameters = new HashMap<String, Object>(getBasicInputParameters(calendarId));
         updateInputParameters.put(CalendarConnector.INPUT_ID, eventId);
-        updateInputParameters.put(BuildEventConnector.INTPUT_SUMMARY, updatedSummary);
+        updateInputParameters.put(BuildEventConnector.INPUT_SUMMARY, updatedSummary);
         final UpdateEventConnector updateConnector = new UpdateEventConnector();
         final Map<String, Object> updateOutputParameters = executeConnector(updateConnector, updateInputParameters, PRINT_OUTPUT);
         final Event updatedEvent = (Event) updateOutputParameters.get(UpdateEventConnector.OUTPUT_EVENT);
@@ -198,10 +198,10 @@ public class GoogleCalendarV3IntegrationTests {
     protected Event createEvent(final String calendarId, final String summary) throws ConnectorValidationException, ConnectorException {
         final String currentDay = getCurrentDay();
         final Map<String, Object> createInputParameters = new HashMap<String, Object>(getBasicInputParameters(calendarId));
-        createInputParameters.put(CreateEventConnector.INTPUT_START_DATE, currentDay);
-        createInputParameters.put(CreateEventConnector.INTPUT_END_DATE, currentDay);
-        createInputParameters.put(CreateEventConnector.INTPUT_ALL_DAY, true);
-        createInputParameters.put(CreateEventConnector.INTPUT_SUMMARY, summary);
+        createInputParameters.put(CreateEventConnector.INPUT_START_DATE, currentDay);
+        createInputParameters.put(CreateEventConnector.INPUT_END_DATE, currentDay);
+        createInputParameters.put(CreateEventConnector.INPUT_ALL_DAY, true);
+        createInputParameters.put(CreateEventConnector.INPUT_SUMMARY, summary);
         final CreateEventConnector createEventConnector = new CreateEventConnector();
         final Map<String, Object> createOutputParameters = executeConnector(createEventConnector, createInputParameters, PRINT_OUTPUT);
         final Event createdEvent = (Event) createOutputParameters.get(CreateEventConnector.OUTPUT_EVENT);
