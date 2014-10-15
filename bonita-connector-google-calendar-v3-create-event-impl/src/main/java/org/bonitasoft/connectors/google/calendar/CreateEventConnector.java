@@ -39,16 +39,21 @@ public class CreateEventConnector extends BuildEventConnector {
         final Event eventToInsert = new Event();
         buildEvent(eventToInsert);
         final Insert insert = calendarService.events().insert(getCalendarId(), eventToInsert);
-        if (getMaxAttendees() != null) {
-            insert.setMaxAttendees(getMaxAttendees());
-        }
+
         setCommonInputs(insert);
-        if (getSendNotifications() != null) {
-            insert.setSendNotifications(getSendNotifications());
-        }
+        setSpecificInputs(insert);
 
         final Event insertedEvent = insert.execute();
 
         setOutputParameters(insertedEvent);
+    }
+
+    private void setSpecificInputs(Insert insert) {
+        if (getMaxAttendees() != null) {
+            insert.setMaxAttendees(getMaxAttendees());
+        }
+        if (getSendNotifications() != null) {
+            insert.setSendNotifications(getSendNotifications());
+        }
     }
 }
