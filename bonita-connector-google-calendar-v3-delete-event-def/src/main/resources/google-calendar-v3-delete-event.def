@@ -43,6 +43,7 @@
       <widget id="serviceAccountP12File" inputName="serviceAccountP12File" xsi:type="definition:Text" />
       <widget id="serviceAccountUser" inputName="serviceAccountUser" xsi:type="definition:Text" />
       <widget id="optionalRequestParameters" optional="true" xsi:type="definition:Group">
+        <widget id="maxAttendees" inputName="maxAttendees" xsi:type="definition:Text" />
         <widget id="prettyPrint" inputName="prettyPrint" xsi:type="definition:Checkbox" />
       </widget>
     </page>
