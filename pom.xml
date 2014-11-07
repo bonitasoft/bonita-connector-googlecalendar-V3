@@ -1,10 +1,7 @@
-<!-- <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"> 
-    <modelVersion>4.0.0</modelVersion> <groupId>org.bonitasoft.connectors</groupId> 
-    <artifactId>bonita-connector-google-calendar-v3</artifactId> <version>6.3.2</version> 
-    <packaging>pom</packaging> </project> -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<!-- <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+    http://maven.apache.org/xsd/maven-4.0.0.xsd"> <modelVersion>4.0.0</modelVersion> <groupId>org.bonitasoft.connectors</groupId> <artifactId>bonita-connector-google-calendar-v3</artifactId> 
+    <version>6.3.2</version> <packaging>pom</packaging> </project> -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -40,12 +37,17 @@
 
     <dependencies>
         <dependency>
-            <!-- Latest Version of Bonita released, against which the initial 
-                development has been done. -->
+            <!-- Latest Version of Bonita released, against which the initial development has been done. -->
             <!-- The connector will be tested against more recent version -->
             <artifactId>bonita-common</artifactId>
             <groupId>org.bonitasoft.engine</groupId>
             <version>${bonita.engine.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
