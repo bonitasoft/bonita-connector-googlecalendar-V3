@@ -121,7 +121,7 @@ public abstract class BuildEventConnector extends CalendarConnector {
             // checks the start EventDateTime can be built properly
             try {
                 buildEventDateTime(getStartDate(), getStartTime(), getStartTimeZone());
-            } catch (ParseException e) {
+            } catch (final ParseException e) {
                 errors.add("Error while parsing start date: " + e.getMessage());
             }
         }
@@ -147,7 +147,7 @@ public abstract class BuildEventConnector extends CalendarConnector {
         if (getEndDate() != null) {
             try {
                 buildEventDateTime(getEndDate(), getEndTime(), getEndTimeZone());
-            } catch (ParseException e) {
+            } catch (final ParseException e) {
                 errors.add("Error while parsing end date: " + e.getMessage());
             }
         }
@@ -297,7 +297,7 @@ public abstract class BuildEventConnector extends CalendarConnector {
         try {
             simpleDateFormat.parse(stringToParse);
             return false;
-        } catch (ParseException e) {
+        } catch (final ParseException e) {
             return true;
         }
     }
@@ -450,10 +450,10 @@ public abstract class BuildEventConnector extends CalendarConnector {
         final List<List<Object>> inputPreferences = (List<List<Object>>) getInputParameter(INPUT_GADGET_PREFERENCES);
         final Map<String, String> result = new HashMap<String, String>();
         if (inputPreferences != null) {
-            for (List<Object> rows : inputPreferences) {
+            for (final List<Object> rows : inputPreferences) {
                 if (rows.size() == 2) {
-                    Object keyContent = rows.get(0);
-                    Object valueContent = rows.get(1);
+                    final Object keyContent = rows.get(0);
+                    final Object valueContent = rows.get(1);
                     if (keyContent != null && valueContent != null) {
                         final String key = keyContent.toString();
                         final String value = valueContent.toString();

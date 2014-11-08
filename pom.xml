@@ -22,7 +22,6 @@
 
     <modules>
         <module>bonita-connector-google-calendar-v3-common</module>
-        <module>bonita-connector-google-calendar-v3-test</module>
         <module>bonita-connector-google-calendar-v3-create-event-def</module>
         <module>bonita-connector-google-calendar-v3-create-event-impl</module>
         <module>bonita-connector-google-calendar-v3-get-event-def</module>
