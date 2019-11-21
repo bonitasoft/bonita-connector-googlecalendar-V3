@@ -17,7 +17,7 @@
 		<project.http.version>1.18.0-rc</project.http.version>
 		<project.oauth.version>1.18.0-rc</project.oauth.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<google.calendar.services.version>v3-rev401-1.25.0</google.calendar.services.version>
+		<google.calendar.services.verison>v3-rev364-1.25.0</google.calendar.services.verison>
 	</properties>
 
 
@@ -39,19 +39,8 @@
 		<dependency>
 			<groupId>com.google.apis</groupId>
 			<artifactId>google-api-services-calendar</artifactId>
-			<version>${google.calendar.services.version}</version>
+			<version>${google.calendar.services.verison}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.google.api-client</groupId>
-			<artifactId>google-api-client</artifactId>
-			<version>1.30.5</version>
-		</dependency>
-<!--		<dependency>
-			<groupId>com.google.oauth-client</groupId>
-			<artifactId>google-oauth-client-jetty</artifactId>
-			<version>1.30.4</version>
-		</dependency>-->
-
 		<dependency>
 			<groupId>com.google.http-client</groupId>
 			<artifactId>google-http-client-jackson2</artifactId>
