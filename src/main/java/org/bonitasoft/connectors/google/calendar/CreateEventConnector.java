@@ -21,16 +21,16 @@ public class CreateEventConnector extends BuildEventConnector {
         }
 
         // START DATE
-        if (getStartDate() == null) {
+        if (getStartDate() == null || getStartDate().isEmpty()) {
             errors.add("Start Date must be set.");
         }
-        checkStartDate();
+        errors.addAll(checkStartDate());
 
         // END DATE
-        if (getEndDate() == null) {
+        if (getEndDate() == null || getEndDate().isEmpty()) {
             errors.add("End Date must be set.");
         }
-        checkEndDate();
+        errors.addAll(checkEndDate());
         return errors;
     }
 

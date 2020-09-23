@@ -9,8 +9,10 @@
     <category id = "google-calendar-v3" icon = "google.png" parentCategoryId="calendar"/>
   	
     <input name = "applicationName" type="java.lang.String" defaultValue="MyCompany-ProductName/1.0" />
+    <input name = "authMode" type="java.lang.String" mandatory="true" defaultValue="JSON" />
     <input name = "serviceAccountId" type="java.lang.String" mandatory="true" defaultValue="xxxxx0@developer.gserviceaccount.com" />
-    <input name = "serviceAccountJsonToken" type="java.lang.String" mandatory="true"/>
+    <input name = "serviceAccountP12File" type="java.lang.String" defaultValue="/path_to_your_P12_folder/project_name-xxx.p12" />
+    <input name = "serviceAccountJsonToken" type="java.lang.String"/>
     <input name = "serviceAccountUser" type="java.lang.String" defaultValue="firstname.lastname@mycompany.com" />
     <input name = "calendarId" type="java.lang.String" mandatory="true" defaultValue="firstname.lastname@mycompany.com" />
     <input name = "maxAttendees" type="java.lang.String" />
@@ -18,7 +20,7 @@
     <input name = "id" type="java.lang.String" mandatory="true" />
     <input name = "timeZone" type="java.lang.String" />
     
-    <output name = "event" type="com.google.api.services.calendar.model.Event" />
+    <output name = "event" type="java.lang.String" />
     <output name = "etag" type="java.lang.String" />
     <output name = "hangoutLink" type="java.lang.String" />
     <output name = "htmlLink" type="java.lang.String" />
@@ -40,7 +42,12 @@
       <widget id="applicationName" inputName="applicationName" xsi:type="definition:Text" />
       <widget id="calendarId" inputName="calendarId" xsi:type="definition:Text" />
       <widget id="serviceAccountId" inputName="serviceAccountId" xsi:type="definition:Text" />
-      <widget id="serviceAccountJsonToken" inputName="serviceAccountJsonToken" xsi:type="definition:Text" />
+      <widget xsi:type="definition:RadioGroup" id="authMode" inputName="authMode">
+    	 <choices>JSON</choices>
+     	 <choices>P12</choices>
+      </widget>
+      <widget id="serviceAccountJsonToken" inputName="serviceAccountJsonToken" xsi:type="definition:TextArea" />
+      <widget id="serviceAccountP12File" inputName="serviceAccountP12File" xsi:type="definition:Text" />
       <widget id="serviceAccountUser" inputName="serviceAccountUser" xsi:type="definition:Text" />
       <widget id="optionalRequestParameters" optional="true" xsi:type="definition:Group">
         <widget id="prettyPrint" inputName="prettyPrint" xsi:type="definition:Checkbox" />
