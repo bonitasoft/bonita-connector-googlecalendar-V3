@@ -14,10 +14,10 @@
 
 	<properties>
 		<bonita.engine.version>7.8.0</bonita.engine.version>
-		<project.http.version>1.18.0-rc</project.http.version>
-		<project.oauth.version>1.18.0-rc</project.oauth.version>
+		<google-http-client-jackson2.version>1.36.0</google-http-client-jackson2.version>
+		<google-oauth-client-jetty.version>1.31.0</google-oauth-client-jetty.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<google.calendar.services.version>v3-rev401-1.25.0</google.calendar.services.version>
+		<google.calendar.services.version>v3-rev411-1.25.0</google.calendar.services.version>
 	</properties>
 
 
@@ -55,17 +55,12 @@
 		<dependency>
 			<groupId>com.google.http-client</groupId>
 			<artifactId>google-http-client-jackson2</artifactId>
-			<version>${project.http.version}</version>
+			<version>${google-http-client-jackson2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.oauth-client</groupId>
 			<artifactId>google-oauth-client-jetty</artifactId>
-			<version>${project.oauth.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<scope>provided</scope>
+			<version>${google-oauth-client-jetty.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
