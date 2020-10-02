@@ -110,26 +110,23 @@ public abstract class BuildEventConnector extends CalendarConnector {
 
     public static final String INPUT_ALL_DAY = "allDay";
 
-    private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd";
-
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_PATTERN);
-
-    private static final String TIME_FORMAT_PATTERN = "HH:ss";
-
-    private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat(TIME_FORMAT_PATTERN);
-
     private static final List<String> AVAILABLE_TZ_IDS = Arrays.asList(TimeZone.getAvailableIDs());
     
     private static final DateTimeFormatter RFC3339_FORMATTER = DateTimeFormatter
             .ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
             .withZone(ZoneId.of("UTC"));
+    
+    private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd";
+    private static final String TIME_FORMAT_PATTERN = "HH:ss";
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN);
+    private final SimpleDateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT_PATTERN);
 
     protected List<String> checkStartDate() {
         final List<String> errors = new ArrayList<String>();
-        if (getStartDate() != null && isDateFormatKO(DATE_FORMAT, getStartDate())) {
+        if (getStartDate() != null && isDateFormatKO(dateFormat, getStartDate())) {
             errors.add("Start Date format is wrong. It must be like " + DATE_FORMAT_PATTERN + " and it is now: " + getStartDate());
         }
-        if (getStartTime() != null && isDateFormatKO(TIME_FORMAT, getStartTime())) {
+        if (getStartTime() != null && isDateFormatKO(timeFormat, getStartTime())) {
             errors.add("Start Time format is wrong. It must be like " + TIME_FORMAT_PATTERN + " and it is now: " + getStartTime());
         }
         if (getStartTime() != null && (getStartTimeZone() == null || getStartTimeZone().isEmpty())) {
@@ -155,10 +152,10 @@ public abstract class BuildEventConnector extends CalendarConnector {
 
     protected List<String> checkEndDate() {
         final List<String> errors = new ArrayList<String>();
-        if (getEndDate() != null && isDateFormatKO(DATE_FORMAT, getEndDate())) {
+        if (getEndDate() != null && isDateFormatKO(dateFormat, getEndDate())) {
             errors.add("End Date format is wrong. It must be like " + DATE_FORMAT_PATTERN + " and it is now: " + getEndDate());
         }
-        if (getEndTime() != null && isDateFormatKO(TIME_FORMAT, getEndTime())) {
+        if (getEndTime() != null && isDateFormatKO(timeFormat, getEndTime())) {
             errors.add("End Time format is wrong. It must be like " + TIME_FORMAT_PATTERN + " and it is now: " + getEndTime());
         }
         if (getEndTime() != null && (getEndTimeZone() == null || getEndTimeZone().isEmpty())) {
