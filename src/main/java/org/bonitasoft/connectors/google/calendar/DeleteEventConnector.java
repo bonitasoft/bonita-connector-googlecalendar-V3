@@ -17,10 +17,12 @@
  */
 package org.bonitasoft.connectors.google.calendar;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bonitasoft.connectors.google.calendar.common.CalendarConnector;
+import org.bonitasoft.engine.connector.ConnectorException;
 
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.Calendar.Events.Delete;
@@ -31,27 +33,26 @@ public class DeleteEventConnector extends CalendarConnector {
 
     @Override
     protected List<String> checkParameters() {
-        final List<String> errors = new ArrayList<String>();
+        final List<String> errors = new ArrayList<>();
         ensureIdInputIsSpecified(errors);
         return errors;
     }
 
     @Override
-    protected void doJobWithCalendarEvents(final Calendar.Events events) throws Exception {
-        final Get get = events.get(getCalendarId(), getId());
-
-        setCommonInputs(get);
-        if (getMaxAttendees() != null) {
-            get.setMaxAttendees(getMaxAttendees());
+    protected void doJobWithCalendarEvents(final Calendar.Events events) throws ConnectorException {
+        try {
+            Get get = events.get(getCalendarId(), getId());
+            setCommonInputs(get);
+            if (getMaxAttendees() != null) {
+                get.setMaxAttendees(getMaxAttendees());
+            }
+            final Event event = get.execute();
+            final Delete delete = events.delete(getCalendarId(), getId());
+            delete.execute();
+            setOutputParameters(event);
+        } catch (IOException e) {
+            throw new ConnectorException(e);
         }
-
-        final Event event = get.execute();
-
-        final Delete delete = events.delete(getCalendarId(), getId());
-
-        delete.execute();
-
-        setOutputParameters(event);
     }
 
 }
