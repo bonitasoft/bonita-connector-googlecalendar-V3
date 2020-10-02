@@ -85,6 +85,22 @@ public abstract class CalendarConnector extends AbstractConnector {
     @Override
     public void validateInputParameters() throws ConnectorValidationException {
         final List<String> errors = new ArrayList<String>();
+        validateAuthenticationInputs(errors);
+
+        if (getServiceAccountId() == null || getServiceAccountId().isEmpty()) {
+            errors.add("Service Account ID must be set.");
+        }
+
+        if (getCalendarId() == null || getCalendarId().isEmpty()) {
+            errors.add("CalendarId must be set.");
+        }
+        errors.addAll(checkParameters());
+        if (!errors.isEmpty()) {
+            throw new ConnectorValidationException(this, errors);
+        }
+    }
+
+    private void validateAuthenticationInputs(final List<String> errors) throws ConnectorValidationException {
         if (getAuthMode() == null) {
             throw new ConnectorValidationException(this, "Authentication mode must be set.");
         } else {
@@ -93,45 +109,32 @@ public abstract class CalendarConnector extends AbstractConnector {
             } catch (IllegalArgumentException e) {
                 throw new ConnectorValidationException(this, "Supported authentication mode are: "
                         + Stream.of(AuthMode.values())
-                        .map(AuthMode::name)
-                        .collect(Collectors.joining(", ")));
-            }
-        }
-        
-        if (getServiceAccountId() == null) {
-            errors.add("Service Account ID must be set.");
-        } else if (getServiceAccountId().isEmpty()) {
-            errors.add("Service Account ID must not be an empty String.");
-        }
-        
-        AuthMode authMode = AuthMode.valueOf(getAuthMode());
-        if(authMode == AuthMode.P12) {
-            if (getServiceAccountP12File() == null || getServiceAccountP12File().isEmpty()){
-                errors.add("A Service Account credential using a p12 file (legacy) must be set.");
-            }else {
-                final File p12File = new File(getServiceAccountP12File());
-                if (!p12File.exists()) {
-                    errors.add(
-                            "Service Account P12 File refers to a non existing file: " + getServiceAccountP12File() + ".");
-                } else if (p12File.isDirectory()) {
-                    errors.add("Service Account P12 File refers to a directory and not a file: "
-                            + getServiceAccountP12File() + ".");
-                }
-            }
-            
-        }else if(authMode == AuthMode.JSON) {
-            if (getServiceAccountJsonToken() == null || getServiceAccountJsonToken().isEmpty()){
-                errors.add("A Service Account credential using a Json token must be set.");
+                                .map(AuthMode::name)
+                                .collect(Collectors.joining(", ")));
             }
         }
 
-        // CALENDAR ID
-        if (getCalendarId() == null) {
-            errors.add("CalendarId must be set.");
+        AuthMode authMode = AuthMode.valueOf(getAuthMode());
+        if (authMode == AuthMode.P12) {
+            validateP12AuthInputs(errors);
+        } else if (authMode == AuthMode.JSON
+                && (getServiceAccountJsonToken() == null || getServiceAccountJsonToken().isEmpty())) {
+            errors.add("A Service Account credential using a Json token must be set.");
         }
-        errors.addAll(checkParameters());
-        if (!errors.isEmpty()) {
-            throw new ConnectorValidationException(this, errors);
+    }
+
+    private void validateP12AuthInputs(final List<String> errors) {
+        if (getServiceAccountP12File() == null || getServiceAccountP12File().isEmpty()) {
+            errors.add("A Service Account credential using a p12 file (legacy) must be set.");
+        } else {
+            final File p12File = new File(getServiceAccountP12File());
+            if (!p12File.exists()) {
+                errors.add(
+                        "Service Account P12 File refers to a non existing file: " + getServiceAccountP12File() + ".");
+            } else if (p12File.isDirectory()) {
+                errors.add("Service Account P12 File refers to a directory and not a file: "
+                        + getServiceAccountP12File() + ".");
+            }
         }
     }
 
@@ -144,13 +147,15 @@ public abstract class CalendarConnector extends AbstractConnector {
                 HttpRequestInitializer requestInitializer = null;
                 if (authMode == AuthMode.JSON) {
                     // Load client secrets.
-                    InputStream jsonTokenStream = new ByteArrayInputStream(getServiceAccountJsonToken().getBytes());
-                    requestInitializer = new HttpCredentialsAdapter(
-                            ServiceAccountCredentials.fromStream(jsonTokenStream)
-                                    .toBuilder()
-                                    .setServiceAccountUser(getServiceAccountUser())
-                                    .build()
-                                    .createScoped(CalendarScopes.CALENDAR));
+                    try (InputStream jsonTokenStream = new ByteArrayInputStream(
+                            getServiceAccountJsonToken().getBytes())) {
+                        requestInitializer = new HttpCredentialsAdapter(
+                                ServiceAccountCredentials.fromStream(jsonTokenStream)
+                                        .toBuilder()
+                                        .setServiceAccountUser(getServiceAccountUser())
+                                        .build()
+                                        .createScoped(CalendarScopes.CALENDAR));
+                    }
                 } else if (authMode == AuthMode.P12) {
                     requestInitializer = new GoogleCredential.Builder()
                             .setTransport(HTTP_TRANSPORT)
@@ -180,7 +185,7 @@ public abstract class CalendarConnector extends AbstractConnector {
         }
     }
 
-    protected abstract void doJobWithCalendarEvents(final Calendar.Events events) throws Exception;
+    protected abstract void doJobWithCalendarEvents(final Calendar.Events events) throws ConnectorException;
 
     protected abstract List<String> checkParameters();
 

@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.data.MapEntry;
+import org.bonitasoft.engine.connector.ConnectorException;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +39,7 @@ class CalendarConnectorTest {
     private class DoNothingCalendarConnector extends CalendarConnector {
 
         @Override
-        protected void doJobWithCalendarEvents(Calendar.Events events) throws Exception {
+        protected void doJobWithCalendarEvents(Calendar.Events events) throws ConnectorException {
         }
 
         @Override

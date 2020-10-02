@@ -48,8 +48,8 @@ public class DefaultConnectorConfiguration {
         inputParameters.put(BuildEventConnector.INPUT_SEQUENCE, 42);
         inputParameters.put(BuildEventConnector.INPUT_SOURCE_TITLE, "Source Title");
         inputParameters.put(BuildEventConnector.INPUT_STATUS, "OK");
-        inputParameters.put(BuildEventConnector.INPUT_TRANSPARENCY, EventTransparency.TRANSPARENT);
-        inputParameters.put(BuildEventConnector.INPUT_VISIBILITY, EventVisibility.TENTATIVE);
+        inputParameters.put(BuildEventConnector.INPUT_TRANSPARENCY, "transparent");
+        inputParameters.put(BuildEventConnector.INPUT_VISIBILITY, "tentative");
         inputParameters.put(BuildEventConnector.INPUT_ORIGINAL_START_DATE, "2014-12-31");
         inputParameters.put(BuildEventConnector.INPUT_ORIGINAL_START_TIME, "00:00");
         inputParameters.put(BuildEventConnector.INPUT_ORIGINAL_START_TIME_ZONE, TimeZone.getDefault().getID());

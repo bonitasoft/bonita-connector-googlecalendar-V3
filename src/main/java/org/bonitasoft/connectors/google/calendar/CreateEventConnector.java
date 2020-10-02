@@ -17,10 +17,13 @@
  */
 package org.bonitasoft.connectors.google.calendar;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bonitasoft.connectors.google.calendar.common.BuildEventConnector;
+import org.bonitasoft.engine.connector.ConnectorException;
 
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.Calendar.Events.Insert;
@@ -52,17 +55,18 @@ public class CreateEventConnector extends BuildEventConnector {
     }
 
     @Override
-    protected void doJobWithCalendarEvents(final Calendar.Events events) throws Exception {
+    protected void doJobWithCalendarEvents(final Calendar.Events events) throws ConnectorException {
         final Event eventToInsert = new Event();
-        buildEvent(eventToInsert);
-        final Insert insert = events.insert(getCalendarId(), eventToInsert);
-
-        setCommonInputs(insert);
-        setSpecificInputs(insert);
-
-        final Event insertedEvent = insert.execute();
-
-        setOutputParameters(insertedEvent);
+        try {
+            buildEvent(eventToInsert);
+            final Insert insert = events.insert(getCalendarId(), eventToInsert);
+            setCommonInputs(insert);
+            setSpecificInputs(insert);
+            final Event insertedEvent = insert.execute();
+            setOutputParameters(insertedEvent);
+        } catch (ParseException | IOException e) {
+            throw new ConnectorException(e);
+        }
     }
 
     private void setSpecificInputs(Insert insert) {

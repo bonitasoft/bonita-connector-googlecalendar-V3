@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import org.assertj.core.api.Assertions;
+import org.bonitasoft.engine.connector.ConnectorException;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +44,7 @@ class BuildEventConnectorTest {
 
     private class DoNothingBuildEventCalendarConnector extends BuildEventConnector {
         @Override
-        protected void doJobWithCalendarEvents(Calendar.Events events) throws Exception {
+        protected void doJobWithCalendarEvents(Calendar.Events events) throws ConnectorException {
 
         }
 

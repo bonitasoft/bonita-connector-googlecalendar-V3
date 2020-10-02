@@ -17,16 +17,17 @@
  */
 package org.bonitasoft.connectors.google.calendar;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.TimeZone;
 
 import org.bonitasoft.connectors.google.calendar.common.CalendarConnector;
+import org.bonitasoft.engine.connector.ConnectorException;
 
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.Calendar.Events.Get;
-import com.google.api.services.calendar.model.Event;
 
 public class GetEventConnector extends CalendarConnector {
 
@@ -48,16 +49,15 @@ public class GetEventConnector extends CalendarConnector {
     }
 
     @Override
-    protected void doJobWithCalendarEvents(final Calendar.Events events) throws Exception {
-        final Get get = events.get(getCalendarId(), getId());
-
-        setCommonInputs(get);
-        setSpecificOptionalInputs(get);
-
-        final Event event = get.execute();
-
-        setOutputParameters(event);
-
+    protected void doJobWithCalendarEvents(final Calendar.Events events) throws ConnectorException {
+        try {
+            Get get = events.get(getCalendarId(), getId());
+            setCommonInputs(get);
+            setSpecificOptionalInputs(get);
+            setOutputParameters(get.execute());
+        } catch (IOException e) {
+            throw new ConnectorException(e);
+        }
     }
 
     private void setSpecificOptionalInputs(Get get) {

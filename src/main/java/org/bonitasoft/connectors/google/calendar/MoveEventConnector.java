@@ -17,14 +17,15 @@
  */
 package org.bonitasoft.connectors.google.calendar;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bonitasoft.connectors.google.calendar.common.CalendarConnector;
+import org.bonitasoft.engine.connector.ConnectorException;
 
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.Calendar.Events.Move;
-import com.google.api.services.calendar.model.Event;
 
 public class MoveEventConnector extends CalendarConnector {
 
@@ -41,16 +42,17 @@ public class MoveEventConnector extends CalendarConnector {
     }
 
     @Override
-    protected void doJobWithCalendarEvents(final Calendar.Events events) throws Exception {
-        final Move move = events.move(getCalendarId(), getId(), getDestCalendarId());
-
-        setCommonInputs(move);
-        if (getSendNotifications() != null) {
-            move.setSendNotifications(getSendNotifications());
+    protected void doJobWithCalendarEvents(final Calendar.Events events) throws ConnectorException {
+        try {
+            final Move move = events.move(getCalendarId(), getId(), getDestCalendarId());
+            setCommonInputs(move);
+            if (getSendNotifications() != null) {
+                move.setSendNotifications(getSendNotifications());
+            }
+            setOutputParameters(move.execute());
+        } catch (IOException e) {
+            throw new ConnectorException(e);
         }
-
-        final Event movedEvent = move.execute();
-        setOutputParameters(movedEvent);
     }
 
     private String getDestCalendarId() {

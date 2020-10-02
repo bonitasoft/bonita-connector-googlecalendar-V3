@@ -41,81 +41,49 @@ import com.google.api.services.calendar.model.EventReminder;
 public abstract class BuildEventConnector extends CalendarConnector {
 
     public static final String INPUT_START_TIME = "startTime";
-
     public static final String INPUT_SOURCE_URL = "sourceUrl";
-
     public static final String INPUT_SOURCE_TITLE = "sourceTitle";
-
     public static final String INPUT_REMINDER_USE_DEFAULT = "reminderUseDefault";
-
     public static final String INPUT_REMINDER_OVERRIDES = "reminderOverrides";
-
     public static final String INPUT_RECURRENCE = "recurrence";
-
     public static final String INPUT_ORIGINAL_START_TIME_ZONE = "originalStartTimeZone";
-
     public static final String INPUT_ORIGINAL_START_TIME = "originalStartTime";
-
     public static final String INPUT_LOCATION = "location";
-
     public static final String INPUT_GUESTS_CAN_SEE_OTHER_GUESTS = "guestsCanSeeOtherGuests";
-
     public static final String INPUT_GUESTS_CAN_INVITE_OTHERS = "guestsCanInviteOthers";
-
     public static final String INPUT_GADGET_WIDTH = "gadgetWidth";
-
     public static final String INPUT_GADGET_TYPE = "gadgetType";
-
     public static final String INPUT_GADGET_TITLE = "gadgetTitle";
-
     public static final String INPUT_GADGET_ICON_LINK = "gadgetIconLink";
-
     public static final String INPUT_SEQUENCE = "sequence";
-
     public static final String INPUT_ORIGINAL_START_DATE = "originalStartDate";
-
     public static final String INPUT_GADGET_LINK = "gadgetLink";
-
     public static final String INPUT_GADGET_HEIGHT = "gadgetHeight";
-
     public static final String INPUT_START_TIME_ZONE = "startTimeZone";
-
     public static final String INPUT_STATUS = "status";
-
     public static final String INPUT_SUMMARY = "summary";
-
     public static final String INPUT_TRANSPARENCY = "transparency";
-
     public static final String INPUT_GADGET_DISPLAY = "gadgetDisplay";
-
     public static final String INPUT_GADGET_PREFERENCES = "gadgetPreferences";
-
     public static final String INPUT_VISIBILITY = "visibility";
-
     public static final String INPUT_END_TIME_ZONE = "endTimeZone";
-
     public static final String INPUT_END_TIME = "endTime";
-
     public static final String INPUT_DESCRIPTION = "description";
-
     public static final String INPUT_COLOR_ID = "colorId";
-
     public static final String INPUT_ATTENDEES_EMAILS = "attendeesEmails";
-
     public static final String INPUT_ANYONE_CAN_ADD_SELF = "anyoneCanAddSelf";
-
     public static final String INPUT_END_DATE = "endDate";
-
     public static final String INPUT_START_DATE = "startDate";
-
     public static final String INPUT_ALL_DAY = "allDay";
 
     private static final List<String> AVAILABLE_TZ_IDS = Arrays.asList(TimeZone.getAvailableIDs());
-    
+
     private static final DateTimeFormatter RFC3339_FORMATTER = DateTimeFormatter
             .ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
             .withZone(ZoneId.of("UTC"));
-    
+
+    private static final String DATE_TIME_FORMAT_ERROR_PATTERN = "%s format is invalid. It must be like %s and it is now %s";
+
     private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd";
     private static final String TIME_FORMAT_PATTERN = "HH:ss";
     private final SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN);
@@ -124,21 +92,28 @@ public abstract class BuildEventConnector extends CalendarConnector {
     protected List<String> checkStartDate() {
         final List<String> errors = new ArrayList<String>();
         if (getStartDate() != null && isDateFormatKO(dateFormat, getStartDate())) {
-            errors.add("Start Date format is wrong. It must be like " + DATE_FORMAT_PATTERN + " and it is now: " + getStartDate());
+            errors.add(String.format(DATE_TIME_FORMAT_ERROR_PATTERN,
+                    "Start Date",
+                    DATE_FORMAT_PATTERN,
+                    getStartDate()));
         }
         if (getStartTime() != null && isDateFormatKO(timeFormat, getStartTime())) {
-            errors.add("Start Time format is wrong. It must be like " + TIME_FORMAT_PATTERN + " and it is now: " + getStartTime());
+            errors.add(String.format(DATE_TIME_FORMAT_ERROR_PATTERN,
+                    "Start Time",
+                    TIME_FORMAT_PATTERN,
+                    getStartTime()));
         }
         if (getStartTime() != null && (getStartTimeZone() == null || getStartTimeZone().isEmpty())) {
             errors.add("Start Timezone must be specified when Start Time is specified");
             return errors;
         }
         if (getStartTimeZone() != null && !AVAILABLE_TZ_IDS.contains(getStartTimeZone())) {
-            errors.add("Specified Start Timezone is not supported. It is now: " + getStartTimeZone() + " and should be one of: "
+            errors.add("Specified Start Timezone is not supported. It is now: " + getStartTimeZone()
+                    + " and should be one of: "
                     + AVAILABLE_TZ_IDS.toString());
             return errors;
         }
- 
+
         if (getStartDate() != null) {
             // checks the start EventDateTime can be built properly
             try {
@@ -153,17 +128,18 @@ public abstract class BuildEventConnector extends CalendarConnector {
     protected List<String> checkEndDate() {
         final List<String> errors = new ArrayList<String>();
         if (getEndDate() != null && isDateFormatKO(dateFormat, getEndDate())) {
-            errors.add("End Date format is wrong. It must be like " + DATE_FORMAT_PATTERN + " and it is now: " + getEndDate());
+            errors.add(String.format(DATE_TIME_FORMAT_ERROR_PATTERN,"End Date", DATE_FORMAT_PATTERN ,getEndDate()));
         }
         if (getEndTime() != null && isDateFormatKO(timeFormat, getEndTime())) {
-            errors.add("End Time format is wrong. It must be like " + TIME_FORMAT_PATTERN + " and it is now: " + getEndTime());
+            errors.add(String.format(DATE_TIME_FORMAT_ERROR_PATTERN,"End Time", TIME_FORMAT_PATTERN ,getEndTime()));
         }
         if (getEndTime() != null && (getEndTimeZone() == null || getEndTimeZone().isEmpty())) {
             errors.add("End Timezone must be specified when End Time is specified");
             return errors;
         }
         if (getEndTimeZone() != null && !AVAILABLE_TZ_IDS.contains(getEndTimeZone())) {
-            errors.add("Specified End Timezone is not supported. It is now: " + getEndTimeZone() + " and should be one of: "
+            errors.add("Specified End Timezone is not supported. It is now: " + getEndTimeZone()
+                    + " and should be one of: "
                     + AVAILABLE_TZ_IDS.toString());
             return errors;
         }
@@ -249,7 +225,8 @@ public abstract class BuildEventConnector extends CalendarConnector {
             event.setVisibility(getVisibility());
         }
         if (getOriginalStartDate() != null) {
-            event.setOriginalStartTime(buildEventDateTime(getOriginalStartDate(), getOriginalStartTime(), getOriginalStartTimeZone()));
+            event.setOriginalStartTime(
+                    buildEventDateTime(getOriginalStartDate(), getOriginalStartTime(), getOriginalStartTimeZone()));
         }
         if (getRecurrence() != null) {
             event.setRecurrence(getRecurrence());
@@ -295,11 +272,12 @@ public abstract class BuildEventConnector extends CalendarConnector {
         final int day = Integer.valueOf(date.substring(8, 10));
         final int hours = Integer.valueOf(time.substring(0, 2));
         final int minutes = Integer.valueOf(time.substring(3, 5));
-        
-        return ZonedDateTime.of(year, month, day, hours, minutes, 0, 0,zoneId);
+
+        return ZonedDateTime.of(year, month, day, hours, minutes, 0, 0, zoneId);
     }
 
-    protected EventDateTime buildEventDateTime(final String date, final String dateTime, final String timeZone) throws ParseException {
+    protected EventDateTime buildEventDateTime(final String date, final String dateTime, final String timeZone)
+            throws ParseException {
         final EventDateTime edt = new EventDateTime();
         if (getAllDay() != null && getAllDay()) {
             edt.setDate(new DateTime(date));
