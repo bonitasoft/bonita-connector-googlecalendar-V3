@@ -75,7 +75,7 @@
 		<license-maven-plugin.version>4.0.rc2</license-maven-plugin.version>
 
 		<!-- Sonar -->
-		<sonar.projectKey>bonitasoft_bonita-connector-google-calendar-v3</sonar.projectKey>
+		<sonar.projectKey>bonitasoft_bonita-connector-googlecalendar-V3</sonar.projectKey>
 		<sonar.organization>bonitasoft</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
