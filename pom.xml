@@ -6,6 +6,27 @@
 	<groupId>org.bonitasoft.connectors</groupId>
 	<artifactId>bonita-connector-google-calendar-v3</artifactId>
 	<version>1.1.0-SNAPSHOT</version>
+	
+	<name>Google Calendar v3 Connector</name>
+	<description>Google Calendar v3 for Bonita</description>
+	<url>https://www.bonitasoft.com</url>
+
+	<developers>
+		<developer>
+			<id>bonitasoft</id>
+			<name>Bonitasoft</name>
+			<email>rd.user@bonitasoft.com</email>
+			<organization>Bonitasoft</organization>
+			<organizationUrl>https://www.bonitasoft.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>GPL-v2.0</name>
+			<url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+		</license>
+	</licenses>
 
 	<properties>
 		<!-- Maven -->
