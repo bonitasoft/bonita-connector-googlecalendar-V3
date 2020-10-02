@@ -1,22 +1,44 @@
+/*
+ * Copyright (C) 2009 - 2020 Bonitasoft S.A.
+ * Bonitasoft, 32 rue Gustave Eiffel - 38000 Grenoble
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2.0 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package org.bonitasoft.connectors.google.calendar.common;
-
-import com.google.api.services.calendar.Calendar;
-import com.google.api.services.calendar.model.Event;
-import org.assertj.core.api.Assertions;
-import org.bonitasoft.engine.connector.ConnectorValidationException;
-import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
+
+import org.assertj.core.api.Assertions;
+import org.bonitasoft.engine.connector.ConnectorValidationException;
+import org.junit.jupiter.api.Test;
+
+import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.model.Event;
 
 /**
  * Created by Nicolas Chabanoles on 14/10/14.
  */
-public class BuildEventConnectorTest {
+class BuildEventConnectorTest {
 
 
     private class DoNothingBuildEventCalendarConnector extends BuildEventConnector {
@@ -32,7 +54,7 @@ public class BuildEventConnectorTest {
     }
 
     @Test
-    public void should_have_timezone_set_if_startDate_and_endDate_are_set() throws ConnectorValidationException {
+    void should_have_timezone_set_if_startDate_and_endDate_are_set() throws ConnectorValidationException {
         // Given
         BuildEventConnector connector = new DoNothingBuildEventCalendarConnector();
 
@@ -49,7 +71,7 @@ public class BuildEventConnectorTest {
 
 
     @Test
-    public void should_getDate_parse_date_according_to_timezone() {
+    void should_getDate_parse_date_according_to_timezone() {
         // Given
         BuildEventConnector connector = new DoNothingBuildEventCalendarConnector();
         ZoneId tz = ZoneId.of("America/Los_Angeles");
@@ -67,7 +89,7 @@ public class BuildEventConnectorTest {
     }
 
     @Test
-    public void should_buildEvent_use_input_parameters() throws Exception {
+    void should_buildEvent_use_input_parameters() throws Exception {
 
         // Given
         BuildEventConnector connector = new DoNothingBuildEventCalendarConnector();

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definition:ConnectorDefinition xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <id>google-calendar-v3-create-event</id>
-    <version>1.1.0</version>
+    <id>${google-calendar-v3-update-event.def.id}</id>
+    <version>${google-calendar-v3-update-event.def.version}</version>
     <icon>google.png</icon>
   	
     <category id = "calendar" icon = "calendar.png" />
@@ -18,13 +18,13 @@
     <input name = "maxAttendees" type="java.lang.Integer" />
     <input name = "sendNotifications" type="java.lang.Boolean" />
     <input name = "prettyPrint" type="java.lang.Boolean" />
-    <input name = "startDate" type="java.lang.String" mandatory="true" />
+    <input name = "startDate" type="java.lang.String" />
     <input name = "startTime" type="java.lang.String" />
     <input name = "startTimeZone" type="java.lang.String" />
-    <input name = "endDate" type="java.lang.String"  mandatory="true" />
+    <input name = "endDate" type="java.lang.String"  />
     <input name = "endTime" type="java.lang.String" />
     <input name = "endTimeZone" type="java.lang.String" />
-    <input name = "allDay" type="java.lang.Boolean" mandatory="true" />
+    <input name = "allDay" type="java.lang.Boolean" />
     <input name = "description" type="java.lang.String" />
     <input name = "location" type="java.lang.String" />
     <input name = "summary" type="java.lang.String" />
@@ -41,7 +41,7 @@
     <input name = "gadgetWidth" type="java.lang.Integer" />
     <input name = "guestsCanInviteOthers" type="java.lang.Boolean" />
     <input name = "guestsCanSeeOtherGuests" type="java.lang.Boolean" />
-    <input name = "id" type="java.lang.String" />
+    <input name = "id" type="java.lang.String" mandatory="true" />
     <input name = "originalStartDate" type="java.lang.String" />
     <input name = "originalStartTime" type="java.lang.String" />
     <input name = "originalStartTimeZone" type="java.lang.String" />
@@ -72,7 +72,7 @@
     <output name = "guestsCanInviteOthers" type="java.lang.Boolean" />
     <output name = "guestsCanModify" type="java.lang.Boolean" />
     <output name = "guestsCanSeeOtherGuests" type="java.lang.Boolean" />
-  	
+
     <page id = "connection">
       <widget id="applicationName" inputName="applicationName" xsi:type="definition:Text" />
       <widget id="calendarId" inputName="calendarId" xsi:type="definition:Text" />
@@ -85,12 +85,13 @@
       <widget id="serviceAccountP12File" inputName="serviceAccountP12File" xsi:type="definition:Text" />
       <widget id="serviceAccountUser" inputName="serviceAccountUser" xsi:type="definition:Text" />
       <widget id="optionalRequestParameters" optional="true" xsi:type="definition:Group">
-      <widget id="maxAttendees" inputName="maxAttendees" xsi:type="definition:Text" />
-      <widget id="prettyPrint" inputName="prettyPrint" xsi:type="definition:Checkbox" />
+        <widget id="maxAttendees" inputName="maxAttendees" xsi:type="definition:Text" />
+        <widget id="prettyPrint" inputName="prettyPrint" xsi:type="definition:Checkbox" />
       </widget>
     </page>
     
     <page id = "main">
+      <widget id="id" inputName="id" xsi:type="definition:Text" />
       <widget id="summary" inputName="summary" xsi:type="definition:Text" />
       <widget id="location" inputName="location" xsi:type="definition:Text" />
       <widget id="description" inputName="description" xsi:type="definition:TextArea" />
@@ -122,7 +123,6 @@
     
     <page id = "extra2">
       <widget id="colorId" inputName="colorId" xsi:type="definition:Text" />
-      <widget id="id" inputName="id" xsi:type="definition:Text" />
       <widget id="sequence" inputName="sequence" xsi:type="definition:Text" />
       <widget id="reminders" optional="true" xsi:type="definition:Group">
         <widget id="reminderUseDefault" inputName="reminderUseDefault" xsi:type="definition:Checkbox" />

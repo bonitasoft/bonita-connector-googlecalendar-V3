@@ -3,21 +3,81 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<artifactId>bonita-connectors</artifactId>
-		<groupId>org.bonitasoft.connectors</groupId>
-		<version>1.0.0</version>
-	</parent>
-
+	<groupId>org.bonitasoft.connectors</groupId>
 	<artifactId>bonita-connector-google-calendar-v3</artifactId>
 	<version>1.1.0-SNAPSHOT</version>
 
 	<properties>
+		<!-- Maven -->
+		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<maven.build.timestamp.format>yyyy.MM.dd-hh.mm</maven.build.timestamp.format>
+		
+		<!-- Connectors -->
+		<google-calendar-v3-create-event.def.id>google-calendar-v3-create-event</google-calendar-v3-create-event.def.id>
+		<google-calendar-v3-create-event.def.version>1.1.0</google-calendar-v3-create-event.def.version>
+		<google-calendar-v3-create-event.impl.id>${google-calendar-v3-create-event.def.id}-impl</google-calendar-v3-create-event.impl.id>
+		<google-calendar-v3-create-event.impl.version>${project.version}</google-calendar-v3-create-event.impl.version>
+		<google-calendar-v3-create-event.main-class>org.bonitasoft.connectors.google.calendar.CreateEventConnector</google-calendar-v3-create-event.main-class>
+		
+		<google-calendar-v3-delete-event.def.id>google-calendar-v3-delete-event</google-calendar-v3-delete-event.def.id>
+		<google-calendar-v3-delete-event.def.version>1.1.0</google-calendar-v3-delete-event.def.version>
+		<google-calendar-v3-delete-event.impl.id>${google-calendar-v3-delete-event.def.id}-impl</google-calendar-v3-delete-event.impl.id>
+		<google-calendar-v3-delete-event.impl.version>${project.version}</google-calendar-v3-delete-event.impl.version>
+		<google-calendar-v3-delete-event.main-class>org.bonitasoft.connectors.google.calendar.DeleteEventConnector</google-calendar-v3-delete-event.main-class>
+		
+		<google-calendar-v3-get-event.def.id>google-calendar-v3-get-event</google-calendar-v3-get-event.def.id>
+		<google-calendar-v3-get-event.def.version>1.1.0</google-calendar-v3-get-event.def.version>
+		<google-calendar-v3-get-event.impl.id>${google-calendar-v3-get-event.def.id}-impl</google-calendar-v3-get-event.impl.id>
+		<google-calendar-v3-get-event.impl.version>${project.version}</google-calendar-v3-get-event.impl.version>
+		<google-calendar-v3-get-event.main-class>org.bonitasoft.connectors.google.calendar.GetEventConnector</google-calendar-v3-get-event.main-class>
+		
+		<google-calendar-v3-move-event.def.id>google-calendar-v3-move-event</google-calendar-v3-move-event.def.id>
+		<google-calendar-v3-move-event.def.version>1.1.0</google-calendar-v3-move-event.def.version>
+		<google-calendar-v3-move-event.impl.id>${google-calendar-v3-move-event.def.id}-impl</google-calendar-v3-move-event.impl.id>
+		<google-calendar-v3-move-event.impl.version>${project.version}</google-calendar-v3-move-event.impl.version>
+		<google-calendar-v3-move-event.main-class>org.bonitasoft.connectors.google.calendar.MoveEventConnector</google-calendar-v3-move-event.main-class>
+		
+		<google-calendar-v3-update-event.def.id>google-calendar-v3-update-event</google-calendar-v3-update-event.def.id>
+		<google-calendar-v3-update-event.def.version>1.1.0</google-calendar-v3-update-event.def.version>
+		<google-calendar-v3-update-event.impl.id>${google-calendar-v3-update-event.def.id}-impl</google-calendar-v3-update-event.impl.id>
+		<google-calendar-v3-update-event.impl.version>${project.version}</google-calendar-v3-update-event.impl.version>
+		<google-calendar-v3-update-event.main-class>org.bonitasoft.connectors.google.calendar.UpdateEventConnector</google-calendar-v3-update-event.main-class>
+		
+		<!-- Bonita -->
 		<bonita.engine.version>7.8.0</bonita.engine.version>
+		
+		<!-- Google dependencies -->
 		<google-auth-library-oauth2-http.version>0.21.1</google-auth-library-oauth2-http.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<google.calendar.services.version>v3-rev411-1.25.0</google.calendar.services.version>
-		<assertj-core.version>3.11.1</assertj-core.version>
+
+		<!-- Test -->
+		<junit-jupiter-engine.version>5.6.2</junit-jupiter-engine.version>
+		<junit-platform-runner.version>1.6.2</junit-platform-runner.version>
+		<assertj-core.version>3.16.1</assertj-core.version>
+		<jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+		<sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
+		<mockito-core.version>3.5.13</mockito-core.version>
+
+		<!-- Maven plugins -->
+		<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
+		<groovy-maven-plugin.version>2.1.1</groovy-maven-plugin.version>
+		<groovy-all.version>2.4.16</groovy-all.version>
+		<maven-surefire-plugin.version>3.0.0-M4</maven-surefire-plugin.version>
+		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+		<maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+		<license-maven-plugin.version>4.0.rc2</license-maven-plugin.version>
+
+		<!-- Sonar -->
+		<sonar.projectKey>bonitasoft_bonita-connector-google-calendar-v3</sonar.projectKey>
+		<sonar.organization>bonitasoft</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
 
@@ -44,10 +104,17 @@
 			<version>${google-auth-library-oauth2-http.version}</version>
 		</dependency>
 
-
+		<!-- Tests -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>${junit-jupiter-engine.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-runner</artifactId>
+			<version>${junit-platform-runner.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -59,7 +126,7 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>2.23.4</version>
+			<version>${mockito-core.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -99,92 +166,248 @@
 		</dependencies>
 	</dependencyManagement>
 	<build>
+		<defaultGoal>verify</defaultGoal>
+		<resources>
+			<resource>
+				<directory>src/main/resources-filtered</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>com.mycila</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<version>${license-maven-plugin.version}</version>
+					<configuration>
+						<licenseSets>
+							<licenseSet>
+								<header>${project.basedir}/src/license/header.txt</header>
+								<includes>
+									<include>**/*.java</include>
+								</includes>
+							</licenseSet>
+						</licenseSets>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>${maven-assembly-plugin.version}</version>
+					<configuration>
+						<descriptorSourceDirectory>${project.basedir}/src/assembly</descriptorSourceDirectory>
+					</configuration>
+					<executions>
+						<execution>
+							<id>package-connectors</id>
+							<phase>package</phase>
+							<goals>
+								<goal>single</goal>
+							</goals>
+							<configuration>
+								<appendAssemblyId>true</appendAssemblyId>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.gmaven</groupId>
+					<artifactId>groovy-maven-plugin</artifactId>
+					<version>${groovy-maven-plugin.version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.codehaus.groovy</groupId>
+							<artifactId>groovy-all</artifactId>
+							<version>${groovy-all.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin.version}</version>
+					<configuration>
+						<enableAssertions>true</enableAssertions>
+						<forkCount>1</forkCount>
+						<reuseForks>true</reuseForks>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.junit.platform</groupId>
+							<artifactId>junit-platform-runner</artifactId>
+							<version>${junit-platform-runner.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco-maven-plugin.version}</version>
+					<configuration>
+						<append>true</append>
+					</configuration>
+					<executions>
+						<execution>
+							<id>prepare-agent</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>prepare-agent-integration</id>
+							<goals>
+								<goal>prepare-agent-integration</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>jacoco-site</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>${sonar-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.sonatype.plugins</groupId>
+					<artifactId>nexus-staging-maven-plugin</artifactId>
+					<version>${nexus-staging-maven-plugin.version}</version>
+					<extensions>true</extensions>
+					<configuration>
+						<serverId>ossrh</serverId>
+						<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+						<autoReleaseAfterClose>false</autoReleaseAfterClose>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
+				<groupId>com.mycila</groupId>
+				<artifactId>license-maven-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>all</id>
-						<phase>package</phase>
+						<id>license-check-file-header</id>
 						<goals>
-							<goal>single</goal>
+							<goal>check</goal>
+						</goals>
+						<phase>validate</phase>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.gmaven</groupId>
+				<artifactId>groovy-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>execute</goal>
 						</goals>
 						<configuration>
-							<classifier>all</classifier>
-							<descriptor>${project.basedir}/connector-assembly.xml</descriptor>
+							<source>${project.basedir}/src/script/dependencies-as-var.groovy</source>
 						</configuration>
 					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven-source-plugin.version}</version>
+				<executions>
 					<execution>
-						<id>get-event</id>
-						<phase>package</phase>
+						<id>attach-sources</id>
 						<goals>
-							<goal>single</goal>
+							<goal>jar-no-fork</goal>
 						</goals>
-						<configuration>
-							<descriptor>${basedir}/getevent-assembly.xml</descriptor>
-						</configuration>
 					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven-javadoc-plugin.version}</version>
+				<executions>
 					<execution>
-						<id>create-event</id>
-						<phase>package</phase>
+						<id>attach-javadocs</id>
 						<goals>
-							<goal>single</goal>
+							<goal>jar</goal>
 						</goals>
-						<configuration>
-							<descriptor>${basedir}/createevent-assembly.xml</descriptor>
-						</configuration>
-					</execution>
-					<execution>
-						<id>delete-event</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptor>${basedir}/deleteevent-assembly.xml</descriptor>
-						</configuration>
-					</execution>
-					<execution>
-						<id>move-event</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptor>${basedir}/moveevent-assembly.xml</descriptor>
-						</configuration>
-					</execution>
-					<execution>
-						<id>update-event</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptor>${basedir}/updateevent-assembly.xml</descriptor>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
 
+	<profiles>
+		<!-- Deployment profile (required so these plugins are only used when deploying) -->
+		<profile>
+			<id>deploy</id>
+			<build>
+				<plugins>
+					<!-- GPG plugin -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+								<configuration>
+									<!-- Prevent `gpg` from using pinentry programs -->
+									<gpgArguments>
+										<arg>--pinentry-mode</arg>
+										<arg>loopback</arg>
+									</gpgArguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<distributionManagement>
+		<!-- Central Repository -->
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
 	<scm>
-		<developerConnection>scm:git:https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/bonitasoft/bonita-connector-google-calendar-v3.git</developerConnection>
-		<connection>scm:git:https://${env.GIT_USERNAME}:${env.GIT_PASSWORD}@github.com/bonitasoft/bonita-connector-google-calendar-v3.git</connection>
+		<developerConnection>scm:git:git@github.com:bonitasoft/bonita-connector-google-calendar-v3.git</developerConnection>
+		<connection>scm:git:git@github.com:bonitasoft/bonita-connector-google-calendar-v3.git</connection>
 		<url>https://github.com/bonitasoft/bonita-connector-google-calendar-v3</url>
 		<tag>HEAD</tag>
 	</scm>
