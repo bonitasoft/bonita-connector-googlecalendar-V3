@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<implementation:connectorImplementation xmlns:implementation="http://www.bonitasoft.org/ns/connector/implementation/6.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<definitionId>${google-calendar-v3-get-event.def.id}</definitionId>
+	<definitionVersion>${google-calendar-v3-get-event.def.version}</definitionVersion>
+	<description>Implementation based on Google API v3</description>
+	<implementationClassname>${google-calendar-v3-get-event.main-class}</implementationClassname>
+	<implementationId>${google-calendar-v3-get-event.impl.id}</implementationId>
+	<implementationVersion>${google-calendar-v3-get-event.impl.version}</implementationVersion>
+
+<!-- retrieved from the pom.xml at build time -->
+${connector-dependencies}
+
+</implementation:connectorImplementation>

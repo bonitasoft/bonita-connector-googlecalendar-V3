@@ -1,4 +1,9 @@
 # Bonita Google Calendar Connetor (API V3)
+![](https://github.com/bonitasoft/bonita-connector-google-calendar-v3/workflows/Build/badge.svg)
+[![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=bonitasoft_bonita-connector-googlecalendar-V3&metric=alert_status)](https://sonarcloud.io/dashboard?id=bonita-connector-googlecalendar-V3)
+[![GitHub release](https://img.shields.io/github/v/release/bonitasoft/bonita-connector-google-calendar-v3?color=blue&label=Release)](https://github.com/bonitasoft/bonita-connector-google-calendar-V3/releases)
+[![Maven Central](https://img.shields.io/maven-central/v/org.bonitasoft.connectors/bonita-connector-google-calendar-v3.svg?label=Maven%20Central&color=orange)](https://search.maven.org/search?q=g:%22org.bonitasoft.connectors%22%20AND%20a:%22bonita-connector-google-calendar-v3%22)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-yellow.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 
 This is the implementation of the Bonita Google Calendar based on the Google API V3.
 
@@ -39,3 +44,24 @@ Go to http://admin.google.com and choose “Security” section, then Advanced S
    - copy the CLIENT ID from developer console value and paste it in the Client Name input text field
    - inside the API Scopes input text field, enter https://www.googleapis.com/auth/calendar
    - click Authorize
+
+## Build
+
+__Clone__ or __fork__ this repository, then at the root of the project run:
+
+`./mvnw`
+
+## Release
+
+In order to create a new release push a `release-<version>` branch with the desired version in pom.xml.
+Update the `master` with the next SNAPSHOT version.
+
+## Contributing
+
+We would love you to contribute, pull requests are welcome! Please see the [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
+
+## License
+
+The sources and documentation in this project are released under the [GPLv2 License](LICENSE)
+
+

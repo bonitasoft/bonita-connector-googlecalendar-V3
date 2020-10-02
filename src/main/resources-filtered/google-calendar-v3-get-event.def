@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definition:ConnectorDefinition xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-    <id>google-calendar-v3-get-event</id>
-    <version>1.1.0</version>
+    <id>${google-calendar-v3-get-event.def.id}</id>
+    <version>${google-calendar-v3-get-event.def.version}</version>
     <icon>google.png</icon>
   	
     <category id = "calendar" icon = "calendar.png" />

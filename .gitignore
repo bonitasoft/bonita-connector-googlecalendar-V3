@@ -1,8 +1,9 @@
 target/
-
+bin/
 .project
-.settings/org.eclipse.core.resources.prefs
-.settings/org.eclipse.m2e.core.prefs
-/.settings/
+.classpath
+.settings/
 /.idea/
 *.iml
+
+.mvn/wrapper/*.jar
