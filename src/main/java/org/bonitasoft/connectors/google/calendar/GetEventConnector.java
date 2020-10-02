@@ -37,7 +37,7 @@ public class GetEventConnector extends CalendarConnector {
 
     @Override
     protected List<String> checkParameters() {
-        final List<String> errors = new ArrayList<String>();
+        final List<String> errors = new ArrayList<>();
 
         ensureIdInputIsSpecified(errors);
 

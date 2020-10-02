@@ -18,7 +18,6 @@
 package org.bonitasoft.connectors.google.calendar;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class UpdateEventConnector extends BuildEventConnector {
 
     @Override
     protected List<String> checkParameters() {
-        final List<String> errors = new ArrayList<String>();
+        final List<String> errors = new ArrayList<>();
         ensureIdInputIsSpecified(errors);
         return errors;
     }
@@ -53,7 +52,7 @@ public class UpdateEventConnector extends BuildEventConnector {
                 update.setMaxAttendees(getMaxAttendees());
             }
             setOutputParameters(update.execute());
-        } catch (IOException | ParseException e) {
+        } catch (IOException e) {
             throw new ConnectorException(e);
         }
     }

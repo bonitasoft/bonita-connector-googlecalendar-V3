@@ -17,11 +17,12 @@
  */
 package org.bonitasoft.connectors.google.calendar.common;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.data.MapEntry;
 import org.bonitasoft.engine.connector.ConnectorException;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
@@ -54,7 +55,7 @@ class CalendarConnectorTest {
     }
 
     @Test
-    public void should_set_output_parameters() throws ConnectorValidationException {
+    void should_set_output_parameters() throws ConnectorValidationException {
 
         // Given
         Event eventResult = new Event();
@@ -83,8 +84,10 @@ class CalendarConnectorTest {
                 MapEntry.entry(CalendarConnector.OUTPUT_EVENT, eventResult.toString()),
                 MapEntry.entry(CalendarConnector.OUTPUT_DESCRIPTION, eventResult.getDescription()),
                 MapEntry.entry(CalendarConnector.OUTPUT_ETAG, eventResult.getEtag()),
-                MapEntry.entry(CalendarConnector.OUTPUT_GUESTS_CAN_INVITE_OTHERS, eventResult.getGuestsCanInviteOthers()),
-                MapEntry.entry(CalendarConnector.OUTPUT_GUESTS_CAN_SEE_OTHER_GUESTS, eventResult.getGuestsCanSeeOtherGuests()),
+                MapEntry.entry(CalendarConnector.OUTPUT_GUESTS_CAN_INVITE_OTHERS,
+                        eventResult.getGuestsCanInviteOthers()),
+                MapEntry.entry(CalendarConnector.OUTPUT_GUESTS_CAN_SEE_OTHER_GUESTS,
+                        eventResult.getGuestsCanSeeOtherGuests()),
                 MapEntry.entry(CalendarConnector.OUTPUT_GUESTS_CAN_MODIFY, eventResult.getGuestsCanModify()),
                 MapEntry.entry(CalendarConnector.OUTPUT_HANGOUT_LINK, eventResult.getHangoutLink()),
                 MapEntry.entry(CalendarConnector.OUTPUT_HTML_LINK, eventResult.getHtmlLink()),
@@ -99,13 +102,14 @@ class CalendarConnectorTest {
         };
 
         DoNothingCalendarConnector connector = new DoNothingCalendarConnector();
-        
+
         // When
         connector.setOutputParameters(eventResult);
         Map<String, Object> outputs = connector.getOutputs();
 
         // Then
-        Assertions.assertThat(outputs).contains(expectedOutputs);
-        Assertions.assertThat(outputs).hasSize(expectedOutputs.length);
+        assertThat(outputs)
+                .contains(expectedOutputs)
+                .hasSize(expectedOutputs.length);
     }
 }

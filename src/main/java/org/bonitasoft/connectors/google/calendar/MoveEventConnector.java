@@ -33,7 +33,7 @@ public class MoveEventConnector extends CalendarConnector {
 
     @Override
     protected List<String> checkParameters() {
-        final List<String> errors = new ArrayList<String>();
+        final List<String> errors = new ArrayList<>();
         ensureIdInputIsSpecified(errors);
         if (getDestCalendarId() == null) {
             errors.add("Destination Calendar Id must be set.");

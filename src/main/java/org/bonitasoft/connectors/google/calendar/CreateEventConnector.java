@@ -18,7 +18,6 @@
 package org.bonitasoft.connectors.google.calendar;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class CreateEventConnector extends BuildEventConnector {
 
     @Override
     public List<String> checkParameters() {
-        final List<String> errors = new ArrayList<String>();
+        final List<String> errors = new ArrayList<>();
 
         // ALL DAY
         if (getAllDay() == null) {
@@ -64,7 +63,7 @@ public class CreateEventConnector extends BuildEventConnector {
             setSpecificInputs(insert);
             final Event insertedEvent = insert.execute();
             setOutputParameters(insertedEvent);
-        } catch (ParseException | IOException e) {
+        } catch (IOException e) {
             throw new ConnectorException(e);
         }
     }

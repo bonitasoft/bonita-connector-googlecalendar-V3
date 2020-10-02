@@ -84,7 +84,7 @@ public abstract class CalendarConnector extends AbstractConnector {
 
     @Override
     public void validateInputParameters() throws ConnectorValidationException {
-        final List<String> errors = new ArrayList<String>();
+        final List<String> errors = new ArrayList<>();
         validateAuthenticationInputs(errors);
 
         if (getServiceAccountId() == null || getServiceAccountId().isEmpty()) {
@@ -141,7 +141,7 @@ public abstract class CalendarConnector extends AbstractConnector {
     @Override
     protected void executeBusinessLogic() throws ConnectorException {
         try {
-            final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+            final NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
             try {
                 AuthMode authMode = AuthMode.valueOf(getAuthMode());
                 HttpRequestInitializer requestInitializer = null;
@@ -158,7 +158,7 @@ public abstract class CalendarConnector extends AbstractConnector {
                     }
                 } else if (authMode == AuthMode.P12) {
                     requestInitializer = new GoogleCredential.Builder()
-                            .setTransport(HTTP_TRANSPORT)
+                            .setTransport(httpTransport)
                             .setJsonFactory(JSON_FACTORY)
                             .setServiceAccountId(getServiceAccountId())
                             .setServiceAccountUser(getServiceAccountUser())
@@ -167,12 +167,12 @@ public abstract class CalendarConnector extends AbstractConnector {
                             .build()
                             .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
                 }
-                Calendar calendar = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, requestInitializer)
+                Calendar calendar = new Calendar.Builder(httpTransport, JSON_FACTORY, requestInitializer)
                         .setApplicationName(getApplicationName())
                         .build();
                 doJobWithCalendarEvents(calendar.events());
             } finally {
-                HTTP_TRANSPORT.shutdown();
+                httpTransport.shutdown();
             }
         } catch (Exception e) {
             throw new ConnectorException(e);

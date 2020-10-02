@@ -90,7 +90,7 @@ public abstract class BuildEventConnector extends CalendarConnector {
     private final SimpleDateFormat timeFormat = new SimpleDateFormat(TIME_FORMAT_PATTERN);
 
     protected List<String> checkStartDate() {
-        final List<String> errors = new ArrayList<String>();
+        final List<String> errors = new ArrayList<>();
         if (getStartDate() != null && isDateFormatKO(dateFormat, getStartDate())) {
             errors.add(String.format(DATE_TIME_FORMAT_ERROR_PATTERN,
                     "Start Date",
@@ -115,23 +115,18 @@ public abstract class BuildEventConnector extends CalendarConnector {
         }
 
         if (getStartDate() != null) {
-            // checks the start EventDateTime can be built properly
-            try {
-                buildEventDateTime(getStartDate(), getStartTime(), getStartTimeZone());
-            } catch (final ParseException e) {
-                errors.add("Error while parsing start date: " + e.getMessage());
-            }
+            buildEventDateTime(getStartDate(), getStartTime(), getStartTimeZone());
         }
         return errors;
     }
 
     protected List<String> checkEndDate() {
-        final List<String> errors = new ArrayList<String>();
+        final List<String> errors = new ArrayList<>();
         if (getEndDate() != null && isDateFormatKO(dateFormat, getEndDate())) {
-            errors.add(String.format(DATE_TIME_FORMAT_ERROR_PATTERN,"End Date", DATE_FORMAT_PATTERN ,getEndDate()));
+            errors.add(String.format(DATE_TIME_FORMAT_ERROR_PATTERN, "End Date", DATE_FORMAT_PATTERN, getEndDate()));
         }
         if (getEndTime() != null && isDateFormatKO(timeFormat, getEndTime())) {
-            errors.add(String.format(DATE_TIME_FORMAT_ERROR_PATTERN,"End Time", TIME_FORMAT_PATTERN ,getEndTime()));
+            errors.add(String.format(DATE_TIME_FORMAT_ERROR_PATTERN, "End Time", TIME_FORMAT_PATTERN, getEndTime()));
         }
         if (getEndTime() != null && (getEndTimeZone() == null || getEndTimeZone().isEmpty())) {
             errors.add("End Timezone must be specified when End Time is specified");
@@ -145,139 +140,114 @@ public abstract class BuildEventConnector extends CalendarConnector {
         }
         // checks the end EventDateTime can be built properly
         if (getEndDate() != null) {
-            try {
-                buildEventDateTime(getEndDate(), getEndTime(), getEndTimeZone());
-            } catch (final ParseException e) {
-                errors.add("Error while parsing end date: " + e.getMessage());
-            }
+            buildEventDateTime(getEndDate(), getEndTime(), getEndTimeZone());
         }
         return errors;
     }
 
-    protected void buildEvent(final Event event) throws ParseException {
-        if (getStartDate() != null) {
-            event.setStart(buildEventDateTime(getStartDate(), getStartTime(), getStartTimeZone()));
-        }
-        if (getEndDate() != null) {
-            event.setEnd(buildEventDateTime(getEndDate(), getEndTime(), getEndTimeZone()));
-        }
-
-        if (getSummary() != null) {
-            event.setSummary(getSummary());
-        }
-        if (getDescription() != null) {
-            event.setDescription(getDescription());
-        }
-        if (getLocation() != null) {
-            event.setLocation(getLocation());
-        }
-        if (getAnyoneCanAddSelf() != null) {
-            event.setAnyoneCanAddSelf(getAnyoneCanAddSelf());
-        }
-        if (getColorId() != null) {
-            event.setColorId(getColorId());
-        }
+    protected void buildEvent(final Event event) {
+        event.setStart(
+                getStartDate() != null ? buildEventDateTime(getStartDate(), getStartTime(), getStartTimeZone()) : null);
+        event.setEnd(getEndDate() != null ? buildEventDateTime(getEndDate(), getEndTime(), getEndTimeZone()) : null);
+        event.setSummary(getSummary());
+        event.setDescription(getDescription());
+        event.setLocation(getLocation());
+        event.setAnyoneCanAddSelf(getAnyoneCanAddSelf());
+        event.setColorId(getColorId());
         if (getGadgetTitle() != null) {
-            final Gadget gadget = new Gadget();
-            gadget.setTitle(getGadgetTitle());
-            gadget.setLink(getGadgetLink());
-            gadget.setIconLink(getGadgetIconLink());
-            gadget.setType(getGadgetType());
-            if (getGadgetPreferences() != null) {
-                gadget.setPreferences(getGadgetPreferences());
-            }
-            if (getGadgetWidth() != null) {
-                gadget.setWidth(getGadgetWidth());
-            }
-            if (getGadgetHeight() != null) {
-                gadget.setHeight(getGadgetHeight());
-            }
-            if (getGadgetDisplay() != null) {
-                gadget.setDisplay(getGadgetDisplay());
-            }
-            event.setGadget(gadget);
+            createGadget(event);
         }
-        if (getGuestsCanInviteOthers() != null) {
-            event.setGuestsCanInviteOthers(getGuestsCanInviteOthers());
-        }
-        if (getGuestsCanSeeOtherGuests() != null) {
-            event.setGuestsCanSeeOtherGuests(getGuestsCanSeeOtherGuests());
-        }
-        if (getId() != null) {
-            event.setId(getId());
-        }
-        if (getSequence() != null) {
-            event.setSequence(getSequence());
-        }
+        event.setGuestsCanInviteOthers(getGuestsCanInviteOthers());
+        event.setGuestsCanSeeOtherGuests(getGuestsCanSeeOtherGuests());
+        event.setId(getId());
+        event.setSequence(getSequence());
         if (getSourceTitle() != null) {
             final Source source = new Source();
             source.setTitle(getSourceTitle());
             source.setUrl(getSourceUrl());
             event.setSource(source);
         }
-        if (getStatus() != null) {
-            event.setStatus(getStatus());
-        }
-        if (getTransparency() != null) {
-            event.setTransparency(getTransparency());
-        }
-        if (getVisibility() != null) {
-            event.setVisibility(getVisibility());
-        }
+        event.setStatus(getStatus());
+        event.setTransparency(getTransparency());
+        event.setVisibility(getVisibility());
         if (getOriginalStartDate() != null) {
             event.setOriginalStartTime(
                     buildEventDateTime(getOriginalStartDate(), getOriginalStartTime(), getOriginalStartTimeZone()));
         }
-        if (getRecurrence() != null) {
-            event.setRecurrence(getRecurrence());
-        }
+        event.setRecurrence(getRecurrence());
         if (getAttendeesEmails() != null) {
-            final List<EventAttendee> attendees = new ArrayList<EventAttendee>();
-            for (final String attendeeEmail : getAttendeesEmails()) {
-                final EventAttendee eventAttendee = new EventAttendee();
-                eventAttendee.setEmail(attendeeEmail);
-                attendees.add(eventAttendee);
-            }
-            event.setAttendees(attendees);
+            addAttendees(event);
         }
         if (getReminderUseDefault() != null || getReminderOverrides() != null) {
-            final Reminders reminders = new Reminders();
-            if (getReminderUseDefault() != null) {
-                reminders.setUseDefault(getReminderUseDefault());
-            } else if (getReminderOverrides() != null) {
-                reminders.setUseDefault(false);
-            } else {
-                reminders.setUseDefault(true);
-            }
-            if (getReminderOverrides() != null) {
-                final List<EventReminder> overrides = new ArrayList<EventReminder>();
-                for (final String override : getReminderOverrides()) {
-                    final String[] overrideSplit = override.split(":");
-                    final String method = overrideSplit[0];
-                    final Integer minutes = Integer.valueOf(overrideSplit[1]);
-                    final EventReminder eventReminder = new EventReminder();
-                    eventReminder.setMethod(method);
-                    eventReminder.setMinutes(minutes);
-                    overrides.add(eventReminder);
-                }
-                reminders.setOverrides(overrides);
-            }
-            event.setReminders(reminders);
+            setReminders(event);
         }
     }
 
+    private void setReminders(final Event event) {
+        final Reminders reminders = new Reminders();
+        if (getReminderUseDefault() != null) {
+            reminders.setUseDefault(getReminderUseDefault());
+        } else {
+            reminders.setUseDefault(getReminderOverrides() == null);
+        }
+        if (getReminderOverrides() != null) {
+            final List<EventReminder> overrides = new ArrayList<>();
+            for (final String override : getReminderOverrides()) {
+                final String[] overrideSplit = override.split(":");
+                final String method = overrideSplit[0];
+                final Integer minutes = Integer.valueOf(overrideSplit[1]);
+                final EventReminder eventReminder = new EventReminder();
+                eventReminder.setMethod(method);
+                eventReminder.setMinutes(minutes);
+                overrides.add(eventReminder);
+            }
+            reminders.setOverrides(overrides);
+        }
+        event.setReminders(reminders);
+    }
+
+    private void addAttendees(final Event event) {
+        final List<EventAttendee> attendees = new ArrayList<>();
+        for (final String attendeeEmail : getAttendeesEmails()) {
+            final EventAttendee eventAttendee = new EventAttendee();
+            eventAttendee.setEmail(attendeeEmail);
+            attendees.add(eventAttendee);
+        }
+        event.setAttendees(attendees);
+    }
+
+    private void createGadget(final Event event) {
+        final Gadget gadget = new Gadget();
+        gadget.setTitle(getGadgetTitle());
+        gadget.setLink(getGadgetLink());
+        gadget.setIconLink(getGadgetIconLink());
+        gadget.setType(getGadgetType());
+        if (getGadgetPreferences() != null) {
+            gadget.setPreferences(getGadgetPreferences());
+        }
+        if (getGadgetWidth() != null) {
+            gadget.setWidth(getGadgetWidth());
+        }
+        if (getGadgetHeight() != null) {
+            gadget.setHeight(getGadgetHeight());
+        }
+        if (getGadgetDisplay() != null) {
+            gadget.setDisplay(getGadgetDisplay());
+        }
+        event.setGadget(gadget);
+    }
+
     protected ZonedDateTime getDate(final ZoneId zoneId, final String date, final String time) {
-        final int year = Integer.valueOf(date.substring(0, 4));
-        final int month = Integer.valueOf(date.substring(5, 7));
-        final int day = Integer.valueOf(date.substring(8, 10));
-        final int hours = Integer.valueOf(time.substring(0, 2));
-        final int minutes = Integer.valueOf(time.substring(3, 5));
+        final int year = Integer.parseInt(date.substring(0, 4));
+        final int month = Integer.parseInt(date.substring(5, 7));
+        final int day = Integer.parseInt(date.substring(8, 10));
+        final int hours = Integer.parseInt(time.substring(0, 2));
+        final int minutes = Integer.parseInt(time.substring(3, 5));
 
         return ZonedDateTime.of(year, month, day, hours, minutes, 0, 0, zoneId);
     }
 
-    protected EventDateTime buildEventDateTime(final String date, final String dateTime, final String timeZone)
-            throws ParseException {
+    protected EventDateTime buildEventDateTime(final String date, final String dateTime, final String timeZone) {
         final EventDateTime edt = new EventDateTime();
         if (getAllDay() != null && getAllDay()) {
             edt.setDate(new DateTime(date));
@@ -443,7 +413,7 @@ public abstract class BuildEventConnector extends CalendarConnector {
     @SuppressWarnings("unchecked")
     private Map<String, String> getGadgetPreferencesAsMap() {
         final List<List<Object>> inputPreferences = (List<List<Object>>) getInputParameter(INPUT_GADGET_PREFERENCES);
-        final Map<String, String> result = new HashMap<String, String>();
+        final Map<String, String> result = new HashMap<>();
         if (inputPreferences != null) {
             for (final List<Object> rows : inputPreferences) {
                 if (rows.size() == 2) {
