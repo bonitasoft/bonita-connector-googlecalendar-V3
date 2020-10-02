@@ -2,10 +2,11 @@ package org.bonitasoft.connectors.google.calendar.common;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,6 +102,10 @@ public abstract class BuildEventConnector extends CalendarConnector {
     private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat(TIME_FORMAT_PATTERN);
 
     private static final List<String> AVAILABLE_TZ_IDS = Arrays.asList(TimeZone.getAvailableIDs());
+    
+    private static final DateTimeFormatter RFC3339_FORMATTER = DateTimeFormatter
+            .ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            .withZone(ZoneId.of("UTC"));
 
     protected List<String> checkStartDate() {
         final List<String> errors = new ArrayList<String>();
@@ -110,13 +115,16 @@ public abstract class BuildEventConnector extends CalendarConnector {
         if (getStartTime() != null && isDateFormatKO(TIME_FORMAT, getStartTime())) {
             errors.add("Start Time format is wrong. It must be like " + TIME_FORMAT_PATTERN + " and it is now: " + getStartTime());
         }
+        if (getStartTime() != null && (getStartTimeZone() == null || getStartTimeZone().isEmpty())) {
+            errors.add("Start Timezone must be specified when Start Time is specified");
+            return errors;
+        }
         if (getStartTimeZone() != null && !AVAILABLE_TZ_IDS.contains(getStartTimeZone())) {
             errors.add("Specified Start Timezone is not supported. It is now: " + getStartTimeZone() + " and should be one of: "
                     + AVAILABLE_TZ_IDS.toString());
+            return errors;
         }
-        if (getStartTime() != null && getStartTimeZone() == null) {
-            errors.add("Start Timezone must be specified when Start Time is specified");
-        }
+ 
         if (getStartDate() != null) {
             // checks the start EventDateTime can be built properly
             try {
@@ -136,12 +144,14 @@ public abstract class BuildEventConnector extends CalendarConnector {
         if (getEndTime() != null && isDateFormatKO(TIME_FORMAT, getEndTime())) {
             errors.add("End Time format is wrong. It must be like " + TIME_FORMAT_PATTERN + " and it is now: " + getEndTime());
         }
-        if (getEndTime() != null && getEndTimeZone() == null) {
+        if (getEndTime() != null && (getEndTimeZone() == null || getEndTimeZone().isEmpty())) {
             errors.add("End Timezone must be specified when End Time is specified");
+            return errors;
         }
         if (getEndTimeZone() != null && !AVAILABLE_TZ_IDS.contains(getEndTimeZone())) {
             errors.add("Specified End Timezone is not supported. It is now: " + getEndTimeZone() + " and should be one of: "
                     + AVAILABLE_TZ_IDS.toString());
+            return errors;
         }
         // checks the end EventDateTime can be built properly
         if (getEndDate() != null) {
@@ -265,21 +275,14 @@ public abstract class BuildEventConnector extends CalendarConnector {
         }
     }
 
-    protected Date getDate(final TimeZone timeZone, final String date, final String time) {
+    protected ZonedDateTime getDate(final ZoneId zoneId, final String date, final String time) {
         final int year = Integer.valueOf(date.substring(0, 4));
         final int month = Integer.valueOf(date.substring(5, 7));
         final int day = Integer.valueOf(date.substring(8, 10));
         final int hours = Integer.valueOf(time.substring(0, 2));
         final int minutes = Integer.valueOf(time.substring(3, 5));
-
-        final GregorianCalendar gCal = new GregorianCalendar(timeZone);
-        gCal.set(GregorianCalendar.YEAR, year);
-        gCal.set(GregorianCalendar.MONTH, month - 1);
-        gCal.set(GregorianCalendar.DAY_OF_MONTH, day);
-        gCal.set(GregorianCalendar.HOUR_OF_DAY, hours);
-        gCal.set(GregorianCalendar.MINUTE, minutes);
-        gCal.set(GregorianCalendar.SECOND, 0);
-        return gCal.getTime();
+        
+        return ZonedDateTime.of(year, month, day, hours, minutes, 0, 0,zoneId);
     }
 
     protected EventDateTime buildEventDateTime(final String date, final String dateTime, final String timeZone) throws ParseException {
@@ -287,8 +290,8 @@ public abstract class BuildEventConnector extends CalendarConnector {
         if (getAllDay() != null && getAllDay()) {
             edt.setDate(new DateTime(date));
         } else {
-            final Date localDate = getDate(TimeZone.getTimeZone(timeZone), date, dateTime);
-            edt.setDateTime(new DateTime(localDate, TimeZone.getTimeZone(timeZone)));
+            final ZonedDateTime localDate = getDate(ZoneId.of(timeZone), date, dateTime);
+            edt.setDateTime(DateTime.parseRfc3339(localDate.format(RFC3339_FORMATTER)));
         }
         return edt;
     }
@@ -465,18 +468,4 @@ public abstract class BuildEventConnector extends CalendarConnector {
         return result;
     }
 
-    // private void printGetters(final Class<?> clazz, final Object object) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-    // final Method[] methods = clazz.getDeclaredMethods();
-    // System.err.println("Getters of: " + clazz);
-    // if (methods != null) {
-    // for (final Method method : methods) {
-    // if (method.getName().startsWith("get") && method.getParameterTypes().length == 0) {
-    // System.err.println(method.getName() + " : " + method.invoke(object, (Object[]) null));
-    // }
-    // }
-    // }
-    // if (clazz.getSuperclass() != null) {
-    // printGetters(clazz.getSuperclass(), object);
-    // }
-    // }
 }

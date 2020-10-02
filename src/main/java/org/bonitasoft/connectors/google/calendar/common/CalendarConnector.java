@@ -1,30 +1,42 @@
 package org.bonitasoft.connectors.google.calendar.common;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import com.google.api.services.calendar.CalendarRequest;
-import com.google.api.services.calendar.model.Event;
 import org.bonitasoft.engine.connector.AbstractConnector;
 import org.bonitasoft.engine.connector.ConnectorException;
 import org.bonitasoft.engine.connector.ConnectorValidationException;
 
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential.Builder;
-import com.google.api.client.http.HttpTransport;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.CalendarRequest;
 import com.google.api.services.calendar.CalendarScopes;
+import com.google.api.services.calendar.model.Event;
+import com.google.auth.http.HttpCredentialsAdapter;
+import com.google.auth.oauth2.ServiceAccountCredentials;
 
 public abstract class CalendarConnector extends AbstractConnector {
 
+    enum AuthMode {
+        JSON, P12
+    }
+
     public static final String APPLICATION_NAME = "applicationName";
     public static final String CALENDAR_ID = "calendarId";
+    public static final String AUTH_MODE = "authMode";
     public static final String SERVICE_ACCOUNT_ID = "serviceAccountId";
+    public static final String SERVICE_ACCOUNT_JSON_TOKEN = "serviceAccountJsonToken";
     public static final String SERVICE_ACCOUNT_P12_FILE = "serviceAccountP12File";
     public static final String SERVICE_ACCOUNT_USER = "serviceAccountUser";
 
@@ -51,27 +63,51 @@ public abstract class CalendarConnector extends AbstractConnector {
     public static final String OUTPUT_GUESTS_CAN_MODIFY = "guestsCanModify";
     public static final String OUTPUT_GUESTS_CAN_SEE_OTHER_GUESTS = "guestsCanSeeOtherGuests";
 
+    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+
     @Override
     public void validateInputParameters() throws ConnectorValidationException {
         final List<String> errors = new ArrayList<String>();
+        if (getAuthMode() == null) {
+            throw new ConnectorValidationException(this, "Authentication mode must be set.");
+        } else {
+            try {
+                AuthMode.valueOf(getAuthMode());
+            } catch (IllegalArgumentException e) {
+                throw new ConnectorValidationException(this, "Supported authentication mode are: "
+                        + Stream.of(AuthMode.values())
+                        .map(AuthMode::name)
+                        .collect(Collectors.joining(", ")));
+            }
+        }
+        
         if (getServiceAccountId() == null) {
             errors.add("Service Account ID must be set.");
         } else if (getServiceAccountId().isEmpty()) {
             errors.add("Service Account ID must not be an empty String.");
         }
-        if (getServiceAccountP12File() == null) {
-            errors.add("Service Account P12 File must be set.");
-        } else if (getServiceAccountP12File().isEmpty()) {
-            errors.add("Service Account P12 File must not be en empty String.");
-        } else {
-            final File p12File = new File(getServiceAccountP12File());
-            if (!p12File.exists()) {
-                errors.add("Service Account P12 File refers to a non existing file: " + getServiceAccountP12File() + ".");
-            } else if (p12File.isDirectory()) {
-                errors.add("Service Account P12 File refers to a directory and not a file: " + getServiceAccountP12File() + ".");
+        
+        AuthMode authMode = AuthMode.valueOf(getAuthMode());
+        if(authMode == AuthMode.P12) {
+            if (getServiceAccountP12File() == null || getServiceAccountP12File().isEmpty()){
+                errors.add("A Service Account credential using a p12 file (legacy) must be set.");
+            }else {
+                final File p12File = new File(getServiceAccountP12File());
+                if (!p12File.exists()) {
+                    errors.add(
+                            "Service Account P12 File refers to a non existing file: " + getServiceAccountP12File() + ".");
+                } else if (p12File.isDirectory()) {
+                    errors.add("Service Account P12 File refers to a directory and not a file: "
+                            + getServiceAccountP12File() + ".");
+                }
+            }
+            
+        }else if(authMode == AuthMode.JSON) {
+            if (getServiceAccountJsonToken() == null || getServiceAccountJsonToken().isEmpty()){
+                errors.add("A Service Account credential using a Json token must be set.");
             }
         }
-        
+
         // CALENDAR ID
         if (getCalendarId() == null) {
             errors.add("CalendarId must be set.");
@@ -85,26 +121,36 @@ public abstract class CalendarConnector extends AbstractConnector {
     @Override
     protected void executeBusinessLogic() throws ConnectorException {
         try {
-            final HttpTransport httpTransport = new NetHttpTransport();
+            final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
             try {
-                final JsonFactory jsonFactory = new JacksonFactory();
-
-                final Builder credentialBuilder = new Builder();
-                credentialBuilder.setTransport(httpTransport);
-                credentialBuilder.setJsonFactory(jsonFactory);
-                credentialBuilder.setServiceAccountId(getServiceAccountId());
-                credentialBuilder.setServiceAccountPrivateKeyFromP12File(new File(getServiceAccountP12File()));
-                if (getServiceAccountUser() != null) {
-                    credentialBuilder.setServiceAccountUser(getServiceAccountUser());
+                AuthMode authMode = AuthMode.valueOf(getAuthMode());
+                HttpRequestInitializer requestInitializer = null;
+                if (authMode == AuthMode.JSON) {
+                    // Load client secrets.
+                    InputStream jsonTokenStream = new ByteArrayInputStream(getServiceAccountJsonToken().getBytes());
+                    requestInitializer = new HttpCredentialsAdapter(
+                            ServiceAccountCredentials.fromStream(jsonTokenStream)
+                                    .toBuilder()
+                                    .setServiceAccountUser(getServiceAccountUser())
+                                    .build()
+                                    .createScoped(CalendarScopes.CALENDAR));
+                } else if (authMode == AuthMode.P12) {
+                    requestInitializer = new GoogleCredential.Builder()
+                            .setTransport(HTTP_TRANSPORT)
+                            .setJsonFactory(JSON_FACTORY)
+                            .setServiceAccountId(getServiceAccountId())
+                            .setServiceAccountUser(getServiceAccountUser())
+                            // variable p12File is a String w/ path to the .p12 file name
+                            .setServiceAccountPrivateKeyFromP12File(new java.io.File(getServiceAccountP12File()))
+                            .build()
+                            .createScoped(Collections.singleton(CalendarScopes.CALENDAR));
                 }
-                credentialBuilder.setServiceAccountScopes(Collections.singleton(CalendarScopes.CALENDAR));
-                final Credential credential = credentialBuilder.build();
-
-                final Calendar calendar = new Calendar.Builder(httpTransport, jsonFactory, credential).setApplicationName(getApplicationName()).build();
-
+                Calendar calendar = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, requestInitializer)
+                        .setApplicationName(getApplicationName())
+                        .build();
                 doJobWithCalendarEvents(calendar.events());
             } finally {
-                httpTransport.shutdown();
+                HTTP_TRANSPORT.shutdown();
             }
         } catch (Exception e) {
             throw new ConnectorException(e);
@@ -125,12 +171,20 @@ public abstract class CalendarConnector extends AbstractConnector {
         return (String) getInputParameter(CALENDAR_ID);
     }
 
+    public String getAuthMode() {
+        return (String) getInputParameter(AUTH_MODE);
+    }
+
     public String getApplicationName() {
         return (String) getInputParameter(APPLICATION_NAME);
     }
 
     public String getServiceAccountId() {
         return (String) getInputParameter(SERVICE_ACCOUNT_ID);
+    }
+
+    public String getServiceAccountJsonToken() {
+        return (String) getInputParameter(SERVICE_ACCOUNT_JSON_TOKEN);
     }
 
     public String getServiceAccountP12File() {
@@ -145,11 +199,17 @@ public abstract class CalendarConnector extends AbstractConnector {
         return (Boolean) getInputParameter(INPUT_PRETTY_PRINT);
     }
 
-    protected Integer getMaxAttendees() { return (Integer) getInputParameter(INPUT_MAX_ATTENDEES); }
+    protected Integer getMaxAttendees() {
+        return (Integer) getInputParameter(INPUT_MAX_ATTENDEES);
+    }
 
-    protected String getId() { return (String) getInputParameter(INPUT_ID); }
+    protected String getId() {
+        return (String) getInputParameter(INPUT_ID);
+    }
 
-    protected Boolean getSendNotifications() { return (Boolean) getInputParameter(INPUT_SEND_NOTIFICATIONS); }
+    protected Boolean getSendNotifications() {
+        return (Boolean) getInputParameter(INPUT_SEND_NOTIFICATIONS);
+    }
 
     protected void setCommonInputs(CalendarRequest<Event> request) {
         if (getPrettyPrint() != null) {
@@ -158,8 +218,8 @@ public abstract class CalendarConnector extends AbstractConnector {
     }
 
     protected void setOutputParameters(Event event) {
-        if(event != null) {
-            setOutputParameter(OUTPUT_EVENT, event);
+        if (event != null) {
+            setOutputParameter(OUTPUT_EVENT, event.toString());
             setOutputParameter(OUTPUT_ETAG, event.getEtag());
             setOutputParameter(OUTPUT_HANGOUT_LINK, event.getHangoutLink());
             setOutputParameter(OUTPUT_HTML_LINK, event.getHtmlLink());

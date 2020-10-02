@@ -14,18 +14,15 @@
 
 	<properties>
 		<bonita.engine.version>7.8.0</bonita.engine.version>
-		<project.http.version>1.18.0-rc</project.http.version>
-		<project.oauth.version>1.18.0-rc</project.oauth.version>
+		<google-auth-library-oauth2-http.version>0.21.1</google-auth-library-oauth2-http.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<google.calendar.services.verison>v3-rev364-1.25.0</google.calendar.services.verison>
+		<google.calendar.services.version>v3-rev411-1.25.0</google.calendar.services.version>
+		<assertj-core.version>3.11.1</assertj-core.version>
 	</properties>
 
 
 	<dependencies>
 		<dependency>
-			<!-- Latest Version of Bonita released, against which the initial development 
-				has been done. -->
-			<!-- The connector will be tested against more recent version -->
 			<artifactId>bonita-common</artifactId>
 			<groupId>org.bonitasoft.engine</groupId>
 			<version>${bonita.engine.version}</version>
@@ -39,28 +36,15 @@
 		<dependency>
 			<groupId>com.google.apis</groupId>
 			<artifactId>google-api-services-calendar</artifactId>
-			<version>${google.calendar.services.verison}</version>
+			<version>${google.calendar.services.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.google.http-client</groupId>
-			<artifactId>google-http-client-jackson2</artifactId>
-			<version>${project.http.version}</version>
+			<groupId>com.google.auth</groupId>
+			<artifactId>google-auth-library-oauth2-http</artifactId>
+			<version>${google-auth-library-oauth2-http.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.google.oauth-client</groupId>
-			<artifactId>google-oauth-client-jetty</artifactId>
-			<version>${project.oauth.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<scope>provided</scope>
-		</dependency>
+
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -69,25 +53,13 @@
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
-			<version>3.11.1</version>
+			<version>${assertj-core.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<version>2.23.4</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-core</artifactId>
-			<version>1.3</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-library</artifactId>
-			<version>1.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -107,15 +79,21 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-				<version>19.0</version>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>2.9.0</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
-				<version>4.5.2</version>
+				<version>4.5.12</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpcore</artifactId>
+				<version>4.4.13</version>
 				<scope>provided</scope>
 			</dependency>
 		</dependencies>

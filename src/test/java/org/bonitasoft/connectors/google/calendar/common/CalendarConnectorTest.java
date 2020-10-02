@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.assertj.core.api.Assertions;
 import org.assertj.core.data.MapEntry;
+import org.bonitasoft.engine.connector.ConnectorValidationException;
 import org.junit.Test;
 
 import com.google.api.services.calendar.Calendar;
@@ -35,7 +36,7 @@ public class CalendarConnectorTest {
     }
 
     @Test
-    public void should_set_output_parameters() {
+    public void should_set_output_parameters() throws ConnectorValidationException {
 
         // Given
         Event eventResult = new Event();
@@ -61,7 +62,7 @@ public class CalendarConnectorTest {
 
         MapEntry[] expectedOutputs = new MapEntry[] {
                 MapEntry.entry(CalendarConnector.OUTPUT_ANYONE_CAN_ADD_SELF, eventResult.getAnyoneCanAddSelf()),
-                MapEntry.entry(CalendarConnector.OUTPUT_EVENT, eventResult),
+                MapEntry.entry(CalendarConnector.OUTPUT_EVENT, eventResult.toString()),
                 MapEntry.entry(CalendarConnector.OUTPUT_DESCRIPTION, eventResult.getDescription()),
                 MapEntry.entry(CalendarConnector.OUTPUT_ETAG, eventResult.getEtag()),
                 MapEntry.entry(CalendarConnector.OUTPUT_GUESTS_CAN_INVITE_OTHERS, eventResult.getGuestsCanInviteOthers()),
@@ -80,7 +81,7 @@ public class CalendarConnectorTest {
         };
 
         DoNothingCalendarConnector connector = new DoNothingCalendarConnector();
-
+        
         // When
         connector.setOutputParameters(eventResult);
         Map<String, Object> outputs = connector.getOutputs();

@@ -3,8 +3,14 @@ package org.bonitasoft.connectors.google.calendar.common;
 import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import org.assertj.core.api.Assertions;
+import org.bonitasoft.engine.connector.ConnectorValidationException;
 import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 /**
@@ -21,31 +27,43 @@ public class BuildEventConnectorTest {
 
         @Override
         protected List<String> checkParameters() {
-            return null;
+            return Collections.emptyList();
         }
     }
 
+    @Test
+    public void should_have_timezone_set_if_startDate_and_endDate_are_set() throws ConnectorValidationException {
+        // Given
+        BuildEventConnector connector = new DoNothingBuildEventCalendarConnector();
 
+        // When
+        Map<String, Object> defaultConfiguration = DefaultConnectorConfiguration.defaultConfiguration();
+        defaultConfiguration.put(BuildEventConnector.INPUT_START_TIME_ZONE, null);
+        defaultConfiguration.put(BuildEventConnector.INPUT_END_TIME_ZONE, null);
+        connector.setInputParameters(defaultConfiguration);
+        
+        // Then
+        assertThat(connector.checkStartDate()).contains("Start Timezone must be specified when Start Time is specified");
+        assertThat(connector.checkEndDate()).contains("End Timezone must be specified when End Time is specified");
+    }
 
 
     @Test
     public void should_getDate_parse_date_according_to_timezone() {
         // Given
         BuildEventConnector connector = new DoNothingBuildEventCalendarConnector();
-        TimeZone tz = TimeZone.getTimeZone("America/Los_Angeles");
+        ZoneId tz = ZoneId.of("America/Los_Angeles");
         String date = "2014-12-31";
         String time = "00:00";
 
         // When
-        Date dateTime = connector.getDate(tz, date, time);
+        ZonedDateTime dateTime = connector.getDate(tz, date, time);
 
         // Then
-        java.util.Calendar calendar = java.util.Calendar.getInstance(tz);
-        calendar.set(2014, java.util.Calendar.DECEMBER,31,0,0,0 );
-
-        Date lastDayOf2014 = calendar.getTime();
-
-        Assertions.assertThat(dateTime.getTime()).isEqualTo(lastDayOf2014.getTime());
+        assertThat(dateTime)
+            .hasToString("2014-12-31T00:00-08:00[America/Los_Angeles]");
+        assertThat(ZonedDateTime.ofInstant(dateTime.toInstant(), ZoneId.of("Europe/Paris")))
+            .hasToString("2014-12-31T09:00+01:00[Europe/Paris]");
     }
 
     @Test

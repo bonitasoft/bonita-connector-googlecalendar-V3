@@ -1,28 +1,36 @@
-Bonita BPM Google Calendar Connetor (API V3)
-================================
+# Bonita Google Calendar Connetor (API V3)
 
-This is the implementation of the Bonita BPM Google Calendar based on the Google API V3.
+This is the implementation of the Bonita Google Calendar based on the Google API V3.
 
-Steps to get the credentials from Google
--------------------------
+## Steps to get the credentials from Google
 
-Go to https://developers.google.com/console/
+### Prerequistes
+
+You must have a G Suite account to properly use this connector.
+
+### Service Account creation
+
+Go to https://console.developers.google.com
 
 Create a project
-   - this may take a few seconds to a few minutes
+   - Set a project **Name** and a **Location**
+   - This may take a few seconds to a few minutes
 
-Go to “APIS & AUTH” section and then into “APIs” sub section
-   - enable Calendar API row by turning it from `OFF` to `ON`
+Go to “APIs & Services” section
+   - Click on `+ ENABLE APIS AND SERVICES`
+   - Search for Google Calendar API, and **Enable** it
 
-Go to “APIS & AUTH” section and then into “Credentials” sub section
+Go to “APIs & Services” section and then into “Credentials” sub section
 
-   - click on the red button called “Create New Client ID”
-   - select “Service Account” Application type
-   - click "Create Client ID"
-   - click “Generate new P12 key” and locate the downloaded file in a folder of your choice (in case you had a name in your project name, this file name will contain spaces, remove them.)
-   - copy the full path to this file as it is an input parameter of the connector (`p12key`).
-   - copy the EMAIL  ADDRESS as it is an input parameter of the connector (`service account ID`)
-   - copy the CLIENT ID as it will be used in your Google Apps Admin Security configuration
+   - Click on `+ CREATE CREDENTIALS`and select **Service account**
+   - Choose a service account **name** and **description** and click on `CREATE`
+   - *Optional*, choose a **Roles** for the account permissions and lick on `CONTINUE`
+   - *Optional*, you can configure users access to the service account, and click on `DONE`
+   - In the Service Accounts table, click on the `modify` icon for your service account.
+   - In Keys section, click on `ADD KEY` and `Create a new key`
+   - Select the JSON type and click on `CREATE`
+   - A download dialog should popup, the file contains the JSON token than should be used in the connector. Download it in a safe place.
+   - In addition, you should enable `G Suite Domain-wide delegation` for the service account to be able to modify your collaborators calendar.
 
 Open your own Google Apps Domain
 
