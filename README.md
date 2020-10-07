@@ -1,7 +1,7 @@
 # Bonita Google Calendar Connetor (API V3)
 ![](https://github.com/bonitasoft/bonita-connector-googlecalendar-V3/workflows/Build/badge.svg)
 [![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=bonitasoft_bonita-connector-googlecalendar-V3&metric=alert_status)](https://sonarcloud.io/dashboard?id=bonitasoft_bonita-connector-googlecalendar-V3)
-[![GitHub release](https://img.shields.io/github/v/release/bonitasoft/bonita-connector-google-calendar-V3?color=blue&label=Release)](https://github.com/bonitasoft/bonita-connector-googlecalendar-V3/releases)
+[![GitHub release](https://img.shields.io/github/v/release/bonitasoft/bonita-connector-googlecalendar-v3?color=blue&label=Release)](https://github.com/bonitasoft/bonita-connector-googlecalendar-V3/releases)
 [![Maven Central](https://img.shields.io/maven-central/v/org.bonitasoft.connectors/bonita-connector-google-calendar-v3.svg?label=Maven%20Central&color=orange)](https://search.maven.org/search?q=g:%22org.bonitasoft.connectors%22%20AND%20a:%22bonita-connector-google-calendar-v3%22)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-yellow.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
 
