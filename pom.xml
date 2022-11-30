@@ -72,7 +72,7 @@
 		<!-- Google dependencies -->
 		<google-auth-library-oauth2-http.version>0.21.1</google-auth-library-oauth2-http.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<google.calendar.services.version>v3-rev20220520-1.32.1</google.calendar.services.version>
+		<google.calendar.services.version>v3-rev20220715-2.0.0</google.calendar.services.version>
 
 		<!-- Test -->
 		<junit-jupiter-engine.version>5.8.2</junit-jupiter-engine.version>
