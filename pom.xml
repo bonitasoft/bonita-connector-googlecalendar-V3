@@ -67,7 +67,7 @@
 		<google-calendar-v3-update-event.main-class>org.bonitasoft.connectors.google.calendar.UpdateEventConnector</google-calendar-v3-update-event.main-class>
 		
 		<!-- Bonita -->
-		<bonita.engine.version>7.13.0</bonita.engine.version>
+		<bonita.engine.version>9.0.0</bonita.engine.version>
 		
 		<!-- Google dependencies -->
 		<google-auth-library-oauth2-http.version>0.21.1</google-auth-library-oauth2-http.version>
