@@ -6,7 +6,7 @@
 	<groupId>org.bonitasoft.connectors</groupId>
 	<artifactId>bonita-connector-google-calendar-v3</artifactId>
 	<version>1.1.2-SNAPSHOT</version>
-	
+
 	<name>Google Calendar v3 Connector</name>
 	<description>Google Calendar v3 for Bonita</description>
 	<url>https://www.bonitasoft.com</url>
@@ -34,41 +34,41 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.build.timestamp.format>yyyy.MM.dd-hh.mm</maven.build.timestamp.format>
-		
+
 		<!-- Connectors -->
 		<google-calendar-v3-create-event.def.id>google-calendar-v3-create-event</google-calendar-v3-create-event.def.id>
 		<google-calendar-v3-create-event.def.version>1.1.0</google-calendar-v3-create-event.def.version>
 		<google-calendar-v3-create-event.impl.id>${google-calendar-v3-create-event.def.id}-impl</google-calendar-v3-create-event.impl.id>
 		<google-calendar-v3-create-event.impl.version>${project.version}</google-calendar-v3-create-event.impl.version>
 		<google-calendar-v3-create-event.main-class>org.bonitasoft.connectors.google.calendar.CreateEventConnector</google-calendar-v3-create-event.main-class>
-		
+
 		<google-calendar-v3-delete-event.def.id>google-calendar-v3-delete-event</google-calendar-v3-delete-event.def.id>
 		<google-calendar-v3-delete-event.def.version>1.1.0</google-calendar-v3-delete-event.def.version>
 		<google-calendar-v3-delete-event.impl.id>${google-calendar-v3-delete-event.def.id}-impl</google-calendar-v3-delete-event.impl.id>
 		<google-calendar-v3-delete-event.impl.version>${project.version}</google-calendar-v3-delete-event.impl.version>
 		<google-calendar-v3-delete-event.main-class>org.bonitasoft.connectors.google.calendar.DeleteEventConnector</google-calendar-v3-delete-event.main-class>
-		
+
 		<google-calendar-v3-get-event.def.id>google-calendar-v3-get-event</google-calendar-v3-get-event.def.id>
 		<google-calendar-v3-get-event.def.version>1.1.0</google-calendar-v3-get-event.def.version>
 		<google-calendar-v3-get-event.impl.id>${google-calendar-v3-get-event.def.id}-impl</google-calendar-v3-get-event.impl.id>
 		<google-calendar-v3-get-event.impl.version>${project.version}</google-calendar-v3-get-event.impl.version>
 		<google-calendar-v3-get-event.main-class>org.bonitasoft.connectors.google.calendar.GetEventConnector</google-calendar-v3-get-event.main-class>
-		
+
 		<google-calendar-v3-move-event.def.id>google-calendar-v3-move-event</google-calendar-v3-move-event.def.id>
 		<google-calendar-v3-move-event.def.version>1.1.0</google-calendar-v3-move-event.def.version>
 		<google-calendar-v3-move-event.impl.id>${google-calendar-v3-move-event.def.id}-impl</google-calendar-v3-move-event.impl.id>
 		<google-calendar-v3-move-event.impl.version>${project.version}</google-calendar-v3-move-event.impl.version>
 		<google-calendar-v3-move-event.main-class>org.bonitasoft.connectors.google.calendar.MoveEventConnector</google-calendar-v3-move-event.main-class>
-		
+
 		<google-calendar-v3-update-event.def.id>google-calendar-v3-update-event</google-calendar-v3-update-event.def.id>
 		<google-calendar-v3-update-event.def.version>1.1.0</google-calendar-v3-update-event.def.version>
 		<google-calendar-v3-update-event.impl.id>${google-calendar-v3-update-event.def.id}-impl</google-calendar-v3-update-event.impl.id>
 		<google-calendar-v3-update-event.impl.version>${project.version}</google-calendar-v3-update-event.impl.version>
 		<google-calendar-v3-update-event.main-class>org.bonitasoft.connectors.google.calendar.UpdateEventConnector</google-calendar-v3-update-event.main-class>
-		
+
 		<!-- Bonita -->
 		<bonita.engine.version>7.13.0</bonita.engine.version>
-		
+
 		<!-- Google dependencies -->
 		<google-auth-library-oauth2-http.version>0.21.1</google-auth-library-oauth2-http.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -88,7 +88,7 @@
 		<groovy-maven-plugin.version>2.1.1</groovy-maven-plugin.version>
 		<groovy.version>3.0.17</groovy.version>
 		<maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
-		<nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
+		<central-maven-plugin>0.8.0</central-maven-plugin>
 		<maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
 		<maven-source-plugin.version>3.2.1</maven-source-plugin.version>
 		<license-maven-plugin.version>4.1</license-maven-plugin.version>
@@ -283,14 +283,12 @@
 					<version>${sonar-maven-plugin.version}</version>
 				</plugin>
 				<plugin>
-					<groupId>org.sonatype.plugins</groupId>
-					<artifactId>nexus-staging-maven-plugin</artifactId>
-					<version>${nexus-staging-maven-plugin.version}</version>
+					<groupId>org.sonatype.central</groupId>
+					<artifactId>central-publishing-maven-plugin</artifactId>
+					<version>${central-maven-plugin.version}</version>
 					<extensions>true</extensions>
 					<configuration>
-						<serverId>ossrh</serverId>
-						<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-						<autoReleaseAfterClose>false</autoReleaseAfterClose>
+						<autoPublish>true</autoPublish>
 					</configuration>
 				</plugin>
 			</plugins>
@@ -393,18 +391,6 @@
 			</build>
 		</profile>
 	</profiles>
-
-	<distributionManagement>
-		<!-- Central Repository -->
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
 
 	<scm>
 		<developerConnection>scm:git:git@github.com:bonitasoft/bonita-connector-googlecalendar-V3.git</developerConnection>
