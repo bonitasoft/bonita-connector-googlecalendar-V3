@@ -55,8 +55,10 @@ __Clone__ or __fork__ this repository, then at the root of the project run:
 
 In order to create a new release: 
 - On the release branch, make sure to update the pom version (remove the -SNAPSHOT)
-- Run the action 'Create release', set the version to release as parameter
+- Run the [Create release workflow](https://github.com/bonitasoft/bonita-connector-googlecalendar-V3/actions/workflows/release.yml), set the version to release as parameter
 - Update the `master` with the next SNAPSHOT version.
+
+Once this is done, update the [Bonita marketplace repository](https://github.com/bonitasoft/bonita-marketplace) with the new version of the connector.
 
 ## Contributing
 
