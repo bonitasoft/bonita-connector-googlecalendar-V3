@@ -7,6 +7,17 @@
 
 This is the implementation of the Bonita Google Calendar based on the Google API V3.
 
+## Compatibility
+
+| Connector         | Bonita         | Java          |
+|-------------------|----------------|---------------|
+| 2.x (`master`)    | 12.0 and later | 17 and later  |
+| 1.x (up to 1.1.1) | 7.x to 11.x    | 8 and later   |
+
+The connector definitions (version 1.1.0) and their inputs/outputs are unchanged: on Bonita 12, processes using a
+1.x implementation should switch to a 2.x implementation. The 2.x archives bundle all the libraries the Google API
+client needs (Apache HttpClient, Commons Codec) instead of relying on the ones provided by the Bonita runtime.
+
 ## Steps to get the credentials from Google
 
 ### Prerequistes

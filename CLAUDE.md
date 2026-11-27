@@ -3,9 +3,9 @@
 ## Project Overview
 
 **Artifact:** `org.bonitasoft.connectors:bonita-connector-google-calendar-v3`
-**Current version:** `1.1.2-SNAPSHOT`
+**Current version:** `2.0.0-SNAPSHOT` (Bonita 12.0+, Jakarta EE runtime)
 **License:** GPL v2.0
-**Java:** 11 (compiled with `maven.compiler.release=11`)
+**Java:** 17 (compiled with `maven.compiler.release=17`)
 
 This is a Bonita BPM connector that integrates Google Calendar API v3 into Bonita process automation. It provides five operations as distinct connector implementations:
 
@@ -80,7 +80,7 @@ Both modes require a service account ID, a target calendar ID, and optionally a 
 Tests live in `src/test/java/org/bonitasoft/connectors/google/calendar/`.
 
 - Framework: JUnit 5 (`junit-jupiter-engine 5.9.2`)
-- Assertions: AssertJ (`assertj-core 3.23.1`)
+- Assertions: AssertJ (`assertj-core 3.27.7`)
 - Mocking: Mockito (`mockito-core 4.6.1`)
 - Coverage: JaCoCo (reports generated at `verify` phase, appended across unit + integration runs)
 
@@ -117,7 +117,7 @@ ci: add Claude Code review workflow
 
 ## Release Process
 
-Releases are triggered via the **Release** GitHub Actions workflow (`release.yml`) using `workflow_dispatch` with a version input (e.g. `1.1.2`).
+Releases are triggered via the **Release** GitHub Actions workflow (`release.yml`) using `workflow_dispatch` with a version input (e.g. `2.0.0`).
 
 The workflow delegates to the reusable `_reusable_release_connector.yml` workflow from `bonitasoft/github-workflows@main`, which typically:
 1. Sets the Maven release version and removes `-SNAPSHOT`
@@ -127,6 +127,6 @@ The workflow delegates to the reusable `_reusable_release_connector.yml` workflo
 
 To prepare a release locally for testing:
 ```bash
-./mvnw versions:set -DnewVersion=1.1.2 -DgenerateBackupPoms=false
+./mvnw versions:set -DnewVersion=2.0.0 -DgenerateBackupPoms=false
 ./mvnw clean verify
 ```
